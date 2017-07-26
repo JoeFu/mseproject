@@ -1,0 +1,80 @@
+%%%%%%weekly meeting template, prepared by Michael Sheng.  09/03/2007
+\documentclass[11pt, a4paper]{article}
+\usepackage{times}
+\usepackage{ifthen}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{setspace}
+
+%%% page parameters
+\oddsidemargin -0.5 cm
+\evensidemargin -0.5 cm
+\textwidth 15 cm
+\topmargin -1.2 cm
+\textheight 22 cm
+
+\renewcommand{\baselinestretch}{1.4}\normalsize
+\setlength{\parskip}{0pt}
+				
+
+\begin{document}
+
+
+\vspace*{15pt}
+
+\begin{center}
+\huge Meeting Minutes
+
+
+
+
+\end{center}
+
+\section{Date and Time}
+ Wednesday 5th April 2017 1:00pm-2:00pm IW 4.36
+
+\section{Apologies}
+None
+
+\section{Present}
+\begin{itemize}
+	\item Nickolas Falkner
+	\item Thushari Atapattu 
+	\item Christoph Treude 
+	\item Minh Tam Phan
+	\item Zeqi Fu
+	\item Zeyu Lin
+\end{itemize}
+
+\section{Decisions that were made and issues clarified}
+\begin{itemize}
+	\item The crucial thing is the database that incorporates two systems. Events of one system should be tied to the other system. We tie them together. The database should be structured in such a way that it can answer different questions. It should also be extensible.
+	\item In the data provided, the mark of all submission records is 0. It is important to distinguish between genuine zero and proxy zero. This is an important designing decision.
+	\item About the schema design:The submission of assignment is an event. There should not be duplicated tables. Event type and event name are important. Component name is not important.
+	\item We should be careful about records of students who unenrol and those outside the traditional window of course. Either not include it in database or mark it so that we don't use it, it's again a data decision.
+	\item We need to provide login function.
+	\item Apart from teachers, researchers(authorised people) can view these data.
+	\item We are only interested in student behaviors, not teacher behaviors.
+	\item Example questions we should be able to answer with the database schema:
+	\item 1.After an assignment is released, when do students begin to download resources, when do they submit? 
+	\item 2.All the students who over the  years have only worked a couple of days around the hand in point. 
+	\item 3.Activities of students between the duration of assignment. 
+	\item 4.When the students start working on assignemnt and when they finish. 
+	\item 5.Show students behaviors with GPA higher than 6 
+	\item 6.Do students hand in the first assignment on time or late
+	\item 7.Show all the students who submit this assignment after this date
+	\item 8.All the events of users in a given time
+\end{itemize}
+
+\section{Action items for specific people (due date)}
+\begin{itemize}
+	\item Minh Tam Phan: Database schema(generate scripts and fill real data)(April 9)
+	\item Zeqi Fu: Make the UI work with real database(April 18)
+	\item Zeyu Lin: Extract real data to real database(April 12)
+
+\end{itemize}
+
+
+
+\end{document}

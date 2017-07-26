@@ -1,0 +1,5 @@
+1. Could you provide us with the data of ID conversion table 
+in order to link students in 2 data sources?
+2. What do you expect for reports?
+3. Could you provide us with a list of specific questions to
+allow us to check whether our schema can answer?

@@ -1,0 +1,11 @@
+1.Do we need to provide the function of login? Who will login into the system apart 
+from teachers?
+2.A teacher can only view the information of the courses he teaches.Is this right?
+Is there an administrator who can view information about all the courses?
+What are the expected functions for administrator?
+3.Are you interested in teacher behaviors,or only student behaviors.
+4.Can we have more data(other tables,only table structures, which fields they have)?
+5.How many years of data you will give us?
+
+
+

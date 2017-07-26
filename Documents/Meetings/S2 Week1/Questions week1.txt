@@ -1,0 +1,20 @@
+Questions
+1. Confirm the content of the questionnaire (see attachment).
+2. Can you provide us with a list of lecturers that
+	we should send our questionnaire to?
+3. The form of questionnaire: let them
+	send questions by replying email or write down 
+	questions on a web page?
+4. After a lecturer logins in, we provide a drop down
+	box at the top of the page. The lecturer can choose 
+	the courses he teach, then all the charts will be
+	updated to the course he chooses. Is this ok?
+5. If the course chosen is in 2012 semester 2, then the period
+	for each chart should be from July to November
+	in 2012?
+6. Do you need charts for a certain course across several years?
+7. The period of the threshold (auto-complete) in event name.
+8. Shall we apply the same to "event context"?
+9. In what form do you expect us to answer critical questions?
+	Chart and text?
+

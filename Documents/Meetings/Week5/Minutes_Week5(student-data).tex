@@ -1,0 +1,70 @@
+%%%%%%weekly meeting template, prepared by Michael Sheng.  09/03/2007
+\documentclass[11pt, a4paper]{article}
+\usepackage{times}
+\usepackage{ifthen}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{setspace}
+
+%%% page parameters
+\oddsidemargin -0.5 cm
+\evensidemargin -0.5 cm
+\textwidth 15 cm
+\topmargin -1.2 cm
+\textheight 22 cm
+
+\renewcommand{\baselinestretch}{1.4}\normalsize
+\setlength{\parskip}{0pt}
+
+
+\begin{document}
+
+
+\vspace*{15pt}
+
+\begin{center}
+\huge Meeting Minutes
+
+
+
+
+\end{center}
+
+\section{Date and Time}
+ Wednesday 29th March 2017 3:00pm-4:00pm IW 4.21
+
+\section{Apologies}
+None
+
+\section{Present}
+\begin{itemize}
+	\item Claudia Szabo 
+	\item Christoph Treude 
+	\item Minh Tam Phan
+	\item Zeqi Fu
+	\item Zeyu Lin
+\end{itemize}
+
+\section{Decisions that were made and issues clarified}
+\begin{itemize}
+	\item We will record client meeting from this week on.
+	\item It is clarified that students will not be users of the application.Teachers and staff in front office will be the users. We distinguished between the actual users of the application and the current users of the forum.
+	\item Agenda and minutes should be more specific. Agenda should include questions to be discussed on meeting and link to all the documents. All the documents(including agenda, things need to be discussed on meeting) should be sent to clients one day before the client meeting.
+	\item We don't need user's personal information because users are anonymized and all we need to know about user is its id and user type.
+	\item We don't need a teacher-course table and a student-course table. We just need a course\_enrolment table:course\_id, user\_id, grade. We can know the user type from user table. The grade for teacher can be 0 or negative number.
+\end{itemize}
+
+\section{Action items for specific people (due date)}
+\begin{itemize}
+	\item Minh Tam Phan: Schema design and UML for tables(April 4)
+	\item Zeqi Fu: UI design(April 4)
+	\item Zeyu Lin: Schema design(April 4), UI design(April 4)
+	\item All: Think about questions for the application to answer(March 31) 
+\end{itemize}
+
+
+
+Note: The next meeting will be held in IW 4.36 at 1:00pm-2:00pm on Wednesday 5th April 2017.
+
+\end{document}

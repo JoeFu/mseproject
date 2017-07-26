@@ -1,0 +1,217 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.StringTokenizer;
+
+public class CsrcReader
+{
+    private String line,templine,Label,Operation,Operand,Comment;
+    private FileReader fr;
+    private BufferedReader inFile;
+    private int countline;
+    
+
+    //Reads in the file name and parses the source file
+    public CsrcReader(String csrcName)
+    {
+	try {
+	    fr = new FileReader(csrcName);
+	    inFile = new BufferedReader(fr);
+	} catch (FileNotFoundException e) {
+	    System.err.println("File not found");
+	} catch (IOException e) {
+	    System.err.println(e);
+	}
+    }
+
+    //Reads the next line in, and breaks it into parts
+    //Returns true if a statment was read, false if end-of-file
+    public boolean readNextStatement() throws IOException
+    {
+	Label = "";
+	Operation = "";
+	Operand = "";
+	Comment = "";
+	line = inFile.readLine();
+System.err.printl("dk!"+line);
+	templine = line;
+	if (line != null) 
+	    {
+		if (isBlank() == true) 
+		    {
+			countline++;
+			return true;
+		    }
+		else
+		    {
+			if (line.contains(";")) 
+			    {
+				Comment = line.substring(line.indexOf(';'));
+				line = line.substring(0,line.indexOf(';') - 1);
+			    }
+			
+			if (line.charAt(0) != '\t' && line.charAt(0) != ' ') 
+			    {
+				line = line.trim();
+				StringTokenizer tokenizer = new StringTokenizer(line,"\t ");
+				Label = tokenizer.nextToken();
+				
+				if (tokenizer.hasMoreTokens() == true)
+				    {
+					Operation = tokenizer.nextToken();
+					if (tokenizer.hasMoreTokens() == true)
+					    {
+						Operand = tokenizer.nextToken();
+					    }
+					else
+					    {
+						Operand = "";
+					    }
+				    }
+				else
+				    {
+					Operation = "";
+					Operand = "";
+				    }
+			    }
+			else
+			    {
+				Label = "";
+				line = line.trim();
+				if (line.charAt(0) != '\t' && line.charAt(0) != ' ')
+				    {
+					StringTokenizer tokenizer = new StringTokenizer(line,"\t ");
+					Operation = tokenizer.nextToken();
+					
+					if (tokenizer.hasMoreTokens() == true)
+					    {
+						Operand = tokenizer.nextToken();
+					    }
+					else
+					    {
+						Operand = "";
+					    }
+				    }
+				else
+				    {
+					Operation = "";
+					line = line.substring(1);
+
+					if (line.charAt(0) != '\t' && line.charAt(0) != ' ')
+					    {
+						Operand = line;
+					    }
+					else
+					    {
+						Operand = "";
+					    }
+				    }
+			    }
+			countline++;
+			return true;
+		    }
+	    }
+	else
+	    {
+		inFile.close();
+		return false;
+	    }
+    }
+    
+    
+
+    //Returns true if this line is blank, or contains only a comment
+    public boolean isBlank()
+    {
+	String newline = line.trim();
+	if (newline.isEmpty() == true)
+	    {
+		templine = line;
+		return true;
+	    }
+	else if (newline.charAt(0) == ';')
+	    {
+		Comment = newline;
+		Label = "";
+		Operation = "";
+		Operand = "";
+		return true;
+	    }
+	else
+	    {
+		return false;
+	    }
+    }
+
+
+    //Returns the current line number
+    public int getLineNumber()
+    {
+	if (countline != 0)
+	    {
+		return countline;
+	    }
+	else
+	    {
+		return 0;
+	    }
+    }
+
+
+    //Returns the complete line of input, with TAB characters expanded into
+    //the corresponding correct number of spaces
+    //Note: tab stops occur every 8 spaces
+    public String getLine()
+    {
+	return templine;
+    }
+
+    //Returns the label on this line
+    //If there is no label, returns "";
+    public String getLabel()
+    {
+	return Label;
+    }
+
+    //Returns the operation on this line
+    //If there is no operation, returns ""
+    public String getOperation()
+    {
+	
+	return Operation;
+    }
+
+    //Returns the operands on this line
+    //If there are no operands, returns ""
+    public String getOperand()
+    {
+	return Operand;
+    }
+
+    //Returns the comments on this line (including the ; character)
+    //If there are no comments, returns ""
+    public String getComment()
+    {
+	return Comment;
+    }
+
+    public static void main(String[] args) throws IOException
+    {
+	CsrcReader cr = new CsrcReader("stage1test.csrc");
+	while (cr.readNextStatement() != false) {
+	    /*  	System.out.println("lineNr = "+cr.getLineNumber());
+	
+	System.out.println("isBlank = "+cr.isBlank());
+	
+	System.out.println("label = "+cr.getLabel());
+	
+           System.out.println("op = "+cr.getOperation());
+	   
+           System.out.println("operands = "+cr.getOperand());
+	   
+           System.out.println("comments = "+cr.getComment());*/
+           System.out.println("line = "+cr.getLine());
+	}	
+    }
+}

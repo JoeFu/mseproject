@@ -1,0 +1,48 @@
+<!-- /**
+* Created by PhpStorm.
+* User: Joe Fu
+* Date: 1/4/2017
+* Time: 11:32 PM
+*/ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../favicon.ico">
+    <title>Please Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/signin.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div id="background" style="position:absolute; width:100%; height:100%; z-index:-1">
+    <img src="../image/loginpic.jpg" height="100%" width="100%"/>
+</div>
+<div class="container">
+    <form class="form-signin" method="post", action="login.php">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="username" class="sr-only">User Name</label>
+        <input id="username" class="form-control" placeholder="User name" required autofocus>
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" >Sign in</button>
+    </form>
+    <form class="form-signin" method="post", action="#">
+        <button class="btn btn-lg btn-success btn-block" href="login.php">Third Party Login</button>
+    </form>
+</div>
+<script src="../js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.StringTokenizer;
+import java.lang.String;
+
+public class CsrcReader
+{
+    private static int lncount = 0;
+    private static String srcfile;
+    private static String str="";
+    private static StringTokenizer tokens;
+    private static String comment="";
+    private static String label="";
+    private static String operand="";
+    private static String operator="";
+
+    //Constructor
+    public CsrcReader(String csrcName)
+      throws FileNotFoundException
+      
+    {
+	srcfile = csrcName;
+	
+    }
+
+    //Reads the next line in, and breaks it into parts
+    //Returns true if a statment was read, false if end-of-file
+    public boolean readNextStatement()
+      throws IOException
+    {
+	label="";
+	comment="";
+	operand="";
+	operator="";
+	BufferedReader fh = new BufferedReader(new FileReader(srcfile));
+	for(int i=0; i<=lncount;i++){
+	    str=fh.readLine();
+	}
+	if(str!=null)
+	    {
+		if(isBlank()==true)
+		    {
+			comment=str;
+			label="";
+			operand="";
+			operator="";
+			lncount++;
+			fh.close();
+			return true;
+		    }
+	    }
+	for(int i=0; i<str.length();i++)
+	    {
+	    if(str.charAt(i)==';')
+		{
+		    comment=str.substring(i);           // Strips out comments
+		    str=str.substring(0,i);
+		}
+	    }
+	
+	tokens = new StringTokenizer(str);
+	while(tokens.hasMoreTokens())
+	    {
+		String test = tokens.nextToken();
+		if(str.indexOf(test)<3 && this.isOp(test)!=true)
+		    {
+			label = test;
+		    }
+		else if(this.isOp(test)==true)
+		    {
+			operator = test;
+		    }
+		else
+		    {
+		    operand = test;
+		    }
+		
+	    }
+    			    
+	lncount++;
+	fh.close();
+    	return false;
+    }
+
+    public int lineCount()
+	throws IOException
+    {
+	BufferedReader fh = new BufferedReader(new FileReader(srcfile));          //Counts the number of lines in the file
+	str="";                                                                   //and resets the linecounter.
+	int tmpcount=0;
+	while((str=fh.readLine())!=null)
+	    {
+		tmpcount++;
+	    }
+	fh.close();
+	lncount = 0;
+	return tmpcount;
+    }
+
+    //Returns true if this line is blank, or contains only a comment
+    public boolean isBlank()
+    {
+	int lng = str.length();
+	for(int i=0; i<lng;i++){
+	    if(str.charAt(i)!=' ' && str.charAt(i)!=';' && str.charAt(i)!='\t')
+		{
+		    return false;
+		}
+	    else if(str.charAt(i)==';')
+		{
+		    return true;
+		}
+	}
+	return true;
+    }
+
+
+    //Returns the current line number
+    public int getLineNumber()
+    {
+	return lncount+1;
+    }
+
+
+    //Returns the complete line of input, with TAB characters expanded into
+    //the corresponding correct number of spaces
+    //Note: tab stops occur every 8 spaces
+    public String getLine()
+    {
+	String out="";
+	if(label!=(""))
+	    {
+		out =out + label;
+	    }
+	if(this.isOp(operator))
+	    {
+		out=out +"        "+operator;
+	    }
+	if(operand!=(""))
+	    {
+		out=out+"     "+operand;
+	    }
+	if(comment!=(""))
+	    {
+		out=out+"     "+comment;
+	    }
+	return out;
+    }
+
+    //Returns the label on this line
+    //If there is no label, returns "";
+    public String getLabel()
+    {
+	return label;
+    }
+
+    //Returns the operation on this line
+    //If there is no operation, returns ""
+    public String getOperation()
+    {
+	return operator;
+    }
+
+    //Returns the operands on this line
+    //If there are no operands, returns ""
+    public String getOperands()
+    {
+	return operand;
+    }
+
+    //Returns the comments on this line (including the ; character)
+    //If there are no comments, returns ""
+    public String getComments()
+    {
+	return comment;
+    }
+    
+    public boolean isOp(String k)
+    {
+	if(k.equals("hlt")){
+	    return true;
+	}
+	if(k.equals("lod")){
+	    return true;
+	}
+	if(k.equals("sto")){
+	    return true;
+	}
+	if(k.equals("add")){
+	    return true;
+	}
+	if(k.equals("sub")){
+	    return true;
+	}
+	if(k.equals("jmp")){
+	    return true;
+	}
+	if(k.equals("jeq")){
+	    return true;
+	}
+	if(k.equals("jge")){
+	    return true;
+	}
+	if(k.equals("jsr")){
+	    return true;
+	}
+	if(k.equals("dsz")){
+	    return true;
+	}
+	if(k.equals(".space")){
+	    return true;
+	}
+	if(k.equals(".word")){
+	    return true;
+	}
+	if(k.equals(".wordu")){
+	    return true;
+	}
+	if(k.equals(".org")){
+	    return true;
+	}
+	if(k.equals(".bss")){
+	    return true;
+	}
+	else{
+	    return false;
+	}
+    }
+}

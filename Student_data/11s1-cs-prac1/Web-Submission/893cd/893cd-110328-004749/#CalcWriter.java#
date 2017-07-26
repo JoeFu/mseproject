@@ -1,0 +1,109 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.*;
+import java.lang.*;
+
+public class CalcWriter
+{
+    boolean check = false;
+    FileWriter fw;
+    BufferedWriter bw;
+    //Constructor
+    public CalcWriter(String writerName)
+	throws Exception
+    {
+	fw = new FileWriter(writerName);
+	bw = new BufferedWriter(fw);
+    }
+    
+    //Writes the values addr, data to the file
+    public void write(int addr, int data)
+	throws IOException
+    {
+	//Address 
+	String left = "";
+	//Data
+	String right = "";
+	
+	//Error if values exceed maximum
+	if(addr > 999)
+	    {
+		disaster("lol");
+	    }
+	if(data > 9999)
+	    {
+		disaster("lol");
+	    }
+	//Adding the correct amount of zeros or numbers
+	//Addreses are 3 digits; Data is 4 digits
+	if(addr < 10)
+	    {
+		left = "00" + addr;
+	    }
+	else if(addr < 100)
+	    {
+		left = "0" + addr;
+	    }
+	else if(addr< 1000)
+	    {
+		left = "" + addr;
+	    }
+	else
+	    {
+		disaster("lol");
+	    }
+	if(check == false)
+	    {
+		if(data < 10)
+		    {
+			right = "000" + data;
+		    }
+		else if(data < 100)
+		    {
+			right = "00" + data;
+		    }
+		else if(data < 1000)
+		    {
+			right = "0" + data;
+		    }
+		else if(data < 10000)
+		    {
+			right = "" + data;
+		    }
+		else
+		    {
+			//deletes the whole file and prints error msg
+			disaster("lol");
+		    }
+	    }
+	else
+	    {
+		disaster("lol");
+	    }
+	bw.write(left + "	" + right);
+	bw.newLine();
+    }
+    
+    
+    public void close()
+	throws IOException
+    {
+	bw.close();
+    }
+    
+    
+    //Destroys the contents of the file and write msg to it
+    public void disaster(String msg)
+	throws IOException
+    {
+	//Make new file and write output
+	bw = new BufferedWriter(fw);
+	msg = "File is Corrupt.";
+	bw.write(msg);
+	check = true;
+    }
+    
+    
+}

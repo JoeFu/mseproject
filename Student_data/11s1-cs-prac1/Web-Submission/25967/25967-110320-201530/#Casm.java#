@@ -1,0 +1,372 @@
+import java.io.*;
+import java.util.*;
+
+public class Casm
+{
+    private static String srcFilename;
+    private static String exeFilename;
+    private static boolean listEnabled;
+	
+	private static SymbolTable sTable;
+
+	private static boolean errors = false;
+	private static ArrayList<String> output = new ArrayList<String>(0);
+
+    public static void main(String[] args)
+      throws Exception
+    {
+	parseCommandLine(args);
+
+	//Create a new symbol table, and we populate it in the first pass
+	sTable = new SymbolTable();
+
+	pass1();
+	if (!errors)
+	{
+		pass2();
+	}
+	
+	//Need to write out to the file here
+	
+	
+	
+	//Need to write out to the screen here.
+	
+	if (listEnabled)
+	{
+		System.out.println(sTable.toString());
+	}
+	
+	fWrite();
+	
+    }
+
+
+    private static void parseCommandLine(String[] args)
+    {
+        srcFilename= null;
+        exeFilename= null;
+        listEnabled= false;
+
+        //Process the command line arguments
+        int i=0;
+        while( i<args.length ){
+            //Get next argument
+            String arg= args[i];
+            i++;
+
+	    if( arg.equals("-l") ){
+		//We want a map printed
+		listEnabled= !listEnabled;
+		
+	    }else if( arg.equals("-x")){
+                //We have an executable-file specification
+		
+                if( i==args.length ){
+                    System.err.println("Missing file parameter after -x");
+                    System.exit(1);
+                }
+		
+                exeFilename= args[i];
+                i++;
+		
+            }else if( arg.startsWith("-") ){
+                System.err.println("Unknown parameter: " + arg);
+                System.exit(1);
+		
+            }else{
+                //It must be the name of the source file
+		
+                if( srcFilename!=null){
+                    System.err.println("Duplicate source file name: "+ arg);
+                    System.exit(1);
+                }
+		
+                srcFilename= arg;
+            }
+        }
+	
+        if( srcFilename==null ){
+            //object file id mandatory
+            System.err.println("No object file specified.");
+            System.exit(1);
+        }
+
+        //Apply defaults...
+        if( !srcFilename.endsWith(".csrc") ){
+            //Append default extension
+            srcFilename= srcFilename+".csrc";
+        }
+
+        if( exeFilename==null ){
+            //Make exeFilename the same as the source filename
+            exeFilename= srcFilename.substring(0,srcFilename.indexOf(".csrc"));
+        }
+
+        if( !exeFilename.endsWith(".calc") ){
+            //Append default extension
+            exeFilename= exeFilename+".calc";
+        }
+    }
+
+
+    private static void pass1()
+      throws IOException
+    {
+		int LC = 0;
+		//Create our LC
+		//We already have our sTable
+		CsrcReader cRead = new CsrcReader(srcFilename);
+		//For each line
+		while (cRead.readNextStatement())
+		{
+			if(!cRead.isBlank())
+			{
+				//System.out.println(cRead.toString());
+				LC ++;
+				//Read it
+					//If we have a lable, instruction etc LC ++
+					//Store these labels into the symbol table
+				if(cRead.label != null)
+				{
+					try
+					{
+						sTable.insert(cRead.label, LC);
+					}
+					catch (IOException e)
+					{
+						cRead.error = true;
+						cRead.errormsg += "Line " + cRead.lNum + ", Duplicate label: " + cRead.label + "\n";
+					}
+				}
+				if (cRead.error)
+				{
+					errors = true;
+					System.out.print(cRead.errormsg);
+				}
+			}	
+		}
+    }
+
+
+    private static void pass2()
+      throws IOException
+    {
+		CsrcReader cRead = new CsrcReader(srcFilename);
+	
+		//Reset LC to 0
+		int LC = -1;
+		int LCP = -1;
+		//This is for reading the Op fields. 
+		//For each line
+		while (cRead.readNextStatement())
+		{
+			int operand_i = -1;
+			int operation_i = -1;
+			int opcode = -1;
+			//Read it. We have an instruction, so we want to code that out.
+			if (cRead.operation != null && !cRead.error)
+			{
+				//All our operations have been validated already.
+				opcode = 1000 * getOperation(cRead.operation);
+				
+				if (cRead.operand != null && !cRead.error)
+				{
+					//If we have a lable, look it up in the symbol table, and insert that address.
+					try
+				    {
+				      	operand_i = Integer.parseInt(cRead.operand);
+						if (operand_i < 0)
+						{
+							operand_i = Math.abs(operand_i) + 4999;
+
+						}
+						
+						
+					}
+					catch (NumberFormatException nfe)
+				    {
+						try {
+							operand_i = sTable.lookup(cRead.operand);
+
+						}
+						catch (Exception e) 
+						{
+							cRead.error = true;
+							cRead.errormsg += "Line " + cRead.lNum + ", Undefined symbol: " + cRead.operand + "\n";
+						}
+				    }
+				/*
+					if (operand_i < 0 || operand_i > 9999)
+					{
+						cRead.error = true;
+						cRead.errormsg += "Line " + cRead.lNum + ", Number out of range: " + operand_i + "\n";
+					}
+				*/	
+					//Postprocessing information
+					if (cRead.operation.equals(".org"))
+					{
+						LC = operand_i;
+					}
+					
+					if (cRead.operation.equals(".bss"))
+					{
+						//we want to alloc the next segments of memory, and just like .space.
+						LC = LC + operand_i;
+					}
+					
+					if (cRead.operation.equals(".space"))
+					{
+						operand_i = 0;
+						cRead.operand = 0 + "";
+					}
+					
+					//If this is all okay, now we add this to the opcode
+					opcode = opcode + operand_i;
+					
+					//Write the line out to our writer (Or do we make an "object" file so we can read / write from it.)
+				}
+				LC ++;
+			}
+			
+			
+
+			//Format our various strings
+			String pc = "" + LC;
+			
+			if (LCP == LC)
+			{
+				pc = "";
+			}
+			else
+			{
+				for (int i = (3 - pc.length()); i > 0; i--)
+				{
+					pc = 0 + "" + pc;
+				}
+			}
+			String olabel = "";
+			String ooperation = "";
+			String ooperand = "";
+			String ocomment = "";
+			if (cRead.label != null)
+			{
+				olabel = cRead.label;
+			}
+			if (cRead.operation != null)
+			{
+				ooperation = cRead.operation;
+			}
+			if (cRead.operand != null)
+			{
+				ooperand = cRead.operand;
+			}
+			if (cRead.comment != null)
+			{
+				ocomment = cRead.comment;
+			}
+			String opc = "" + opcode;
+			if (opcode < 0)
+			{
+				opc = "";
+			}
+			else
+			{
+				for (int i = (4 - opc.length()); i > 0; i--)
+				{
+					opc = 0 + "" + opc;
+				}
+			}
+			if (listEnabled)
+			{
+				if (cRead.blank)
+				{
+					System.out.println("        " + "        " + ocomment);
+				}
+				else
+				{
+					if ((cRead.label == null) && (cRead.operation == null) && (cRead.operand == null))
+					{
+						System.out.println(tD(pc) + tD(opc) + ocomment);
+					}
+					else
+					{
+						System.out.println(tD(pc) + tD(opc) + tD(olabel) + tD(ooperation) + tD( ooperand)  + ocomment);	
+					}
+				}
+			
+			//Now we have shit formatted, so lets push it to the list of things that we need to write out.
+			if (LCP != LC)
+			{
+				if (!cRead.operation.equals(".space"))
+				{
+					output.add(pc + " " + opc);
+					
+				}
+			}
+			
+			
+			}
+			
+			LCP = LC;
+			
+			if (cRead.error)
+			{
+				//Something has gone wrong, so we should not write to our file anymore. 
+				errors = true;
+				System.out.print(cRead.errormsg);
+			}
+			
+		}
+
+    }
+
+
+
+
+	private static void fWrite()
+	{
+		try {
+		FileWriter f = new FileWriter(exeFilename);
+		BufferedWriter out = new BufferedWriter(f);
+		
+		for (String s : output)
+		{
+			out.write(s + "\n");
+		}
+		out.close();
+	} catch (IOException e)
+	{
+		System.out.println("Error writing file");
+	}
+	}
+
+	private static int getOperation(String code)
+	{
+		int opcode = 0;
+		
+		String[] codes = { "hlt", "lod", "sto", "add", "sub", "jmp", "jeq", "jge", "jsr", "dsz" };
+		
+		for (int i = 0; i < codes.length; i++)
+		{
+			if (code.equals(codes[i]))
+			{
+				return i;
+			}
+		}
+
+		return opcode;
+	}
+	
+	
+	private static String tD(String s)
+	{
+		// each block is 8 wide, so we need to pad the right hand side.
+		for (int i = (s.length() % 8); i <= 8; i++)
+		{
+			s += " ";
+		}
+		return s;
+	}
+
+}

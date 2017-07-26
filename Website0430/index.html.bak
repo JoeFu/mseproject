@@ -1,0 +1,657 @@
+<!-- /**
+* Created by PhpStorm.
+* User: Joe Fu
+* Date: 1/4/2017
+* Time: 11:32 PM
+*/ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../favicon.ico">
+
+    <title>Dashboard</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+    <!--Baidu Echarts JS control-->
+    <script src="../js/echarts.js"></script>
+    <script src="../js/echarts-liquidfill.js"></script>
+	    <script src="echarts.js"></script>
+	<script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse"
+            data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">Dashboard</a>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Settings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Help</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../index.html">Back</a>
+            </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            <button class="btn btn-info" type="submit">Search</button>
+
+        </form>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Some charts<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Reports</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Analytics</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Export</a>
+                </li>
+            </ul>
+
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Nav item</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Nav item again</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">One more nav</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Another nav item</a>
+                </li>
+            </ul>
+
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Nav item again</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">One more nav</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Another nav item</a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+            <h1>Dashboard</h1>
+
+                    <div id="All events overview" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('All events overview'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: 'ALl events overview'
+            },
+            tooltip: {},
+            legend: {
+                data:['Amount of activities']
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+			dataZoom: [
+				{   // 这个dataZoom组件，默认控制x轴。
+					type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+					start: 0,      // 左边在 10% 的位置。
+					end: 100         // 右边在 60% 的位置。
+				}
+			],
+            series: [{
+                name: 'Amount of activities',
+                type: 'bar',
+                data: []
+            }],
+			toolbox: {
+				show: true,
+				feature: {
+					dataZoom: {
+						yAxisIndex: 'none'
+					},
+					dataView: {readOnly: false},
+					magicType: {type: ['line', 'bar']},
+					restore: {},
+					saveAsImage: {}
+				}
+			}
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+
+        myChart.setOption(option);
+
+$.ajax({
+	type: "post",
+    async: true, //异步执行
+    url: "Forum events overview.php",
+    dataType: "json", //返回数据形式为json
+    success: function(result) {
+		console.log(result);
+		var day = [];
+        var count = [];
+        $.each(result,function(i,p){
+          day[i]=p['day'];
+          count[i]=p['count'];
+        });
+		myChart.hideLoading();
+		myChart.setOption({
+			xAxis: {
+                data: day
+            },
+
+			series: [{
+				// 根据名字对应到相应的系列
+				name: 'Amount of activities',
+				data: count
+			}]
+		});
+	},
+	error: function(errorMsg) {
+        alert("请求数据失败!");
+    }
+});
+    </script>
+
+<div id="Different events overview" style="width:600px;height:400px;"></div>
+
+   
+   <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart2 = echarts.init(document.getElementById('Different events overview'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: 'Different events overview'
+            },
+            tooltip: {},
+            legend: {
+                data:['Amount of activities']
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+			dataZoom: [
+				{   // 这个dataZoom组件，默认控制x轴。
+					type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+					start: 50,      // 左边在 10% 的位置。
+					end: 60         // 右边在 60% 的位置。
+				}
+			],
+            series: [{
+                name: 'Amount of activities',
+                type: 'bar',
+                data: []
+            }],
+			toolbox: {
+				show: true,
+				feature: {
+					dataZoom: {
+						yAxisIndex: 'none'
+					},
+					dataView: {readOnly: false},
+					magicType: {type: ['line', 'bar']},
+					restore: {},
+					saveAsImage: {}
+				}
+			}
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+
+        myChart2.setOption(option);
+
+$.ajax({
+	type: "post",
+    async: true, //异步执行
+    url: "Different events overview.php",
+    dataType: "json", //返回数据形式为json
+    success: function(result) {
+		console.log(result);
+		var name = [];
+        var count = [];
+        $.each(result,function(i,p){
+          name[i]=p['name'];
+          count[i]=p['count'];
+        });
+		myChart2.hideLoading();
+		myChart2.setOption({
+			xAxis: {
+                data: name
+            },
+
+			series: [{
+				// 根据名字对应到相应的系列
+				name: 'Amount of activities',
+				data: count
+			}]
+		});
+	},
+	error: function(errorMsg) {
+        alert("请求数据失败!");
+    }
+});
+    </script>
+
+
+
+<div id="Resource view" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart3 = echarts.init(document.getElementById('Resource view'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: 'Resource view'
+            },
+            tooltip: {},
+            legend: {
+                data:['Amount of activities']
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+			dataZoom: [
+				{   // 这个dataZoom组件，默认控制x轴。
+					type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+					start: 0,      // 左边在 10% 的位置。
+					end: 100         // 右边在 60% 的位置。
+				}
+			],
+            series: [{
+                name: 'Amount of activities',
+                type: 'bar',
+                data: []
+            }],
+			toolbox: {
+				show: true,
+				feature: {
+					dataZoom: {
+						yAxisIndex: 'none'
+					},
+					dataView: {readOnly: false},
+					magicType: {type: ['line', 'bar']},
+					restore: {},
+					saveAsImage: {}
+				}
+			}
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+
+        myChart3.setOption(option);
+
+$.ajax({
+	type: "post",
+    async: true, //异步执行
+    url: "Resource view.php",
+    dataType: "json", //返回数据形式为json
+    success: function(result) {
+		console.log(result);
+		var day = [];
+        var count = [];
+        $.each(result,function(i,p){
+          day[i]=p['day'];
+          count[i]=p['count'];
+        });
+		myChart3.hideLoading();
+		myChart3.setOption({
+			xAxis: {
+                data: day
+            },
+
+			series: [{
+				// 根据名字对应到相应的系列
+				name: 'Amount of activities',
+				data: count
+			}]
+		});
+	},
+	error: function(errorMsg) {
+        alert("请求数据失败!");
+    }
+});
+    </script>
+
+<div id="Grade distribution" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart4 = echarts.init(document.getElementById('Grade distribution'));
+
+        // 指定图表的配置项和数据
+	var option = {
+    backgroundColor: '#2c343c',
+
+    title: {
+        text: 'Grade distribution',
+        left: 'center',
+        top: 20,
+        textStyle: {
+            color: '#ccc'
+        }
+    },
+
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+
+    visualMap: {
+        show: false,
+        min: 80,
+        max: 600,
+        inRange: {
+            colorLightness: [0, 1]
+        }
+    },
+    series : [
+        {
+            name:'Grade',
+            type:'pie',
+            radius : '55%',
+            center: ['50%', '50%'],
+            data:[],
+            roseType: 'angle',
+            label: {
+                normal: {
+                    textStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    lineStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    },
+                    smooth: 0.2,
+                    length: 10,
+                    length2: 20
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: '#c23531',
+                    shadowBlur: 200,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            },
+
+            animationType: 'scale',
+            animationEasing: 'elasticOut',
+            animationDelay: function (idx) {
+                return Math.random() * 200;
+            }
+        }
+    ]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+
+        myChart4.setOption(option);
+
+$.ajax({
+	type: "post",
+    async: true, //异步执行
+    url: "Grade distribution.php",
+    dataType: "json", //返回数据形式为json
+    success: function(result) {
+		console.log(result);
+		
+		var grade = [];
+        var count = [];
+        $.each(result,function(i,p){
+          grade[i]=p['grade'];		
+          count[i]=p['count'];
+		  console.log(grade[i]);
+		  console.log(count[i]);
+        });	
+		count[3]=15000;
+		var array = [];
+		for(i = 0 ;i<=4;i++ ){
+		//alert(str.name[i]+"===========》"+str.id[i]);
+		var map ={};
+		map.name = grade[i];
+		map.value =count[i];
+		array[i]=map;
+		}
+
+
+
+		myChart4.hideLoading();
+		myChart4.setOption({
+			series: [{
+				// 根据名字对应到相应的系列
+				name: 'Grade',
+				data:  array
+			}]
+		});
+	},
+	error: function(errorMsg) {
+        alert("请求数据失败!");
+    }
+}); 
+    </script>
+
+<div id="Sample exam access" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart5 = echarts.init(document.getElementById('Sample exam access'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: 'Sample exam access'
+            },
+            tooltip: {},
+            legend: {
+                data:['Amount of activities']
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+			dataZoom: [
+				{   // 这个dataZoom组件，默认控制x轴。
+					type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+					start: 0,      // 左边在 10% 的位置。
+					end: 100         // 右边在 60% 的位置。
+				}
+			],
+            series: [{
+                name: 'Amount of activities',
+                type: 'bar',
+                data: []
+            }],
+			toolbox: {
+				show: true,
+				feature: {
+					dataZoom: {
+						yAxisIndex: 'none'
+					},
+					dataView: {readOnly: false},
+					magicType: {type: ['line', 'bar']},
+					restore: {},
+					saveAsImage: {}
+				}
+			}
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+
+        myChart5.setOption(option);
+
+$.ajax({
+	type: "post",
+    async: true, //异步执行
+    url: "Sample exam access.php",
+    dataType: "json", //返回数据形式为json
+    success: function(result) {
+		console.log(result);
+		var day = [];
+        var count = [];
+        $.each(result,function(i,p){
+          day[i]=p['day'];
+          count[i]=p['count'];
+        });
+		myChart5.hideLoading();
+		myChart5.setOption({
+			xAxis: {
+                data: day
+            },
+
+			series: [{
+				// 根据名字对应到相应的系列
+				name: 'Amount of activities',
+				data: count
+			}]
+		});
+	},
+	error: function(errorMsg) {
+        alert("请求数据失败!");
+    }
+});
+    </script>
+
+    <div id="Student activities overview" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('Student activities overview'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: 'Student activities overview'
+            },
+            tooltip: {},
+            legend: {
+                data:['Amount of activities']
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+			dataZoom: [
+				{   // 这个dataZoom组件，默认控制x轴。
+					type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+					start: 40,      // 左边在 10% 的位置。
+					end: 50         // 右边在 60% 的位置。
+				}
+			],
+            series: [{
+                name: 'Amount of activities',
+                type: 'bar',
+                data: []
+            }],
+			toolbox: {
+				show: true,
+				feature: {
+					dataZoom: {
+						yAxisIndex: 'none'
+					},
+					dataView: {readOnly: false},
+					magicType: {type: ['line', 'bar']},
+					restore: {},
+					saveAsImage: {}
+				}
+			}
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+
+        myChart.setOption(option);
+
+$.ajax({
+	type: "post",
+    async: true, //异步执行
+    url: "Student activities overview.php",
+    dataType: "json", //返回数据形式为json
+    success: function(result) {
+		console.log(result);
+		var name = [];
+        var count = [];
+        $.each(result,function(i,p){
+          name[i]=p['name'];
+          count[i]=p['count'];
+        });
+		myChart.hideLoading();
+		myChart.setOption({
+			xAxis: {
+                data: name
+            },
+
+			series: [{
+				// 根据名字对应到相应的系列
+				name: 'Amount of activities',
+				data: count
+			}]
+		});
+	},
+	error: function(errorMsg) {
+        alert("请求数据失败!");
+    }
+});
+    </script>
+
+
+
+
+        
+
+           </main>
+    </div>
+</div>
+
+<!-- Footer  -->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>

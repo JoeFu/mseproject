@@ -1,0 +1,17 @@
+000  1001    longNameThatExtendsWayOver lod  anotherReallyLongName
+001          anotherReallyLongName
+001  2004            sto     andYetAnother
+002  5000            jmp     longNameThatExtendsWayOver
+003  0000            hlt
+004          twoLabelsHere
+004          andYetAnother .space
+005  0004          .word     twoLabelsHere
+
+S Y M B O L   T A B L E
+=======================
+004  andYetAnother
+001  anotherReallyLongName
+000  longNameThatExtendsWayOver
+004  twoLabelsHere
+
+

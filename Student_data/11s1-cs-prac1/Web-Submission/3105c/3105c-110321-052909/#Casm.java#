@@ -1,0 +1,222 @@
+import java.io.IOException;
+
+
+public class Casm
+{
+    private static String srcFilename;
+    private static String exeFilename;
+    private static boolean listEnabled;
+    private static SymbolTable ST;
+    
+    
+
+    public static void main(String[] args)
+      throws Exception
+    {
+    	parseCommandLine(args);
+    	ST = new SymbolTable();
+    	
+    	
+    	pass1();
+    	pass2();
+    }
+
+
+    private static void parseCommandLine(String[] args)
+    {
+        srcFilename= null;
+        exeFilename= null;
+        listEnabled= false;
+
+        //Process the command line arguments
+        int i=0;
+        while( i<args.length ){
+            //Get next argument
+            String arg= args[i];
+            i++;
+
+	    if( arg.equals("-l") ){
+		//We want a map printed
+		listEnabled= !listEnabled;
+		
+	    }else if( arg.equals("-x")){
+                //We have an executable-file specification
+		
+                if( i==args.length ){
+                    System.err.println("Missing file parameter after -x");
+                    System.exit(1);
+                }
+		
+                exeFilename= args[i];
+                i++;
+		
+            }else if( arg.startsWith("-") ){
+                System.err.println("Unknown parameter: " + arg);
+                System.exit(1);
+		
+            }else{
+                //It must be the name of the source file
+		
+                if( srcFilename!=null){
+                    System.err.println("Duplicate source file name: "+ arg);
+                    System.exit(1);
+                }
+		
+                srcFilename= arg;
+            }
+        }
+	
+        if( srcFilename==null ){
+            //object file id mandatory
+            System.err.println("No object file specified.");
+            System.exit(1);
+        }
+
+        //Apply defaults...
+        if( !srcFilename.endsWith(".csrc") ){
+            //Append default extension
+            srcFilename= srcFilename+".csrc";
+        }
+
+        if( exeFilename==null ){
+            //Make exeFilename the same as the source filename
+            exeFilename= srcFilename.substring(0,srcFilename.indexOf(".csrc"));
+        }
+
+        if( !exeFilename.endsWith(".calc") ){
+            //Append default extension
+            exeFilename= exeFilename+".calc";
+        }
+    }
+
+
+    private static void pass1()
+      throws IOException
+    {
+    	int LC = 000;
+    	CsrcReader CR = new CsrcReader(srcFilename);
+    	
+    	
+    	while( CR.readNextStatement() == true ){			//read line by line
+    		if( !CR.getLabel().equals("") ){				//if the label is not blank
+    			ST.insert(CR.getLabel(), LC);				//insert in symbol table
+    		}
+    		if( !CR.isBlank() ){							//if not blank line, increment LC
+    			LC++;
+    		}
+    		
+    	}
+    	
+    	//System.out.println();
+    	//System.out.println(ST.toString());
+    }
+
+
+    private static void pass2()
+      throws IOException
+    {
+    	int LC = 000;
+    	CsrcReader CR = new CsrcReader(srcFilename);
+    	CalcWriter CW = new CalcWriter(exeFilename);
+    	ListWriter LW = new ListWriter(System.out,listEnabled);
+    	
+    	while( CR.readNextStatement() == true ){						//read line by line
+    		String operator = CR.getOperation();						//store operator
+    		String operand = CR.getOperands();							//store operand
+    		int operandVal = 0;												//operand value
+    		if( !operand.equals("") ){							//if operand exists
+    			if ( ST.exists(operand) ){							//if operand is a symbol
+        			operandVal = ST.lookup(operand);				//get val from symbol table
+        		}
+        		else{												//else operand is a constant
+        			operandVal = Integer.parseInt(operand);
+        		}
+    		}
+    		//if writer is enabled and line is blank, just print the src
+    		if( CR.isBlank() ){
+				LW.print(CR.getLine());
+			}
+    		
+    		//Write to the Calc Writer and List Writer
+    		if( operator.equals("hlt") ){
+    			CW.write(LC, 0000);
+    			LW.print(LC, 0000, CR.getLine());
+    			LC++;
+    		}
+    		if( operator.equals("lod") ){
+    			CW.write(LC, 1000+operandVal);
+    			LW.print(LC, 1000+operandVal, CR.getLine());
+    			LC++;
+    		}
+    		if( operator.equals("sto") ){
+    			CW.write(LC, 2000+operandVal);
+    			LW.print(LC, 2000+operandVal, CR.getLine());
+    			LC++;
+
+		}else if( operator.equals("add") ){
+    			CW.write(LC, 3000+operandVal);
+    			LW.print(LC, 3000+operandVal, CR.getLine());
+    			LC++;
+    		}
+    		if( operator.equals("sub") ){
+    			CW.write(LC, 4000+operandVal);
+    			LW.print(LC, 4000+operandVal, CR.getLine());
+    			LC++;
+    		}
+    		if( operator.equals("jmp") ){
+    			CW.write(LC, 5000+operandVal);
+    			LW.print(LC, 5000+operandVal, CR.getLine());
+    			LC++;
+    		}
+    		if( operator.equals("jeq") ){
+    			CW.write(LC, 6000+operandVal);
+    			LW.print(LC, 6000+operandVal, CR.getLine());
+    			LC++;
+    		}
+    		if( operator.equals("jge") ){
+    			CW.write(LC, 7000+operandVal);
+    			LW.print(LC, 7000+operandVal, CR.getLine());
+    			LC++;
+    		}
+    		if( operator.equals("jsr") ){
+    			CW.write(LC, 8000+operandVal);
+    			LW.print(LC, 8000+operandVal, CR.getLine());
+    			LC++;
+    		}
+    		if( operator.equals("dsz") ){
+    			CW.write(LC, 9000+operandVal);
+    			LW.print(LC, 9000+operandVal, CR.getLine());
+    			LC++;
+    		}
+    		if( operator.equals(".space") ){
+    			LW.print(LC, CR.getLine());
+    			LC++;
+    		}
+    		if( operator.equals(".word") ){
+    			CW.write(LC, operandVal);
+    			LW.print(LC, operandVal, CR.getLine());
+    			LC++;
+    		}
+    		if( operator.equals(".wordu") ){
+    			CW.write(LC, operandVal);
+    			LW.print(LC, operandVal, CR.getLine());
+    			LC++;
+    		}
+    		if( operator.equals(".org") ){
+    			
+    			LW.print(LC, CR.getLine());
+    			LC = operandVal;
+    		}
+    		if( operator.equals(".bss") ){
+    			
+    			LW.print(LC, CR.getLine());
+    			LC += operandVal;
+    		}
+    		
+    	}
+    	CW.close();
+    	
+    	//Write the symbol list
+    	LW.symbolTable(ST.toString());
+    }
+}

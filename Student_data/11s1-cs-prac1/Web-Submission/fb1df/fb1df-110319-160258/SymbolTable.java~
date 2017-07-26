@@ -1,0 +1,104 @@
+import java.util.Arrays;
+
+public class SymbolTable
+{
+    private static String symbols[][];
+    private static int lng=0;
+    private static String locString;
+    private static int count=0;
+    private static int tst;
+    private static String tblString="";
+
+    //Constructor
+    public SymbolTable(int lncount)
+	
+    {
+	lng=lncount;
+	symbols = new String[lng][2];
+    }
+
+
+    //Return true if symbol exists in the symbol table, else false
+    public boolean exists(String symbol)
+    {
+	String test = symbol;
+	for(int i=0; i<lng; i++){
+	    if(symbols[i][0]!= null && symbols[i][0].equals(test))
+		{
+		    return true;
+		}
+	}
+	return false;
+    }
+
+
+    //Insert (symbol,value) into the symbol table
+    //If the symbol already exists, throw an exception
+    public void insert(String symbol, int value)
+	throws Exception
+    {
+System.err.print("dk@"+symbol+"="+value);
+
+	if(exists(symbol)==true)
+	    {
+		throw new Exception();
+	    }
+	else
+	    {
+		symbols[count][0]=symbol;
+		symbols[count][1]=Integer.toString(value);
+		count++;
+System.err.print("dk#"+count+"|"+symbol+"="+value);
+	    }
+    }
+
+
+    //Lookup symbol in the symbol table, and return the corresponding value
+    //If the symbol doesn't exist, return Integer.MIN_VALUE
+    public int lookup(String symbol)
+    {
+	String test = symbol;
+	for(int i=0; i<lng; i++)
+	    {
+		if(symbols[i][0]!= null && symbols[i][0].equals(test))
+		    {
+			return Integer.parseInt(symbols[i][1]);
+		    }
+	    }
+
+	return Integer.MIN_VALUE;
+    }
+
+
+    //Return a string containing the sorted symbol table,
+    //one entry per line
+    public String toString()
+    {
+	String order[] = new String[count];
+	for(int i=0; i<count; i++)
+	    {
+		order[i]=symbols[i][0];
+	    }
+	Arrays.sort(order);
+	
+	for(int i=0; i<count; i++)
+	    {
+		tst = this.lookup(order[i]);
+		if (tst<10)
+		    {
+			locString="00"+ tst;
+		    }
+		if(tst>9 && tst<100)
+		    {
+			locString="0"+ tst;
+		    }
+		if(tst>99)
+		    {
+			locString=""+tst;
+		    }
+		tblString= tblString + locString + "  " + order[i]+"\n";
+	    }
+	    
+	return tblString;
+    }
+}

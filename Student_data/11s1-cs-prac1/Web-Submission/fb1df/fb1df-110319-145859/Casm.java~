@@ -1,0 +1,393 @@
+import java.io.IOException;
+import java.io.PrintStream;
+
+public class Casm
+{
+    private static String srcFilename;
+    private static String exeFilename;
+    private static boolean listEnabled;
+    private static int lines;
+    private static SymbolTable table;
+    private static int lc;
+    private static String op;
+    private static int data;
+    private static PrintStream ps;
+
+    public static void main(String[] args)
+      throws Exception
+    {
+	parseCommandLine(args);
+
+	pass1();
+	pass2();
+    }
+
+
+    private static void parseCommandLine(String[] args)
+    {
+        srcFilename= null;
+        exeFilename= null;
+        listEnabled= false;
+
+        //Process the command line arguments
+        int i=0;
+        while( i<args.length ){
+            //Get next argument
+            String arg= args[i];
+            i++;
+
+	    if( arg.equals("-l") ){
+		//We want a map printed
+		listEnabled= !listEnabled;
+		
+	    }else if( arg.equals("-x")){
+                //We have an executable-file specification
+		
+                if( i==args.length ){
+                    System.err.println("Missing file parameter after -x");
+                    System.exit(1);
+                }
+		
+                exeFilename= args[i];
+                i++;
+		
+            }else if( arg.startsWith("-") ){
+                System.err.println("Unknown parameter: " + arg);
+                System.exit(1);
+		
+            }else{
+                //It must be the name of the source file
+		
+                if( srcFilename!=null){
+                    System.err.println("Duplicate source file name: "+ arg);
+                    System.exit(1);
+                }
+		
+                srcFilename= arg;
+            }
+        }
+	
+        if( srcFilename==null ){
+            //object file id mandatory
+            System.err.println("No object file specified.");
+            System.exit(1);
+        }
+
+        //Apply defaults...
+        if( !srcFilename.endsWith(".csrc") ){
+            //Append default extension
+            srcFilename= srcFilename+".csrc";
+        }
+
+        if( exeFilename==null ){
+            //Make exeFilename the same as the source filename
+            exeFilename= srcFilename.substring(0,srcFilename.indexOf(".csrc"));
+        }
+
+        if( !exeFilename.endsWith(".calc") ){
+            //Append default extension
+            exeFilename= exeFilename+".calc";
+        }
+    }
+
+
+    private static void pass1()
+      throws Exception
+    {
+	CsrcReader pass1 = new CsrcReader(srcFilename);
+	lines = pass1.lineCount();
+	table = new SymbolTable(lines);
+	lc=0;
+	
+	for(int i=0; i<lines; i++){
+	    if(pass1.readNextStatement()!= true)
+		{
+		    op=pass1.getOperation();
+		    op=op.toLowerCase();
+
+		    if (pass1.getLabel()!="")
+			{
+			    table.insert(pass1.getLabel(),lc);
+			    lc++;			    
+			}
+		    		    
+		    if (op.equals(".org"))
+			{
+			  if(chkNumber(pass1.getOperands())!=true){
+				data=table.lookup(pass1.getOperands());
+			    }
+			  else
+			      {
+				    data=Integer.parseInt(pass1.getOperands());
+			      }
+			  lc=data;
+			  
+		       }
+		    if(op.equals(".bss"))
+			{
+			    if(chkNumber(pass1.getOperands())!=true){
+				data=table.lookup(pass1.getOperands());
+			    }
+			    else
+				{
+				    data=Integer.parseInt(pass1.getOperands());
+				}
+			    lc=lc+data;
+			    lc--;
+			    			    
+			}
+		    else if(pass1.getLabel().equals(""))
+			{
+			    if(op.equals("")||op.equals(".org")||op.equals(".bss"))
+				{
+				}
+			    else{
+				lc++;
+			    }
+			}
+		    
+			
+	        }
+	}
+System.out.println("dk!"+table+"!");
+    }
+
+
+    private static void pass2()
+      throws Exception
+    {
+	CsrcReader pass = new CsrcReader(srcFilename);
+	lines = pass.lineCount();
+	lc=0;
+	ListWriter ls = new ListWriter(System.out, listEnabled);
+	CalcWriter objfile = new CalcWriter(exeFilename);
+	
+	for(int i=0; i<lines; i++)
+	    {
+		if(pass.readNextStatement()!=true)
+		    {
+			op=pass.getOperation();
+			op=op.toLowerCase();
+			
+			
+			if(op.equals("hlt"))
+			    {
+				objfile.write(lc, 0);
+				ls.print(lc,0,pass.getLine());
+				lc++;
+			    }
+			if(op.equals("lod"))
+			    {
+				if(chkNumber(pass.getOperands())!=true)
+				    {
+					data=table.lookup(pass.getOperands());
+				    }
+				else
+				    {
+					data=Integer.parseInt(pass.getOperands());
+				    }
+				data=data+1000;
+				objfile.write(lc, data);
+				ls.print(lc, data, pass.getLine());
+				lc++;
+			    }
+			if(op.equals("sto"))
+			    {
+				if(chkNumber(pass.getOperands())!=true){
+				    data=table.lookup(pass.getOperands());
+				}
+				else
+				    {
+					data=Integer.parseInt(pass.getOperands());
+				    }
+				data=data+2000;
+				objfile.write(lc, data);
+				ls.print(lc, data, pass.getLine());
+				lc++;
+			    }
+			if(op.equals("add"))
+			    {
+				if(chkNumber(pass.getOperands())!=true){
+				    data=table.lookup(pass.getOperands());
+				}
+				else
+				    {
+					data=Integer.parseInt(pass.getOperands());
+				    }
+				data=data+3000;
+				objfile.write(lc, data);
+				ls.print(lc, data, pass.getLine());
+				lc++;
+			    }
+			if(op.equals("sub"))
+			    {
+				if(chkNumber(pass.getOperands())!=true){
+				    data=table.lookup(pass.getOperands());
+				}
+				else
+				    {
+					data=Integer.parseInt(pass.getOperands());
+				    }
+				data=data+4000;
+				objfile.write(lc, data);
+				ls.print(lc, data, pass.getLine());
+				lc++;
+			    }
+			if(op.equals("jmp"))
+			    {
+				if(chkNumber(pass.getOperands())!=true){
+				    data=table.lookup(pass.getOperands());
+				}
+				else
+				    {
+					data=Integer.parseInt(pass.getOperands());
+				    }
+				data=data+5000;
+				objfile.write(lc, data);
+				ls.print(lc, data, pass.getLine());
+				lc++;
+			    }
+			if(op.equals("jeq"))
+			    {
+				if(chkNumber(pass.getOperands())!=true){
+				    data=table.lookup(pass.getOperands());
+				}
+				else
+				    {
+					data=Integer.parseInt(pass.getOperands());
+				    }
+				data=data+6000;
+				objfile.write(lc, data);
+				ls.print(lc, data, pass.getLine());
+				lc++;
+			    }
+			if(op.equals("jge"))
+			    {
+				if(chkNumber(pass.getOperands())!=true){
+				    data=table.lookup(pass.getOperands());
+				}
+				else
+				    {
+					data=Integer.parseInt(pass.getOperands());
+				    }
+				data=data+7000;
+				objfile.write(lc, data);
+				ls.print(lc, data, pass.getLine());
+				lc++;
+			    }
+			if(op.equals("jsr"))
+			    {
+				if(chkNumber(pass.getOperands())!=true){
+				    data=table.lookup(pass.getOperands());
+				}
+				else
+				    {
+					data=Integer.parseInt(pass.getOperands());
+				    }
+				data=data+8000;
+				objfile.write(lc, data);
+				ls.print(lc, data, pass.getLine());
+				lc++;
+			    }
+			if(op.equals("dsz"))
+			    {
+				if(chkNumber(pass.getOperands())!=true){
+				    data=table.lookup(pass.getOperands());
+				}
+				else
+				    {
+					data=Integer.parseInt(pass.getOperands());
+				    }
+				data=data+9000;
+				objfile.write(lc, data);
+				ls.print(lc, data, pass.getLine());
+				lc++;
+			    }
+			if(op.equals(".space"))
+			    {
+			       ls.print(lc, pass.getLine());
+			       lc++;
+			    }
+			if(op.equals(".word"))
+			    {
+				if(chkNumber(pass.getOperands())!=true){
+				    data=table.lookup(pass.getOperands());
+				}
+				else
+				    {
+					data=Integer.parseInt(pass.getOperands());
+				    }
+				if(data<0)
+				    {
+					data=10000+data;
+				    }
+				objfile.write(lc, data);
+				ls.print(lc, data, pass.getLine());
+				lc++;
+			    }
+			if(op.equals(".wordu"))
+			    {
+				if(chkNumber(pass.getOperands())!=true){
+				    data=table.lookup(pass.getOperands());
+				}
+				else
+				    {
+					data=Integer.parseInt(pass.getOperands());
+				    }
+			   
+				objfile.write(lc, data);
+				ls.print(lc, data, pass.getLine());
+				lc++;
+			    }
+			if(op.equals(".org"))
+			    {
+				if(chkNumber(pass.getOperands())!=true){
+				    data=table.lookup(pass.getOperands());
+				}
+				else
+				    {
+					data=Integer.parseInt(pass.getOperands());
+				    }
+				lc=data;
+				ls.print(lc,pass.getLine());
+			    }
+			if(op.equals(".bss"))
+			    {
+				if(chkNumber(pass.getOperands())!=true){
+				    data=table.lookup(pass.getOperands());
+				}
+				else
+				    {
+					data=Integer.parseInt(pass.getOperands());
+				    }
+				lc=lc+data;
+				ls.print(lc, pass.getLine());
+			    }
+			if(op.equals("") && pass.getLabel()!=(""))
+			    {
+				ls.print(lc, pass.getLine());
+			    }
+		    }
+		else
+		    {
+			ls.print(pass.getLine());
+		    }
+	    }
+	objfile.close();
+	ls.symbolTable(table.toString());
+	    
+    }
+		
+    private static boolean chkNumber(String test)
+	{
+	    try
+		{
+		    Integer.parseInt(test);
+		}
+	    catch (NumberFormatException ex) 
+		{
+		    return false;
+		}
+	    return true;
+	}
+}

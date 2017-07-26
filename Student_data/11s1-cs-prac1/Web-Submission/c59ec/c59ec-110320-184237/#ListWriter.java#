@@ -1,0 +1,145 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.*;
+public class ListWriter
+{
+    private PrintStream PS;
+    private boolean listEnabled;
+    //Constructor
+    public ListWriter(PrintStream ps, boolean listingOn) throws FileNotFoundException
+    {
+	//...more here
+	this.PS = ps;
+	this.listEnabled = listingOn;
+    }
+
+
+    //Prints addr, data and sourceline to the lisiting
+    public void print(int addr, int data, String sourceLine) throws IOException
+    {
+	//...more here
+	if(listEnabled){
+	    String add = String.valueOf(addr);
+	    while(add.length()<3){
+		add = "0"+add;
+	    }
+	    String dat = String.valueOf(data);
+	    while(dat.length()<4){
+		dat = "0"+dat;
+	    }
+	    PS.append(add+"  "+dat+"    "+expandTabs(sourceLine)+"\n");
+	}
+    }
+
+
+    //Prints addr and sourceline to the listing
+    public void print(int addr, String sourceLine) throws IOException
+    {
+	if(listEnabled){
+	    String add = String.valueOf(addr);
+	    while(add.length()<3){
+		add = "0"+add;
+	    }
+	    PS.append(add+"          "+expandTabs(sourceLine)+"\n");
+	}
+    }
+
+
+    //Prints sourceline to the listingfile
+    public void print(String sourceLine) throws IOException
+    {
+	if(listEnabled){
+	    if(sourceLine.split("\\s+").length == 0){
+		PS.append("             "+"\n");
+	    }else if(sourceLine.length() == 0){
+	
+		PS.append("\n");
+	    }else{
+		PS.append("             "+expandTabs(sourceLine)+"\n");
+	    }
+	}
+	
+    }
+
+
+    //Prints the symbol table to the listing
+    public void symbolTable(String st) // st is the String returned by toString() method of SymbolTable
+    {
+	if(listEnabled)
+	    PS.append(st);
+    }
+    
+    public void close(){
+	if(listEnabled)
+	    PS.close();
+    }
+
+    //Expand tabs to equivalent spaces
+    //A tab is EIGHT spaces.
+    private String expandTabs(String s)
+    {
+	String[] s1 = s.split("\t");
+	String ret_S = "";
+	String word;
+	int index;
+	boolean tricky = false;
+	if(s1.length != 0){
+	    for(int i=0;i<s1.length;i++){
+		index = 0;
+		word = "";
+		if((s1[i].length() > 8 || tricky) && i<s1.length-1){
+		    int left = 8 - s1[i].length() % 8;
+		    tricky = true;
+		    for(int j=0;j<left;j++){
+			word = word + " ";
+		    }
+		    ret_S = ret_S + s1[i]+word;
+		}
+		else{
+		if(i == s1.length -1){
+		    if(s.charAt(s.length()-1) == '\t'){
+			word = s1[i];
+			while(word.length() < 8){
+			    word = word + " ";
+			}
+			ret_S = ret_S + word;
+		    }else{
+			ret_S = ret_S + s1[s1.length-1];
+		    }
+		}else{
+		    if((s1[i].length() % 8) == 0){ // if the length is a multiple of 8
+			ret_S = ret_S +s1[i]+ "        ";
+		    }else{
+			String[] s2 = s1[i].split("\\s+");
+			if(!tricky){
+			    if(s2.length != 0){
+				word = s2[s2.length - 1];
+				index = s1[i].indexOf(word);
+				while(word.length()<8){
+				    word = word + " ";
+				}
+				
+			    }else{
+				word = s1[i];
+				while(word.length()<8){
+				    word = word + " ";
+				}
+			    }
+			    ret_S = ret_S + s1[i].substring(0,index) + word;
+			}
+		    }
+		}
+		}
+	    }
+	}else{
+	    ret_S = s;
+	}
+	if(tricky){ // if the label or operand or operation is too long
+	    
+	}
+	return ret_S;
+    }	
+
+}

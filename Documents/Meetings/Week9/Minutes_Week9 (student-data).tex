@@ -1,0 +1,78 @@
+%%%%%%weekly meeting template, prepared by Michael Sheng.  09/03/2007
+\documentclass[11pt, a4paper]{article}
+\usepackage{times}
+\usepackage{ifthen}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{setspace}
+
+%%% page parameters
+\oddsidemargin -0.5 cm
+\evensidemargin -0.5 cm
+\textwidth 15 cm
+\topmargin -1.2 cm
+\textheight 22 cm
+
+\renewcommand{\baselinestretch}{1.4}\normalsize
+\setlength{\parskip}{0pt}
+				
+
+\begin{document}
+
+
+\vspace*{15pt}
+
+\begin{center}
+\huge Meeting Minutes
+
+
+
+
+\end{center}
+
+\section{Date and Time}
+ Wednesday 10th May 2017 2:00pm-3:00pm IW 4.36
+
+\section{Apologies}
+None
+
+\section{Present}
+\begin{itemize}
+	\item Nickolas Falkner
+	\item Christoph Treude 
+	\item Minh Tam Phan
+	\item Zeqi Fu
+	\item Zeyu Lin
+\end{itemize}
+
+\section{Decisions that were made and issues clarified}
+\begin{itemize}
+	\item For CSV file, line 1 contains titles (names of columns), then the data. Incorporate more information in the file name.
+	\item The dashboard should tell which course it is.
+	\item Remove the comma of number (e.g 2,500) in charts. The solution is amount of activities (in thousands)
+	\item Preference for the x-label: Jul 12.
+	\item Provide choices (alphabetical order, descending order, ascending order) for charts.
+	\item We need to provide a threshold function which also deal with "0" case.
+	\item For the x-label issue, remove the labels until they can be displayed correctly. Shrink the x-label user0019 to u0019.
+	\item For charts related with "Event name", provide one filter to set threshold and then another to auto-complete the event name you type.
+	\item For the questionnaire, describe the Moodle and WebSubmission data in the first paragraph. For question1: We want to identify some commonly asked questions so that we can calculate the answers to these questions in our application. Based on schema of Moodle and WebSubmission, how would 
+you relate the data to answer the questions? We don't need question 2.
+	\item For the report, give more space for the chart, the chart
+should be as big as possible, the report summary goes underneath.
+The chart, the source data, when the report generated, any identifying aspects of the report itself are important.
+	\item The client will provide a list of people for the survey.
+
+\end{itemize}
+
+\section{Action items for specific people (due date)}
+\begin{itemize}
+	\item Minh Tam Phan: Implement simple query(May 16)
+	\item Zeqi Fu: Modify charts, provide more functions.(May 16)
+	\item Zeyu Lin: Modify charts, provide more functions.(May 16)
+
+\end{itemize}
+
+
+
+\end{document}

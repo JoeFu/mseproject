@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+ "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+  
+ <hibernate-mapping>  
+  <class name="Event" table="Event">  
+    <id name="id">  
+     <generator class="assigned"></generator>  
+    </id>  
+            
+    <property name="name"></property>  
+    <property name="description"></property>
+    <property name="fKComponentId"></property>
+    <property name="fKEventTypeId"></property>
+    <property name="fKUserId"></property>
+    <property name="grade"></property>
+    <property name="startDate"></property>
+    <property name="dueDate"></property>
+    <property name="version"></property>
+    <property name="courseName"></property>
+    <property name="semester"></property>
+    <property name="schoolYear"></property>
+    <property name="eventTime"></property>
+    <property name="context"></property>   
+    <property name="prefix"></property>
+                        
+  </class>  
+            
+ </hibernate-mapping>  

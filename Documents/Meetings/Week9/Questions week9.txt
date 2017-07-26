@@ -1,0 +1,7 @@
+1. A confirmation for the approval of first survey, 
+we need approval from both the ethics and 
+the survey framework?
+2. What's the population for the survey? Lecturers across
+different schools or only the school of computer science? 
+Since other schools do not use Moodle and WebSubmission.
+

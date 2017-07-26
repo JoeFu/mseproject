@@ -1,0 +1,335 @@
+import java.io.IOException;
+import java.util.ArrayList;
+import java.io.OutputStream;
+import java.io.*;
+
+public class Casm
+{
+    private static String srcFilename;
+    private static String exeFilename;
+    private static boolean listEnabled;
+    private static int LC = 0;
+    private static int LC1 = 0;
+    private static CsrcReader reader;
+    private static CalcWriter writer;
+    private static ListWriter list;
+    private static SymbolTable table;
+
+    private static void parseCommandLine(String[] args)
+    {
+	srcFilename= null;
+        exeFilename= null;
+        listEnabled= false;
+
+        //Process the command line arguments
+        int i = 0;
+        while( i < args.length )
+	    {
+		//Get next argument
+		String arg = args[i];
+		i++;
+		
+		if ( arg.equals("-l") )
+		    {
+			//We want a map printed
+			listEnabled= !listEnabled;
+		    }
+		else if( arg.equals("-x"))
+		    {
+			//We have an executable-file specification
+			
+			if( i==args.length )
+			    {
+				System.err.println("Missing file parameter after -x");
+				System.exit(1);
+			    }
+		
+			exeFilename= args[i];
+			i++;	
+		    }
+		else if( arg.startsWith("-") )
+		    {
+			System.err.println("Unknown parameter: " + arg);
+			System.exit(1);			
+		    }
+		else
+		    {
+			//It must be the name of the source file
+			if( srcFilename!=null)
+			    {
+				System.err.println("Duplicate source file name: "+ arg);
+				System.exit(1);
+			    }
+			srcFilename= arg;
+		    }
+	    }
+	
+        if( srcFilename==null )
+	    {
+		//object file id mandatory
+		System.err.println("No object file specified.");
+		System.exit(1);
+	    }
+
+        //Apply defaults...
+        if ( !srcFilename.endsWith(".csrc") )
+	    {
+		//Append default extension
+		srcFilename= srcFilename+".csrc";
+	    }
+
+        if ( exeFilename==null )
+	    {
+		//Make exeFilename the same as the source filename
+		exeFilename= srcFilename.substring(0,srcFilename.indexOf(".csrc"));
+	    }
+
+        if ( !exeFilename.endsWith(".calc") )
+	    {
+		//Append default extension
+		exeFilename= exeFilename+".calc";
+	    }
+    }
+
+
+    private static void pass1() throws IOException
+    {
+	LC = 0;                                           //Location counter is set to zero
+	table = new SymbolTable();                        //Create a new instance of the symbol table
+	reader = new CsrcReader(srcFilename);             //Create a new instance of CsrcReader
+	while (reader.readNextStatement() != false)      //While there is a line to be read in from csrcReader
+	    {
+		if (reader.isBlank() == false)           //If the line is not blank
+		    {
+
+				
+			if(reader.getOperation().equals(".org")){
+			    if (isInteger(reader.getOperand())){
+				LC = Integer.parseInt(reader.getOperand());			
+			    } else {
+				LC = table.lookup(reader.getOperand());					    		
+			    }		   
+			}
+			else if(reader.getOperation().equals(".bss")){
+			    if (isInteger(reader.getOperand())){
+				LC = LC + Integer.parseInt(reader.getOperand())-1;
+			    } else {
+				LC = LC + table.lookup(reader.getOperand())-1;
+			    }
+			}
+			else
+			    {
+				if (!reader.getLabel().isEmpty())
+				    {
+					if(reader.getOperand().isEmpty() && reader.getOperation().isEmpty())
+					    {
+						table.insert(reader.getLabel(),LC);
+						
+					    }
+					else
+					    table.insert(reader.getLabel(),LC);
+				    }
+				LC ++;
+				
+				
+				
+			    }
+		    }
+	    }
+    }
+    
+
+    
+    private static void pass2() throws IOException
+    {
+	LC = 0;                                         //Location counter is set to zero
+	int operation = 0;                              //Create a variable to hold the integer form of operation
+	int operand = 0;                                //Variable to hold the integer form of operand
+	writer = new CalcWriter(exeFilename);           //Create a new instance of writer
+	reader = new CsrcReader(srcFilename);           //Create a new instance of reader
+	list = new ListWriter(System.out,listEnabled);  //Checks if the listing is on
+	while (reader.readNextStatement() != false)     //While there is a line to be read in from csrcReader
+	    {
+		//If the line is not blank
+		if (!reader.isBlank())
+		    {
+			//If operation exists
+			if (!reader.getOperation().equals(""))
+			    {
+				//Checks if the operand exists
+				if (!reader.getOperand().equals(""))
+				    {
+					if (isInteger(reader.getOperand()))
+					    {
+						operand = Integer.parseInt(reader.getOperand());
+					    }
+					//Checks if the operand has symbol value
+					else if (table.exists(reader.getOperand()) == true)
+					    {
+						operand = table.lookup(reader.getOperand());    //If it does then the operand becomes the value
+					    }
+				    }
+
+				if ((reader.getOperation()).equals("lod"))   //If the operation equals lod
+				    {
+					operation = 1000 + operand;
+					writer.write(LC,operation);
+					list.print(LC,operation,reader.getLine());
+					LC++;
+				    }
+				else if ((reader.getOperation()).equals("sto")) //If the operation equals sto
+				    {
+					operation = 2000 + operand;
+					writer.write(LC,operation);
+					list.print(LC,operation,reader.getLine());
+					LC++;
+				    }
+				else if ((reader.getOperation()).equals("add")) //If the operation equals add
+				    {
+					operation = 3000 + operand;
+					writer.write(LC,operation);
+					list.print(LC,operation,reader.getLine());
+					LC++;
+				    }
+				else if ((reader.getOperation()).equals("sub")) //If the operation equals sub
+				    {
+					operation = 4000 + operand;
+					writer.write(LC,operation);
+					list.print(LC,operation,reader.getLine());
+					LC++;
+				    }
+				else if ((reader.getOperation()).equals("jmp")) //If the operation equals jmp
+				    {
+					operation = 5000 + operand;
+					writer.write(LC,operation);
+					list.print(LC,operation,reader.getLine());
+					LC++;
+				    }
+				else if ((reader.getOperation()).equals("jeq")) //If the operation equals jeq
+				    {
+					operation = 6000 + operand;
+					writer.write(LC,operation);
+					list.print(LC,operation,reader.getLine());
+					LC++;
+				    }
+				else if ((reader.getOperation()).equals("jge")) //If the operation equals jge
+				    {
+					operation = 7000 + operand;
+					writer.write(LC,operation);
+					list.print(LC,operation,reader.getLine());
+					LC++;
+				    }
+				else if ((reader.getOperation()).equals("jsr")) //If the operation equals jsr
+				    {
+					operation = 8000 + operand;
+					writer.write(LC,operation);
+					list.print(LC,operation,reader.getLine());
+					LC++;
+				    } 
+				else if ((reader.getOperation()).equals("dsz")) //If the operation equals dsz
+				    {
+					operation = 9000 + operand;
+					writer.write(LC,operation);
+					list.print(LC,operation,reader.getLine());
+					LC++;
+				    }
+				else if ((reader.getOperation()).equals("hlt")) //If the operation equals hlt
+				    {
+					operation = 0000;
+					writer.write(LC,operation);
+					list.print(LC,operation,reader.getLine());
+					LC++;
+				    }
+				else if ((reader.getOperation()).equals(".space")) //If the operation equals .space
+				    { 
+					list.print(LC,reader.getLine());
+					LC++;
+				    }
+				else if ((reader.getOperation()).equals(".word")) //If the operation equals .word
+				    {				    
+					if (operand<0)
+					    {
+						operation = operand + 10000;
+						    }
+					else
+					    {
+						operation = operand;
+					    }
+					writer.write(LC,operation);
+					list.print(LC,operation,reader.getLine());
+					LC++;
+					
+				    }
+				else if ((reader.getOperation()).equals(".wordu")) //If the operation equals .wordu
+				    {
+					if (operand>=0 && operand<=9999)
+					    {
+						operation = operand;
+						writer.write(LC,operation);
+						list.print(LC,operation,reader.getLine());
+						LC++;
+					    }
+					else
+					    {
+						System.out.println("Line " + LC + ", Number out of range: " + operand);
+						LC++;
+					    }
+					
+				    }
+				else if ((reader.getOperation()).equals(".org")) //If the operation equals .org
+				    {
+					if (table.exists(reader.getOperand()) == true)
+					    {
+						LC = table.lookup(reader.getOperand());
+						list.print(LC,reader.getLine());
+						
+					    }
+					else
+					    {
+						LC = operand;
+						list.print(LC,reader.getLine());
+					    }
+				    }
+				else if ((reader.getOperation()).equals(".bss")) //If the operation equals .bss
+				    {
+					list.print(LC,reader.getLine());
+					LC = LC + operand-1;
+					LC++;
+				    }
+				else if(reader.getOperand().equals("")) //If the operation does not equal to any instructions or directives
+				    {
+					list.print(LC,reader.getLine());
+					LC++;
+				    }
+			    }
+			else if (reader.getOperand().equals("")) //If the line only contains a label
+			    {
+				list.print(LC,reader.getLine());
+			    }
+		    }
+		else 
+		    {
+			list.print(reader.getLine());    //If the line is blank or contains comments
+		    }
+
+	    }
+	System.out.println(table.toString());
+	writer.close();
+    }
+
+    public static void main(String[] args) throws Exception
+    {
+	parseCommandLine(args);
+	pass1();
+	pass2();
+    }
+    public static boolean isInteger(String input){ // a method check if a number is a integer
+	try{
+	    Integer.parseInt(input);
+	    return true;
+	}catch(NumberFormatException e){
+	    return false;
+	}
+    }
+    
+}

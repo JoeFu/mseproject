@@ -1,0 +1,21 @@
+Anchor-Text:Assignment 1
+Assignment-Key:2012/s2/ds/assign1
+Export-Flag:Export
+Feedback-Flag:Show
+LatePenalties:Default
+LatePenalties-Data:100	75	50	25	0
+Pracmarker-Questions:0
+Pracmarker-Weeks:120716
+Quiet-Flag:NotQuiet
+Repository-Path:2012/s2/ds/assign1
+Run-Script:Test
+SVNLog-Flag:NoExport
+Silent-Flag:NotSilent
+Testing-Flag:Show
+Use-Classlist:Ignore-Classlist
+Use-Pracmarker:No
+Use-Websubmission:Use-Websubmission
+Due-Date:120824:170000
+Maximum-Mark:20
+Other-Marks:20
+Final-Mark-Flag:Best-Mark
