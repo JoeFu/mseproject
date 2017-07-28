@@ -22,8 +22,10 @@
     <property name="semester"></property>
     <property name="schoolYear"></property>
     <property name="eventTime"></property>
-    <property name="context"></property>   
+    <property name="context"></property>            
+    <property name="repository"></property>
     <property name="prefix"></property>
+    <property name="datasourcetype"></property>
                         
   </class>  
             

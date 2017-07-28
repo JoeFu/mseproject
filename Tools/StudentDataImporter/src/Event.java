@@ -65,9 +65,15 @@ public class Event implements Serializable{
 	@Column(name="context")
 	private String context;
 	
+	@Column(name="repository")
+	private String repository;
+	
 	@Column(name="prefix")
 	private String prefix;
 	
+	@Column(name="datasourcetype")
+	private int datasourcetype;
+		
 	public String getId(){
 		return id;
 	}
@@ -124,8 +130,16 @@ public class Event implements Serializable{
 		return context;
 	}
 	
+	public String getRepository(){
+		return repository;
+	}
+	
 	public String getPrefix(){
 		return prefix;
+	}
+	
+	public int getDatasourcetype(){
+		return datasourcetype;
 	}
 	
 	public void setId(String id){
@@ -188,7 +202,15 @@ public class Event implements Serializable{
 		this.context = context;
 	}
 	
+	public void setRepository(String repository){
+		this.repository = repository; 
+	}
+	
 	public void setPrefix(String prefix){
 		this.prefix = prefix;
+	}
+	
+	public void setDatasourcetype(int datasourcetype){
+		this.datasourcetype = datasourcetype;
 	}
 }

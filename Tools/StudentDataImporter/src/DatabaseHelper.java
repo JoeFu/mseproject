@@ -58,55 +58,100 @@ public class DatabaseHelper {
 		return eventTypeId;		
 	}
 	
-	private static Event getEvent(int id, List list){
+	private static Event getEvent(int id, List list, int dataSourceType){
 		Event event = new Event();
-		event.setId(String.valueOf(id));
-		event.setName(list.get(4).toString());
-		event.setDescription(list.get(5).toString());
-		event.setComponentId(getComponentId(list.get(3).toString()));
-		event.setEventTypeId(getEventTypeId(list.get(2).toString()));
-		event.setUserId(list.get(1).toString());
-		float grade = (id%2==0) ? 60 : 70;
-		event.setGrade(grade);		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		DateFormatter formatter1 = new DateFormatter();
-		formatter1.setFormat(dateFormat);
-		
-		event.setVersion(String.valueOf(id));
-		event.setCourseName("MSE");
-		event.setSemester("Semester 2");	
-		event.setSchoolYear(2017);		
-		String[] dateTimes = list.get(0).toString().split(", ");
-		
-		String strDate = (dateTimes[0].length() < 8) ? ("0" + dateTimes[0]):dateTimes[0];
-		String strTime = dateTimes[1] + ".12.083 +04:30";
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm.ss.SSS XXX");		
-		LocalDateTime time = LocalDateTime.parse(strDate + " " +strTime, formatter);
-		event.setEventTime(Timestamp.valueOf(time));
-		String[] contexts = list.get(2).toString().split(":");
-		event.setPrefix(contexts[0]);
-		String context = "";
-		for(int j = 1; j < contexts.length; j++)
-			context += contexts[j];
-		event.setContext(context);
+		switch(dataSourceType){
+		case 1://Moodles
+			event.setId(String.valueOf(id));
+			event.setName(list.get(4).toString());
+			event.setDescription(list.get(5).toString());
+			event.setComponentId(getComponentId(list.get(3).toString()));
+			event.setEventTypeId(getEventTypeId(list.get(2).toString()));
+			event.setUserId(list.get(1).toString());
+			float grade = (id%2==0) ? 60 : 70;
+			event.setGrade(grade);		
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+			DateFormatter formatter1 = new DateFormatter();
+			formatter1.setFormat(dateFormat);
+			
+			event.setVersion(String.valueOf(id));
+			event.setCourseName("MSE");
+			event.setSemester("Semester 2");	
+			event.setSchoolYear(2017);		
+			String[] dateTimes = list.get(0).toString().split(", ");
+			
+			String strDate = (dateTimes[0].length() < 8) ? ("0" + dateTimes[0]):dateTimes[0];
+			String strTime = dateTimes[1] + ".12.083 +04:30";
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm.ss.SSS XXX");		
+			LocalDateTime time = LocalDateTime.parse(strDate + " " +strTime, formatter);
+			event.setEventTime(Timestamp.valueOf(time));
+			String[] contexts = list.get(2).toString().split(":");
+			event.setPrefix(contexts[0]);
+			String context = "";
+			for(int j = 1; j < contexts.length; j++)
+				context += contexts[j];
+			event.setContext(context);
+			event.setDatasourcetype(1);
+			
+			break;
+		case 2:
+			event.setId(String.valueOf(id));
+			String userId = list.get(0).toString();
+			event.setUserId(userId);
+			String repositoryId = list.get(1).toString();
+			event.setRepository(repositoryId);
+			event.setComponentId(7);
+			String dateTime = list.get(2).toString();
+			dateTimes = dateTime.split("-");
+			strDate = dateTimes[0].substring(0, 2) + "/" + dateTimes[0].substring(2, 4) + "/" + dateTimes[0].substring(4, 6);
+			strTime = dateTimes[1].substring(0, 2) + ":" + dateTimes[1].substring(2, 4) + "." + dateTimes[1].substring(4, 6)  + ".083 +04:30";
+			formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm.ss.SSS XXX");
+			time = LocalDateTime.parse(strDate + " " +strTime, formatter);
+			event.setEventTime(Timestamp.valueOf(time));
+			String eventStatus = list.get(3).toString();
+			String[] parts = eventStatus.split("-");
+			event.setName(parts[0]);
+			if (parts.length > 1){
+				event.setGrade(Float.parseFloat(parts[1]));
+				event.setEventTypeId(5);
+			}else
+				event.setEventTypeId(6);
+			event.setDatasourcetype(2);
+			break;
+		}
+		//event.setDatasourcetype(1);//Moodles
 		return event;
 	}
 	
-	public static void saveToDatabase(List<List<String>> dataHolder) throws SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException{
+	
+	
+	public static void saveToDatabase(List<List<String>> dataHolder, int dataSourceType) throws SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException{
 		SessionFactory sessFactory = null;
     	try{
     		sessFactory = HibernateHelper.getSessionFactory();
     		Session session = sessFactory.openSession();
         	org.hibernate.Transaction tr = session.beginTransaction();
-            for(int i = 0; i < dataHolder.size(); i++){
-            	if (i == 0) {
-            		continue;
-            	}        	
-            	List<String> list = dataHolder.get(i);
-            	Event event = getEvent(i, list);
-            	session.save(event);            	
-            	System.out.println("Row " + i);
-            }    	        	    
+        	switch(dataSourceType){
+        	case 1:
+                for(int i = 0; i < dataHolder.size(); i++){
+                	if (i == 0) {
+                		continue;
+                	}        	
+                	List<String> list = dataHolder.get(i);
+                	Event event = getEvent(i, list, dataSourceType);
+                	session.save(event);            	
+                	System.out.println("Row " + i);
+                }
+        		break;
+        	case 2:
+                for(int i = 0; i < dataHolder.size(); i++){
+                	List<String> list = dataHolder.get(i);
+                	Event event = getEvent(i, list, dataSourceType);
+                	session.save(event);            	
+                	System.out.println("Row " + i);
+                }        		
+        		break;
+        	}
             tr.commit();
     	}finally{
     		sessFactory.close();
@@ -114,13 +159,22 @@ public class DatabaseHelper {
     	System.out.println("Successfully inserted");             
 	}
 	
-	public static void saveToUser(List<List<String>> dataHolder) throws SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException{
+	public static void saveToUser(List<List<String>> dataHolder, int dataSourceType) throws SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException{
 		List<String> userIds = new ArrayList<String>();
 		for(int i = 0; i < dataHolder.size(); i++){
 			if (i == 0) continue;
 			List list = dataHolder.get(i);			
-			if (!userIds.contains(list.get(1).toString()))
-				userIds.add(list.get(1).toString());
+			int j = 0;
+			switch(dataSourceType){
+			case 1:
+				j = 1;
+				break;
+			case 2:
+				j = 0;
+				break;
+			}
+			if (!userIds.contains(list.get(j).toString()))
+				userIds.add(list.get(j).toString());
 		}
 				
 		SessionFactory sessFactory = null;
@@ -136,7 +190,10 @@ public class DatabaseHelper {
             	System.out.println("Row " + i);
             }    	        	    
             tr.commit();
-    	}finally{
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	finally{
     		sessFactory.close();
     	}               		
     	System.out.println("Successfully inserted");             		

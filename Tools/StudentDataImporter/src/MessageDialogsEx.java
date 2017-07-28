@@ -39,7 +39,7 @@ public class MessageDialogsEx extends JFrame {
 				String filePath = file.getPath();	
 				List<List<String>> dataHolder = ExcelToDatabase.readFile(filePath);
 				try {
-					DatabaseHelper.saveToDatabase(dataHolder);
+					DatabaseHelper.saveToDatabase(dataHolder, 1);
 				} catch (SecurityException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
