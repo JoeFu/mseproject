@@ -125,27 +125,34 @@
 						  <option value="<">Specialised programming</option>
 						</select>
 						<select id="CourseYear">
-						  <option  value =">" selected = "selected">2012</option>
-						  <option value="<">2013</option>
+						  <option  value =">" >2012</option>
+						  <option value="<" selected = "selected">2013</option>
 						</select>
 						<select id="CourseSemester">
-						  <option  value =">" selected = "selected">S1</option>
-						  <option value="<">S2</option>
+						  <option  value ="S1" selected = "selected">Semester 1</option>
+						  <option value="S2">Semester 2</option>			<option  value =">">Summer Semester</option>
+						  <option value="<">Winter Semester</option>
+						  <option  value =">">Term 1</option>
+						  <option value="<">Term 2</option>
+						  <option  value =">">Term 3</option>
+						  <option value="<">Term 4</option>
+
 						</select>
 
  <div id="Student activities overview" style="width: 800px;height:400px;"></div>
-	                    <div style="width: 200px;height:100px;position: relative;
+	                    <div style="width: 250px;height:100px;position: relative;
 					  top: -400px;
 					  left: 820px;<!--background-color:yellow;-->">
+					  <label for="StudentActivitiesOverViewSelect">Change Presentation Order</label>
 					  	<select id="StudentActivitiesOverViewSelect">
 						  <option  value ="1" selected = "selected">Alphabetical order</option>
 						  <option value ="2">Descending order</option>
 						  <option value="3">Ascending order</option>
 						</select></br></br>
-
+<label for="from">Set period</label></br>
 <label for="from">From</label>
-<input type="text" id="StudentActivitiesOverviewFrom">
-<label for="to">To</label>
+<input type="text" id="StudentActivitiesOverviewFrom"></br>
+<label for="to">To</label>&nbsp&nbsp&nbsp&nbsp
 <input type="text" id="StudentActivitiesOverviewTo">
 <button type="button" id="StudentActivitiesOverviewSetPeriod">Set period</button>
 </br></br>
@@ -189,8 +196,8 @@
     });
 
 //default date in "input"
-	$( "#StudentActivitiesOverviewFrom" ).datepicker('setDate', "07/15/2012");//MM/DD/YYYY
-	$( "#StudentActivitiesOverviewTo" ).datepicker('setDate', "07/21/2014");
+	$( "#StudentActivitiesOverviewFrom" ).datepicker('setDate', "02/15/2013");//MM/DD/YYYY
+	$( "#StudentActivitiesOverviewTo" ).datepicker('setDate', "07/27/2013");
 
 	$( "#StudentActivitiesOverviewFrom" ).datepicker( "option", "dateFormat", "yymmdd" );
 	$( "#StudentActivitiesOverviewTo" ).datepicker( "option", "dateFormat", "yymmdd" );
@@ -379,8 +386,8 @@ function StudentActivitiesOverviewSetPeriod()
 
 function StudentActivitiesOverviewSetPeriodDefault()
 {
-	var from="20120715";
-	var to="20140721";
+	var from="20130215";
+	var to="20130727";
 	var order=$('#StudentActivitiesOverViewSelect').val();
 	var ThresholdSelect=$('#StudentActivitiesOverViewThresholdSelect').val();
 	var Threshold=$('#StudentActivitiesOverviewThreshold').val();
@@ -485,6 +492,25 @@ function StudentActivitiesOverviewSetPeriodDefault()
 	});
 
 }
+//choose semester
+$(document).ready(function(){ 
+		$('#CourseSemester').change(function(){
+		switch (this.options[this.options.selectedIndex].value)
+		{
+		case "S1" : 
+			//alert("S1");
+			$( "#StudentActivitiesOverviewFrom" ).val("20130215");
+			$( "#StudentActivitiesOverviewTo" ).val("20130727");
+			break;
+		case "S2" : 
+			//alert("S2");
+			$( "#StudentActivitiesOverviewFrom" ).val("20130728");
+			$( "#StudentActivitiesOverviewTo" ).val("20131128");
+			break;
+		}
+		StudentActivitiesOverviewSetPeriod();
+		}) 
+		}) 
 
 $(document).ready(function(){ 
 		$('#StudentActivitiesOverViewSelect').change(function(){ 
