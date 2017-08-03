@@ -5,7 +5,7 @@ date_default_timezone_set('PRC'); //Australia/Adelaide
 */
 $host="localhost";
 $db_user="root";
-$db_pass="outlook";
+$db_pass="123456";
 $db_name="studentdata";
 
 

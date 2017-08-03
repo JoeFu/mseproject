@@ -26,7 +26,7 @@ $in.=')';
 //echo $in.'</br></br>';
 
 
-$sql = "select distinct Name from  event where Name LIKE '%$q%' and Name in {$in}";
+$sql = "select distinct Name from  event where Name LIKE '$q%' and Name in {$in}";
 $rsd = mysql_query($sql);
 while($rs = mysql_fetch_array($rsd)){
 

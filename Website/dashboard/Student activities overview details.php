@@ -9,8 +9,10 @@ echo "Course: Distributed Systems, Semester 2, 2012".'</br>';
 echo "User: ".$user.'</br>';
 echo "Start time: ".$from.'</br>';
 echo "End time: ".$to.'</br>'.'</br>';
+echo '<a href="#Event name">Event name and amount </a>'.'</br>'.'</br>';
+echo '<a href="#Event context">Event context and amount </a>'.'</br>'.'</br>';
 
- echo "<table border=1>";
+ echo '<table border=1 id="Event name">';
  echo "<tr><th>Event name</th><th>Amount of event</th></tr>";
 
 
@@ -29,7 +31,7 @@ while($row=mysql_fetch_array($query)){
 }
 echo "</table></br>";
 
- echo "<table border=1>";
+ echo '<table border=1 id="Event context">';
  echo "<tr><th>Event context</th><th>Amount of event</th></tr>";
 
  $sql = "SELECT Prefix, Context, COUNT(  `Id` ) count
