@@ -10,7 +10,7 @@ $amount=mysql_num_rows($query);
 while($row=mysql_fetch_array($query)){
 	$arr[] = array(
 		'day'=> $row['days'],
-		'count' => ($row['count']/1000),
+		'count' => $row['count'],
 		'amount' => $amount
 	);
 }

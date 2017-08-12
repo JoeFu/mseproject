@@ -3,9 +3,12 @@ include_once('connect.php');
 $from = $_GET['from'];
 $to = $_GET['to'];
 $user = $_GET['user'];
+$SelectCourseId=$_GET['SelectCourseId'];
+$SelectYearId=$_GET['SelectYearId'];
+$SelectSemesterId=$_GET['SelectSemesterId'];
 $sstr='SER';
 $user =substr_replace($user,$sstr,1,0);
-echo "Course: Distributed Systems, Semester 2, 2012".'</br>';
+echo "Course: ".$SelectCourseId.", ".$SelectYearId.", ".$SelectSemesterId.'</br>';
 echo "User: ".$user.'</br>';
 echo "Start time: ".$from.'</br>';
 echo "End time: ".$to.'</br>'.'</br>';
@@ -19,7 +22,7 @@ echo '<a href="#Event context">Event context and amount </a>'.'</br>'.'</br>';
 
 $sql = "SELECT Name, COUNT(  `Id` ) count
 FROM event
-WHERE FKUserId='{$user}' and EventTime between '{$from}' and '{$to}'  
+WHERE FKUserId='{$user}' and EventTime between '{$from}' and '{$to}' and CourseName='{$SelectCourseId}' and DataSourceType=1  
 GROUP BY Name
 ORDER BY count desc";
 $query = mysql_query($sql);
