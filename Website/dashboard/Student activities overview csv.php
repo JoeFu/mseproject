@@ -6,6 +6,9 @@ $to = $_GET['to'];
 $order = intval($_GET['order']);
 $OrderBy='';
 $OrderInFileName='';
+$SelectCourseId=$_GET['SelectCourseId'];
+$SelectYearId=$_GET['SelectYearId'];
+$SelectSemesterId=$_GET['SelectSemesterId'];
 switch ($order)
 {
 case 1:
@@ -49,7 +52,7 @@ case ">":
 
 
 $action = $_GET['action'];
-    if ($action=='export') { //导出CSV 
+    if ($action=='export') { //export CSV 
 
  
 		//date_default_timezone_set('Australia/Adelaide'); //PRC
@@ -59,15 +62,15 @@ $action = $_GET['action'];
 		        $result = mysql_query(
 "SELECT FKUserId, COUNT(  `Id` ) count
 FROM event
-WHERE EventTime between '{$from}' and '{$to}'  
+WHERE EventTime between '{$from}' and '{$to}' and CourseName='{$SelectCourseId}' and DataSourceType=1  
 GROUP BY FKUserId
 HAVING count{$ThresholdSelect}{$Threshold}
 {$OrderBy}");
             while($row=mysql_fetch_array($result)){ 
-               $str .= $row['FKUserId'].",".$row['count']."\n"; //用引文逗号分开 
+               $str .= $row['FKUserId'].",".$row['count']."\n"; 
             } 
-        $filename = 'DistributedSystems2012Semester2'.'StudentActivitiesOverview'.$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //设置文件名 
-        export_csv($filename,$str); //导出 
+        $filename = $SelectCourseId.$SelectYearId.$SelectSemesterId.'StudentActivitiesOverview'.$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //set file name 
+        export_csv($filename,$str); //export 
     } 
 
     function export_csv($filename,$data) { 
@@ -82,18 +85,6 @@ HAVING count{$ThresholdSelect}{$Threshold}
     } 
 
 
-
-/*$sql = "SELECT DATE_FORMAT(  `EventTime` ,  '%Y%m%d' ) days, COUNT(  `Id` ) count
-FROM event
-GROUP BY days";
-$query = mysql_query($sql);
-while($row=mysql_fetch_array($query)){
-	$arr[] = array(
-		'day'=> $row['days'],
-		'count' => $row['count']
-	);
-}
-//var_dump($arr);*/
 
 
 mysql_close($link);

@@ -18,11 +18,12 @@ case 3:
 }
 $ThresholdSelect = $_POST['ThresholdSelect'];
 $Threshold = $_POST['Threshold'];
+$CourseName=$_POST['CourseName'];
 
 
 $sql = "SELECT FKUserId, COUNT(  `Id` ) count
 FROM event
-WHERE EventTime between '{$from}' and '{$to}'  
+WHERE CourseName='{$CourseName}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
 GROUP BY FKUserId
 HAVING count{$ThresholdSelect}{$Threshold}
 {$OrderBy}";
@@ -32,7 +33,7 @@ while($row=mysql_fetch_array($query)){
 	$row['FKUserId']=str_replace('SER','',$row['FKUserId']);
 	$arr[] = array(
 		'name'=> $row['FKUserId'],
-		'count' => ($row['count']/1000),
+		'count' => $row['count'],
 		'amount' => $amount
 	);
 }

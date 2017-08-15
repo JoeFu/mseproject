@@ -121,23 +121,15 @@
 
         <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
             <h1>Dashboard</h1>
-					  	<select id="CourseName">
-						  <option  value =">" selected = "selected">Distributed System</option>
-						  <option value="<">Specialised programming</option>
-						</select>
-						<select id="CourseYear">
-						  <option  value =">" >2012</option>
-						  <option value="<" selected = "selected">2013</option>
-						</select>
-						<select id="CourseSemester">
-						  <option  value ="S1" selected = "selected">Semester 1</option>
-						  <option value="S2">Semester 2</option>			<option  value =">">Summer Semester</option>
-						  <option value="<">Winter Semester</option>
-						  <option  value =">">Term 1</option>
-						  <option value="<">Term 2</option>
-						  <option  value =">">Term 3</option>
-						  <option value="<">Term 4</option>
+					  	<select id="SelectCourse">
+						  <option  id="PleaseSelectCourse">Select course</option>
 
+						</select>
+						<select id="SelectYear">
+						  <option  id="PleaseSelectYear">SelectYear</option>
+						</select>
+						<select id="SelectSemester">
+						  <option  id="PleaseSelectSemester">SelectSemester</option>
 						</select>
 
  <div id="Student activities overview" style="width: 800px;height:400px;"></div>
@@ -203,7 +195,96 @@
 	$( "#StudentActivitiesOverviewFrom" ).datepicker( "option", "dateFormat", "yymmdd" );
 	$( "#StudentActivitiesOverviewTo" ).datepicker( "option", "dateFormat", "yymmdd" );
 
-  });
+  })
+
+	$(document).ready(function() {
+  
+  //Load data for select course
+	$.ajax({
+		type: "post",
+		async: true, 
+		url: "LoadCourse.php",
+		dataType: "json", 
+		success: function(result) {
+			//console.log(result);
+			var CourseName = [];
+			$.each(result,function(i,p){
+			  CourseName[i]=p['CourseName'];
+			  $("#SelectCourse").append(
+              " <option id='" + CourseName[i] + "'>"
+              + CourseName[i] + "</option>");
+			});
+		}
+	});
+
+	//When users select course, load options for "select year"
+	 $("#SelectCourse").change(function() {
+				// When users select course, remove all options in year and semester
+				$("#SelectYear option").remove();
+				$("#SelectSemester option").remove();
+				$("#SelectYear").append(
+					" <option id='PleaseSelectYear'>SelectYear</option>");
+				$("#SelectSemester").append(
+					" <option id='PleaseSelectSemester'>SelectSemester</option>");
+				 //Get the course user chooses
+				var SelectCourseId=$("#SelectCourse option:selected").attr("id");
+				 $.ajax({
+					type: "post",
+					async: true, 
+					url: "LoadYear.php",
+					dataType: "json", 
+					data: {"SelectCourseId":SelectCourseId},
+					success: function(result) {
+						var SchoolYear = [];
+						$.each(result,function(i,p){
+						  SchoolYear[i]=p['SchoolYear'];
+						  $("#SelectYear").append(
+						  " <option id='" + SchoolYear[i] + "'>"
+						  + SchoolYear[i] + "</option>");
+						});
+					}
+				});//ajax
+		});//change()
+
+	//When users select course and year, load options for "select semester"
+	 $("#SelectYear").change(function() {
+				// When users select course and year, remove all options in semester
+				$("#SelectSemester option").remove();
+				$("#SelectSemester").append(
+					" <option id='PleaseSelectSemester'>SelectSemester</option>");
+				 //Get the course and year user chooses
+				var SelectCourseId=$("#SelectCourse option:selected").attr("id");
+				var SelectYearId=$("#SelectYear option:selected").attr("id");
+				 $.ajax({
+					type: "post",
+					async: true, 
+					url: "LoadSemester.php",
+					dataType: "json", 
+					data: {"SelectCourseId":SelectCourseId,"SelectYearId":SelectYearId},
+					success: function(result) {
+						var Semester = [];
+						$.each(result,function(i,p){
+						  Semester[i]=p['Semester'];
+						  $("#SelectSemester").append(
+						  " <option id='" + Semester[i] + "'>"
+						  + Semester[i] + "</option>");
+						});
+					}
+				});//ajax
+		});//change()
+
+
+	})//DocumentReady()
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 var StudentActivitiesOverViewAmount;
@@ -232,7 +313,7 @@ var StudentActivitiesOverViewDiff=100;
                 data: []
             },
             yAxis: {
-				name: 'Amount of activities (in thousands)'
+				name: 'Amount of activities'
 			},
 			grid:{
 				x:100,
@@ -266,17 +347,21 @@ var StudentActivitiesOverViewDiff=100;
         myChart6.setOption(option);
 		
 		myChart6.on('click', function (param) {
-            console.log(param.name);
+            //console.log(param.name);
 			var from=$("#StudentActivitiesOverviewFrom").val();
 			var to=$("#StudentActivitiesOverviewTo").val();
-            console.log(from);
-            console.log(to);
-			var url='Student activities overview details.php?user='+param.name+'&from='+from+'&to='+to;
+            //console.log(from);
+            //console.log(to);
+			var SelectCourseId=$("#SelectCourse option:selected").attr("id");
+			var SelectYearId=$("#SelectYear option:selected").attr("id");
+			var SelectSemesterId=$("#SelectSemester option:selected").attr("id");
+			var url='Student activities overview details.php?user='+param.name+'&from='+from+'&to='+to+'&SelectCourseId='+SelectCourseId+'&SelectYearId='+SelectYearId+'&SelectSemesterId='+SelectSemesterId;
 			window.open(url,"_blank");
         });
 
-function StudentActivitiesOverviewSetPeriod()
+function StudentActivitiesOverviewUpdate()
 {
+	var CourseName=$("#SelectCourse option:selected").attr("id");
 	var from=$("#StudentActivitiesOverviewFrom").val();
 	var to=$("#StudentActivitiesOverviewTo").val();
 	var order=$('#StudentActivitiesOverViewSelect').val();
@@ -290,7 +375,7 @@ function StudentActivitiesOverviewSetPeriod()
 		async: true, //异步执行
 		url: "Student activities overview.php",
 		dataType: "json", //返回数据形式为json
-		data: {"from":from,"to":to,"order":order,"ThresholdSelect":ThresholdSelect,"Threshold":Threshold},
+		data: {"from":from,"to":to,"order":order,"ThresholdSelect":ThresholdSelect,"Threshold":Threshold,"CourseName":CourseName},
 		success: function(result) {
 			console.log(result);
 			var name = [];
@@ -377,15 +462,12 @@ function StudentActivitiesOverviewSetPeriod()
 					}]
 				});
 			}
-		},
-		error: function(errorMsg) {
-			alert("请求数据失败!");
 		}
 	});
 
 }
-
-function StudentActivitiesOverviewSetPeriodDefault()
+/*
+function StudentActivitiesOverviewUpdateDefault()
 {
 	var from="20130215";
 	var to="20130727";
@@ -486,53 +568,66 @@ function StudentActivitiesOverviewSetPeriodDefault()
 					}]
 				});
 			}
-		},
-		error: function(errorMsg) {
-			alert("请求数据失败!");
 		}
 	});
 
-}
+}*/
+
+
+
 //choose semester
 $(document).ready(function(){ 
-		$('#CourseSemester').change(function(){
-		switch (this.options[this.options.selectedIndex].value)
+
+		$('#SelectSemester').change(function(){
+		var SelectCourseId=$("#SelectCourse option:selected").attr("id");
+		var SelectYearId=$("#SelectYear option:selected").attr("id");
+		var SelectSemesterId=$("#SelectSemester option:selected").attr("id");
+		var PeriodFrom;
+		var PeriodTo;
+		switch (SelectSemesterId)
 		{
-		case "S1" : 
-			//alert("S1");
-			$( "#StudentActivitiesOverviewFrom" ).val("20130215");
-			$( "#StudentActivitiesOverviewTo" ).val("20130727");
+		case "Semester 1" : 
+			PeriodFrom=SelectYearId+"0215";
+			PeriodTo=SelectYearId+"0727";
+			$( "#StudentActivitiesOverviewFrom" ).val(PeriodFrom);
+			$( "#StudentActivitiesOverviewTo" ).val(PeriodTo);
 			break;
-		case "S2" : 
-			//alert("S2");
-			$( "#StudentActivitiesOverviewFrom" ).val("20130728");
-			$( "#StudentActivitiesOverviewTo" ).val("20131128");
+		case "Semester 2" : 
+			PeriodFrom=SelectYearId+"0728";
+			PeriodTo=SelectYearId+"1128";
+			$( "#StudentActivitiesOverviewFrom" ).val(PeriodFrom);
+			$( "#StudentActivitiesOverviewTo" ).val(PeriodTo);
 			break;
 		}
-		StudentActivitiesOverviewSetPeriod();
+		StudentActivitiesOverviewUpdate();
 		}) 
 		}) 
 
 $(document).ready(function(){ 
 		$('#StudentActivitiesOverViewSelect').change(function(){ 
-		StudentActivitiesOverviewSetPeriod();
+		StudentActivitiesOverviewUpdate();
 		}) 
 		}) 
 
 $(document).ready(function(){ 
 		$('#StudentActivitiesOverviewSetPeriod').click(function(){ 
-		StudentActivitiesOverviewSetPeriod();
+		StudentActivitiesOverviewUpdate();
 		}) 
 		})
 
 $(document).ready(function(){ 
 $('#StudentActivitiesOverviewSetThreshold').click(function(){ 
-StudentActivitiesOverviewSetPeriod();
+StudentActivitiesOverviewUpdate();
 }) 
 })
 
+//export csv for the chart StudentActivitiesOverview
 $(document).ready(function(){ 
 $('#StudentActivitiesOverviewCSV').click(function(){ 
+
+			var SelectCourseId=$("#SelectCourse option:selected").attr("id");
+			var SelectYearId=$("#SelectYear option:selected").attr("id");
+			var SelectSemesterId=$("#SelectSemester option:selected").attr("id");
 			var from=$("#StudentActivitiesOverviewFrom").val();
 			var to=$("#StudentActivitiesOverviewTo").val();
             //console.log(from);
@@ -543,7 +638,7 @@ $('#StudentActivitiesOverviewCSV').click(function(){
 			//console.log(order);
 			//console.log(ThresholdSelect);
             //console.log(Threshold);
-			var url='Student activities overview csv.php?action=export&from='+from+'&to='+to+'&order='+order+'&ThresholdSelect='+ThresholdSelect+'&Threshold='+Threshold;
+			var url='Student activities overview csv.php?action=export&from='+from+'&to='+to+'&order='+order+'&ThresholdSelect='+ThresholdSelect+'&Threshold='+Threshold+'&SelectCourseId='+SelectCourseId+'&SelectYearId='+SelectYearId+'&SelectSemesterId='+SelectSemesterId;
 			console.log(url);
 			window.location.href = url;
 
@@ -552,7 +647,7 @@ $('#StudentActivitiesOverviewCSV').click(function(){
 
 
 
-		StudentActivitiesOverviewSetPeriodDefault();
+		StudentActivitiesOverviewUpdateDefault();
 
 myChart6.on('datazoom',function(params){
 		/*var opt = myChart.getOption();
@@ -955,11 +1050,11 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 								name: 'Day',
 								data: day
 							},
-
 							series: [{
 								// 根据名字对应到相应的系列
 								name: 'Amount of activities (in thousands)',
 								data: count
+	 
 							}]
 						});
 					}
@@ -1150,10 +1245,7 @@ $.ajax({
 				data: count
 			}]
 		});
-	},
-	error: function(errorMsg) {
-        alert("请求数据失败!");
-    }
+	}
 });
 
 function SetPeriod()
@@ -1187,9 +1279,6 @@ function SetPeriod()
 					data: count
 				}]
 			});
-		},
-		error: function(errorMsg) {
-			alert("请求数据失败!");
 		}
 	});
 
@@ -1368,9 +1457,6 @@ $(document).ready(function() {
 							data: count
 						}]
 					});
-				},
-				error: function(errorMsg) {
-					alert("请求数据失败!");
 				}
 			});
 		}
@@ -1417,9 +1503,6 @@ $(document).ready(function() {
 							data: count
 						}]
 					});
-				},
-				error: function(errorMsg) {
-					alert("请求数据失败!");
 				}
 			});
 		}
@@ -1575,10 +1658,7 @@ $.ajax({
 				data:  array
 			}]
 		});
-	},
-	error: function(errorMsg) {
-        alert("请求数据失败!");
-    }
+	}
 }); */
     </script>
 
@@ -1669,9 +1749,6 @@ $.ajax({
 						data: count
 					}]
 				});
-			},
-			error: function(errorMsg) {
-				alert("请求数据失败!");
 			}
 		});
 		}
@@ -1707,9 +1784,6 @@ $.ajax({
 						data: count
 					}]
 				});
-			},
-			error: function(errorMsg) {
-				alert("请求数据失败!");
 			}
 		});
 		}
@@ -1746,9 +1820,6 @@ $.ajax({
 						data: count
 					}]
 				});
-			},
-			error: function(errorMsg) {
-				alert("请求数据失败!");
 			}
 		});
 		}
