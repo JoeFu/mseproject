@@ -50,31 +50,33 @@ import javax.xml.ws.Service;
 //import au.edu.students.dataaccesslayer.Entities.Event;
 public class ExcelToDatabase {
 
-	public static void main(String[] args) throws SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException, IOException{
-		//String fileName = "F:\\Adelaide\\University\\Semester1_2017\\MSE\\Project\\Data\\From Teacher\\ForumsData404.xls";
-		String fileName = "F:\\Adelaide\\University\\Semester1_2017\\MSE\\Project\\Data\\From Teacher\\History";
-		//List<List<String>> dataHolder = readFile(fileName);
-		List<List<String>> dataHolder = readDataFromFile(fileName);
-		//List<List<String>> dataHolder;
-		//dataHolder = readFile(fileName);
-		//saveToUser(dataHolder);
-		DatabaseHelper.saveToDatabase(dataHolder, 2);
-		//DatabaseHelper.saveToUser(dataHolder, 2);
-		//List<Event> events = DatabaseHelper.getEventsByUserId("USER0039");
-		
-	}			
+//	public static void main(String[] args) throws SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException, IOException{
+//		//String fileName = "F:\\Adelaide\\University\\Semester1_2017\\MSE\\Project\\Data\\From Teacher\\ForumsData404.xls";
+//		String fileName = "F:\\Adelaide\\University\\Semester1_2017\\MSE\\Project\\Data\\From Teacher\\History";
+//		//List<List<String>> dataHolder = readFile(fileName);
+//		List<List<String>> dataHolder = readDataFromFile(fileName);
+//		//List<List<String>> dataHolder;
+//		//dataHolder = readFile(fileName);
+//		//saveToUser(dataHolder);
+//		DatabaseHelper.saveToDatabase(dataHolder, 2);
+//		//DatabaseHelper.updateEvent();
+//		//DatabaseHelper.saveToUser(dataHolder, 2);
+//		//List<Event> events = DatabaseHelper.getEventsByUserId("USER0039");
+//		
+//	}			
 	
-//	public static void main(String[] args) {
-//
-//        EventQueue.invokeLater(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                MessageDialogsEx md = new MessageDialogsEx();
-//                md.setVisible(true);
-//            }
-//        });
-//    }	
+	public static void main(String[] args) {
+
+        EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                MessageDialogsEx md = new MessageDialogsEx();
+                md.setVisible(true);
+            }
+        });
+    }	
+	
 	public static List<List<String>> readFile(String fileName){
 		List<List<String>> cellVectorHolder = new ArrayList<List<String>>(); 
 		try{

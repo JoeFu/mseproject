@@ -15,18 +15,18 @@
     <property name="fKEventTypeId"></property>
     <property name="fKUserId"></property>
     <property name="grade"></property>
+    <property name="maxGrade"></property>
     <property name="startDate"></property>
     <property name="dueDate"></property>
-    <property name="version"></property>
+    <property name="repositoryVersion"></property>
     <property name="courseName"></property>
     <property name="semester"></property>
     <property name="schoolYear"></property>
     <property name="eventTime"></property>
     <property name="context"></property>            
-    <property name="repository"></property>
     <property name="prefix"></property>
     <property name="datasourcetype"></property>
-                        
+    <property name="assignmentName"></property>    
   </class>  
             
  </hibernate-mapping>  

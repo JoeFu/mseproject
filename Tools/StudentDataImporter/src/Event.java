@@ -41,14 +41,17 @@ public class Event implements Serializable{
 	@Column(name="grade")
 	private float grade;
 	
+	@Column(name="maxGrade")
+	private float maxGrade;
+		
 	@Column(name="startDate")
-	private Date startDate;
+	private Timestamp startDate;
 	
 	@Column(name="dueDate")
-	private Date dueDate;
+	private Timestamp dueDate;
 	
-	@Column(name="version")
-	private String version;
+	@Column(name="repositoryVersion")
+	private String repositoryVersion;
 	
 	@Column(name="courseName")
 	private String courseName;
@@ -65,14 +68,14 @@ public class Event implements Serializable{
 	@Column(name="context")
 	private String context;
 	
-	@Column(name="repository")
-	private String repository;
-	
 	@Column(name="prefix")
 	private String prefix;
 	
 	@Column(name="datasourcetype")
-	private int datasourcetype;
+	private Integer datasourcetype;
+		
+	@Column(name="assignmentName")
+	private String assignmentName;
 		
 	public String getId(){
 		return id;
@@ -98,16 +101,16 @@ public class Event implements Serializable{
 		return grade;
 	}
 	
-	public Date getStartDate(){
+	public Timestamp getStartDate(){
 		return startDate;
 	}
 	
-	public Date getDueDate(){
+	public Timestamp getDueDate(){
 		return dueDate;
 	}
 	
-	public String version(){
-		return version;
+	public String getRepositoryVersion(){
+		return repositoryVersion;
 	}
 	
 	public String getCourseName(){
@@ -130,16 +133,16 @@ public class Event implements Serializable{
 		return context;
 	}
 	
-	public String getRepository(){
-		return repository;
-	}
-	
 	public String getPrefix(){
 		return prefix;
 	}
 	
-	public int getDatasourcetype(){
+	public Integer getDatasourcetype(){
 		return datasourcetype;
+	}
+	
+	public String getAssignmentName(String assignmentName){
+		return assignmentName;
 	}
 	
 	public void setId(String id){
@@ -170,16 +173,20 @@ public class Event implements Serializable{
 		this.grade = grade;
 	}
 	
-	public void setStartDate(Date startDate){
+	public void setMaxGrade(float maxGrade){
+		this.maxGrade = maxGrade;
+	}
+	
+	public void setStartDate(Timestamp startDate){
 		this.startDate = startDate;
 	}
 	
-	public void setDueDate(Date dueDate){
+	public void setDueDate(Timestamp dueDate){
 		this.dueDate = dueDate;
 	}
 	
-	public void setVersion(String version){
-		this.version = version;
+	public void setRepositoryVersion(String repositoryVersion){
+		this.repositoryVersion = repositoryVersion;
 	}
 	
 	public void setCourseName(String courseName){
@@ -201,16 +208,16 @@ public class Event implements Serializable{
 	public void setContext(String context){
 		this.context = context;
 	}
-	
-	public void setRepository(String repository){
-		this.repository = repository; 
-	}
-	
+		
 	public void setPrefix(String prefix){
 		this.prefix = prefix;
 	}
 	
-	public void setDatasourcetype(int datasourcetype){
+	public void setDatasourcetype(Integer datasourcetype){
 		this.datasourcetype = datasourcetype;
+	}
+	
+	public void setAssignmentName(String assignmentName){
+		this.assignmentName = assignmentName;
 	}
 }
