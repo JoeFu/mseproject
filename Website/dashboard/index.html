@@ -200,6 +200,7 @@
   })
 
 	$(document).ready(function() {
+<<<<<<< HEAD
 
   //Load data for select course
 	$.ajax({
@@ -207,6 +208,15 @@
 		async: true,
 		url: "LoadCourse.php",
 		dataType: "json",
+=======
+  
+  //Load data for select course
+	$.ajax({
+		type: "post",
+		async: true, 
+		url: "LoadCourse.php",
+		dataType: "json", 
+>>>>>>> 2eb7366c01376b015e8a81896c102552bc1da07d
 		success: function(result) {
 			//console.log(result);
 			var CourseName = [];
@@ -232,9 +242,15 @@
 				var SelectCourseId=$("#SelectCourse option:selected").attr("id");
 				 $.ajax({
 					type: "post",
+<<<<<<< HEAD
 					async: true,
 					url: "LoadYear.php",
 					dataType: "json",
+=======
+					async: true, 
+					url: "LoadYear.php",
+					dataType: "json", 
+>>>>>>> 2eb7366c01376b015e8a81896c102552bc1da07d
 					data: {"SelectCourseId":SelectCourseId},
 					success: function(result) {
 						var SchoolYear = [];
@@ -259,9 +275,15 @@
 				var SelectYearId=$("#SelectYear option:selected").attr("id");
 				 $.ajax({
 					type: "post",
+<<<<<<< HEAD
 					async: true,
 					url: "LoadSemester.php",
 					dataType: "json",
+=======
+					async: true, 
+					url: "LoadSemester.php",
+					dataType: "json", 
+>>>>>>> 2eb7366c01376b015e8a81896c102552bc1da07d
 					data: {"SelectCourseId":SelectCourseId,"SelectYearId":SelectYearId},
 					success: function(result) {
 						var Semester = [];
@@ -277,6 +299,7 @@
 
 
 	})//DocumentReady()
+<<<<<<< HEAD
 
 
 
@@ -287,6 +310,18 @@
 
 
 
+=======
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+>>>>>>> 2eb7366c01376b015e8a81896c102552bc1da07d
 
 
 var StudentActivitiesOverViewAmount;
@@ -578,7 +613,11 @@ function StudentActivitiesOverviewUpdateDefault()
 
 
 //choose semester
+<<<<<<< HEAD
 $(document).ready(function(){
+=======
+$(document).ready(function(){ 
+>>>>>>> 2eb7366c01376b015e8a81896c102552bc1da07d
 
 		$('#SelectSemester').change(function(){
 		var SelectCourseId=$("#SelectCourse option:selected").attr("id");
@@ -588,13 +627,21 @@ $(document).ready(function(){
 		var PeriodTo;
 		switch (SelectSemesterId)
 		{
+<<<<<<< HEAD
 		case "Semester 1" :
+=======
+		case "Semester 1" : 
+>>>>>>> 2eb7366c01376b015e8a81896c102552bc1da07d
 			PeriodFrom=SelectYearId+"0215";
 			PeriodTo=SelectYearId+"0727";
 			$( "#StudentActivitiesOverviewFrom" ).val(PeriodFrom);
 			$( "#StudentActivitiesOverviewTo" ).val(PeriodTo);
 			break;
+<<<<<<< HEAD
 		case "Semester 2" :
+=======
+		case "Semester 2" : 
+>>>>>>> 2eb7366c01376b015e8a81896c102552bc1da07d
 			PeriodFrom=SelectYearId+"0728";
 			PeriodTo=SelectYearId+"1128";
 			$( "#StudentActivitiesOverviewFrom" ).val(PeriodFrom);
@@ -602,6 +649,7 @@ $(document).ready(function(){
 			break;
 		}
 		StudentActivitiesOverviewUpdate();
+<<<<<<< HEAD
 		})
 		})
 
@@ -626,6 +674,32 @@ StudentActivitiesOverviewUpdate();
 //export csv for the chart StudentActivitiesOverview
 $(document).ready(function(){
 $('#StudentActivitiesOverviewCSV').click(function(){
+=======
+		}) 
+		}) 
+
+$(document).ready(function(){ 
+		$('#StudentActivitiesOverViewSelect').change(function(){ 
+		StudentActivitiesOverviewUpdate();
+		}) 
+		}) 
+
+$(document).ready(function(){ 
+		$('#StudentActivitiesOverviewSetPeriod').click(function(){ 
+		StudentActivitiesOverviewUpdate();
+		}) 
+		})
+
+$(document).ready(function(){ 
+$('#StudentActivitiesOverviewSetThreshold').click(function(){ 
+StudentActivitiesOverviewUpdate();
+}) 
+})
+
+//export csv for the chart StudentActivitiesOverview
+$(document).ready(function(){ 
+$('#StudentActivitiesOverviewCSV').click(function(){ 
+>>>>>>> 2eb7366c01376b015e8a81896c102552bc1da07d
 
 			var SelectCourseId=$("#SelectCourse option:selected").attr("id");
 			var SelectYearId=$("#SelectYear option:selected").attr("id");
@@ -1056,7 +1130,11 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 								// 根据名字对应到相应的系列
 								name: 'Amount of activities (in thousands)',
 								data: count
+<<<<<<< HEAD
 
+=======
+	 
+>>>>>>> 2eb7366c01376b015e8a81896c102552bc1da07d
 							}]
 						});
 					}
