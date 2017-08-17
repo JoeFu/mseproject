@@ -46,6 +46,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
+            <!--
             <li class="nav-item">
                 <a class="nav-link" href="#">Settings</a>
             </li>
@@ -55,6 +56,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">Help</a>
             </li>
+          -->
             <li class="nav-item">
                 <a class="nav-link" href="../index.html">Back</a>
             </li>
@@ -198,13 +200,13 @@
   })
 
 	$(document).ready(function() {
-  
+
   //Load data for select course
 	$.ajax({
 		type: "post",
-		async: true, 
+		async: true,
 		url: "LoadCourse.php",
-		dataType: "json", 
+		dataType: "json",
 		success: function(result) {
 			//console.log(result);
 			var CourseName = [];
@@ -230,9 +232,9 @@
 				var SelectCourseId=$("#SelectCourse option:selected").attr("id");
 				 $.ajax({
 					type: "post",
-					async: true, 
+					async: true,
 					url: "LoadYear.php",
-					dataType: "json", 
+					dataType: "json",
 					data: {"SelectCourseId":SelectCourseId},
 					success: function(result) {
 						var SchoolYear = [];
@@ -257,9 +259,9 @@
 				var SelectYearId=$("#SelectYear option:selected").attr("id");
 				 $.ajax({
 					type: "post",
-					async: true, 
+					async: true,
 					url: "LoadSemester.php",
-					dataType: "json", 
+					dataType: "json",
 					data: {"SelectCourseId":SelectCourseId,"SelectYearId":SelectYearId},
 					success: function(result) {
 						var Semester = [];
@@ -275,16 +277,16 @@
 
 
 	})//DocumentReady()
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
 
 
 var StudentActivitiesOverViewAmount;
@@ -305,8 +307,8 @@ var StudentActivitiesOverViewDiff=100;
                 data:['Amount of activities']
             },*/
             xAxis: {
-				/*axisLabel :{  
-						interval:0, 
+				/*axisLabel :{
+						interval:0,
 						rotate:90
 				},*/
 				name: 'User',
@@ -345,7 +347,7 @@ var StudentActivitiesOverViewDiff=100;
         // 使用刚指定的配置项和数据显示图表。
 
         myChart6.setOption(option);
-		
+
 		myChart6.on('click', function (param) {
             //console.log(param.name);
 			var from=$("#StudentActivitiesOverviewFrom").val();
@@ -397,9 +399,9 @@ function StudentActivitiesOverviewUpdate()
 				myChart6.setOption({
 					xAxis: {
 						data: name,
-						axisLabel :{ 
+						axisLabel :{
 							show:true,
-							interval:'auto', 
+							interval:'auto',
 							rotate:0
 						}
 					},
@@ -415,9 +417,9 @@ function StudentActivitiesOverviewUpdate()
 				myChart6.setOption({
 					xAxis: {
 						data: name,
-						axisLabel :{ 
+						axisLabel :{
 							show:true,
-							interval:0, 
+							interval:0,
 							rotate:40
 						}
 					},
@@ -435,7 +437,7 @@ function StudentActivitiesOverviewUpdate()
 						data: name,
 						axisLabel :{
 							show:true,
-							interval:0, 
+							interval:0,
 							rotate:90
 						}
 					},
@@ -451,7 +453,7 @@ function StudentActivitiesOverviewUpdate()
 				myChart6.setOption({
 					xAxis: {
 						data: name,
-						axisLabel :{  
+						axisLabel :{
 								show:false
 						}
 					},
@@ -503,9 +505,9 @@ function StudentActivitiesOverviewUpdateDefault()
 				myChart6.setOption({
 					xAxis: {
 						data: name,
-						axisLabel :{ 
+						axisLabel :{
 							show:true,
-							interval:'auto', 
+							interval:'auto',
 							rotate:0
 						}
 					},
@@ -521,9 +523,9 @@ function StudentActivitiesOverviewUpdateDefault()
 				myChart6.setOption({
 					xAxis: {
 						data: name,
-						axisLabel :{ 
+						axisLabel :{
 							show:true,
-							interval:0, 
+							interval:0,
 							rotate:40
 						}
 					},
@@ -541,7 +543,7 @@ function StudentActivitiesOverviewUpdateDefault()
 						data: name,
 						axisLabel :{
 							show:true,
-							interval:0, 
+							interval:0,
 							rotate:90
 						}
 					},
@@ -557,7 +559,7 @@ function StudentActivitiesOverviewUpdateDefault()
 				myChart6.setOption({
 					xAxis: {
 						data: name,
-						axisLabel :{  
+						axisLabel :{
 								show:false
 						}
 					},
@@ -576,7 +578,7 @@ function StudentActivitiesOverviewUpdateDefault()
 
 
 //choose semester
-$(document).ready(function(){ 
+$(document).ready(function(){
 
 		$('#SelectSemester').change(function(){
 		var SelectCourseId=$("#SelectCourse option:selected").attr("id");
@@ -586,13 +588,13 @@ $(document).ready(function(){
 		var PeriodTo;
 		switch (SelectSemesterId)
 		{
-		case "Semester 1" : 
+		case "Semester 1" :
 			PeriodFrom=SelectYearId+"0215";
 			PeriodTo=SelectYearId+"0727";
 			$( "#StudentActivitiesOverviewFrom" ).val(PeriodFrom);
 			$( "#StudentActivitiesOverviewTo" ).val(PeriodTo);
 			break;
-		case "Semester 2" : 
+		case "Semester 2" :
 			PeriodFrom=SelectYearId+"0728";
 			PeriodTo=SelectYearId+"1128";
 			$( "#StudentActivitiesOverviewFrom" ).val(PeriodFrom);
@@ -600,30 +602,30 @@ $(document).ready(function(){
 			break;
 		}
 		StudentActivitiesOverviewUpdate();
-		}) 
-		}) 
-
-$(document).ready(function(){ 
-		$('#StudentActivitiesOverViewSelect').change(function(){ 
-		StudentActivitiesOverviewUpdate();
-		}) 
-		}) 
-
-$(document).ready(function(){ 
-		$('#StudentActivitiesOverviewSetPeriod').click(function(){ 
-		StudentActivitiesOverviewUpdate();
-		}) 
+		})
 		})
 
-$(document).ready(function(){ 
-$('#StudentActivitiesOverviewSetThreshold').click(function(){ 
+$(document).ready(function(){
+		$('#StudentActivitiesOverViewSelect').change(function(){
+		StudentActivitiesOverviewUpdate();
+		})
+		})
+
+$(document).ready(function(){
+		$('#StudentActivitiesOverviewSetPeriod').click(function(){
+		StudentActivitiesOverviewUpdate();
+		})
+		})
+
+$(document).ready(function(){
+$('#StudentActivitiesOverviewSetThreshold').click(function(){
 StudentActivitiesOverviewUpdate();
-}) 
+})
 })
 
 //export csv for the chart StudentActivitiesOverview
-$(document).ready(function(){ 
-$('#StudentActivitiesOverviewCSV').click(function(){ 
+$(document).ready(function(){
+$('#StudentActivitiesOverviewCSV').click(function(){
 
 			var SelectCourseId=$("#SelectCourse option:selected").attr("id");
 			var SelectYearId=$("#SelectYear option:selected").attr("id");
@@ -642,7 +644,7 @@ $('#StudentActivitiesOverviewCSV').click(function(){
 			console.log(url);
 			window.location.href = url;
 
-}) 
+})
 })
 
 
@@ -662,16 +664,16 @@ myChart6.on('datazoom',function(params){
 		var diff=params.end-params.start;
 		StudentActivitiesOverViewDiff=diff;
 		console.log(diff);
-		console.log(StudentActivitiesOverViewAmount);		
+		console.log(StudentActivitiesOverViewAmount);
 		var StudentActivitiesOverViewRelativeAmount=diff*StudentActivitiesOverViewAmount/100;
 		console.log(StudentActivitiesOverViewRelativeAmount);
 		if (StudentActivitiesOverViewRelativeAmount<8.15)
 		{
 					myChart6.setOption({
 					xAxis: {
-						axisLabel :{ 
+						axisLabel :{
 							show:true,
-							interval:'auto', 
+							interval:'auto',
 							rotate:0
 						}
 
@@ -682,9 +684,9 @@ myChart6.on('datazoom',function(params){
 		{
 					myChart6.setOption({
 					xAxis: {
-						axisLabel :{ 
+						axisLabel :{
 							show:true,
-							interval:0, 
+							interval:0,
 							rotate:40
 						}
 
@@ -697,7 +699,7 @@ myChart6.on('datazoom',function(params){
 					xAxis: {
 						axisLabel :{
 							show:true,
-							interval:0, 
+							interval:0,
 							rotate:90
 						}
 
@@ -708,7 +710,7 @@ myChart6.on('datazoom',function(params){
 		{
 			myChart6.setOption({
 					xAxis: {
-						axisLabel :{  
+						axisLabel :{
 							show:false
 						}
 
@@ -836,12 +838,12 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 				}
 			}
         };
-		
+
 		// 使用刚指定的配置项和数据显示图表。
 
         myChart.setOption(option);
 
-		
+
 
 
 
@@ -849,8 +851,8 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 		AllEventsAj3();
 
 		//add onchange event for select
-		$(document).ready(function(){ 
-		$('#AllEventsOverViewSelect').change(function(){ 
+		$(document).ready(function(){
+		$('#AllEventsOverViewSelect').change(function(){
 		var rs=$('#AllEventsOverViewSelect').val();
 		//alert(rs=="3");
 		switch(rs)
@@ -870,8 +872,8 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 
 		}
 
-		}) 
-		}) 
+		})
+		})
 
 
 		myChart.on('datazoom',function(params){
@@ -886,7 +888,7 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 		//console.log(params.start);
 		var diff=params.end-params.start;
 		console.log(diff);
-		console.log(AllEventsOverViewAmount);		
+		console.log(AllEventsOverViewAmount);
 		var AllEventsOverViewRelativeAmount=diff*AllEventsOverViewAmount/100;
 		console.log(AllEventsOverViewRelativeAmount);
 		var AllEventsOverViewSelectValue=$('#AllEventsOverViewSelect').val();
@@ -894,9 +896,9 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 		{
 					myChart.setOption({
 					xAxis: {
-						axisLabel :{ 
+						axisLabel :{
 							show:true,
-							interval:'auto', 
+							interval:'auto',
 							rotate:0
 						},
 
@@ -907,9 +909,9 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 		{
 					myChart.setOption({
 					xAxis: {
-						axisLabel :{ 
+						axisLabel :{
 							show:true,
-							interval:0, 
+							interval:0,
 							rotate:40
 						},
 
@@ -922,7 +924,7 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 					xAxis: {
 						axisLabel :{
 							show:true,
-							interval:0, 
+							interval:0,
 							rotate:90
 						},
 
@@ -933,7 +935,7 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 		{
 			myChart.setOption({
 					xAxis: {
-						axisLabel :{  
+						axisLabel :{
 							show:false
 						},
 
@@ -942,7 +944,7 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 		}
 
 		});
-	
+
 
 		function AllEventsAj1(){
 		$.ajax({
@@ -963,7 +965,7 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 					xAxis: {
 						axisLabel :{
 							show:true,
-							interval: 'auto', 
+							interval: 'auto',
 							rotate:0
 						},
 						name: 'Year',
@@ -978,11 +980,11 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 				});
 			}
 		})
-		
+
 		}
 
 
-		
+
 		function AllEventsAj2(){
 		$.ajax({
 			type: "post",
@@ -1002,7 +1004,7 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 					xAxis: {
 						axisLabel :{
 							show:true,
-							interval:0, 
+							interval:0,
 							rotate:40
 						},
 						name: 'Month',
@@ -1017,7 +1019,7 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 				});
 			}
 		})
-		
+
 		}
 
 
@@ -1044,7 +1046,7 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 							xAxis: {
 								axisLabel :{
 									show:false,
-									interval: 'auto', 
+									interval: 'auto',
 									rotate:0
 								},
 								name: 'Day',
@@ -1054,18 +1056,18 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 								// 根据名字对应到相应的系列
 								name: 'Amount of activities (in thousands)',
 								data: count
-	 
+
 							}]
 						});
 					}
 				})
-				
+
 				}
 
 
 
 
-	
+
 
 
     </script>
@@ -1102,7 +1104,7 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 
 
 </div>
-   
+
    <script type="text/javascript">
 
 //DatePicker
@@ -1162,7 +1164,7 @@ var myChart = echarts.init(document.getElementById('All events overview'));
 
 
 
-    
+
        // 基于准备好的dom，初始化echarts实例
         var myChart2 = echarts.init(document.getElementById('Different events overview'));
 
@@ -1176,9 +1178,9 @@ var myChart = echarts.init(document.getElementById('All events overview'));
                 data:[]
             },*/
             xAxis: {
-				axisLabel :{  
-					interval:0,  
-					rotate:90    
+				axisLabel :{
+					interval:0,
+					rotate:90
 				},
 				name: 'Event name',
                 data: []
@@ -1286,13 +1288,13 @@ function SetPeriod()
 
 
 
-$(document).ready(function(){ 
-		$('#SetPeriod').click(function(){ 
+$(document).ready(function(){
+		$('#SetPeriod').click(function(){
 		SetPeriod();
 
 
 
-		}) 
+		})
 		})
 
 
@@ -1422,7 +1424,7 @@ $(document).ready(function() {
         // 使用刚指定的配置项和数据显示图表。
 
         myChart3.setOption(option);
-		
+
 
 
 		function EventNameAj(){
@@ -1462,10 +1464,10 @@ $(document).ready(function() {
 		}
 
 
-		$(document).ready(function(){ 
-			$('#EventNameButton').click(function(){ 
+		$(document).ready(function(){
+			$('#EventNameButton').click(function(){
 				EventNameAj();
-			}) 
+			})
 		})
 
 
@@ -1490,7 +1492,7 @@ $(document).ready(function() {
 						},
 						xAxis: {
 							axisLabel :{
-							interval: 'auto', 
+							interval: 'auto',
 							rotate:0
 							},
 							name: 'Day',
@@ -1510,8 +1512,8 @@ $(document).ready(function() {
 		ResourceViewAj3();
 
 		//add onchange event for select
-		$(document).ready(function(){ 
-		$('#ResourceViewSelect').change(function(){ 
+		$(document).ready(function(){
+		$('#ResourceViewSelect').change(function(){
 		var rs=$('#ResourceViewSelect').val();
 		//alert(typeof rs);
 		switch(rs)
@@ -1531,8 +1533,8 @@ $(document).ready(function() {
 
 		}
 
-		}) 
-		}) 
+		})
+		})
 
 
 
@@ -1629,15 +1631,15 @@ $.ajax({
     dataType: "json", //返回数据形式为json
     success: function(result) {
 		console.log(result);
-		
+
 		var grade = [];
         var count = [];
         $.each(result,function(i,p){
-          grade[i]=p['grade'];		
+          grade[i]=p['grade'];
           count[i]=p['count'];
 		  console.log(grade[i]);
 		  console.log(count[i]);
-        });	
+        });
 		count[3]=15000;
 		var array = [];
 		for(i = 0 ;i<=4;i++ ){
@@ -1717,7 +1719,7 @@ $.ajax({
         // 使用刚指定的配置项和数据显示图表。
 
         myChart5.setOption(option);
-		
+
 		function SampleExamAj1(){
 		$.ajax({
 			type: "post",
@@ -1736,7 +1738,7 @@ $.ajax({
 				myChart5.setOption({
 					xAxis: {
 						axisLabel :{
-							interval: 'auto', 
+							interval: 'auto',
 							rotate:0
 						},
 						name: 'Year',
@@ -1770,8 +1772,8 @@ $.ajax({
 				myChart5.hideLoading();
 				myChart5.setOption({
 					xAxis: {
-						axisLabel :{  
-							interval:0, 
+						axisLabel :{
+							interval:0,
 							rotate:40
 						},
 						name: 'Month',
@@ -1807,7 +1809,7 @@ $.ajax({
 				myChart5.setOption({
 					xAxis: {
 						axisLabel :{
-							interval: 'auto', 
+							interval: 'auto',
 							rotate:0
 						},
 						name: 'Day',
@@ -1827,8 +1829,8 @@ $.ajax({
 		SampleExamAj3();
 
 		//add onchange event for select
-		$(document).ready(function(){ 
-		$('#SampleExamSelect').change(function(){ 
+		$(document).ready(function(){
+		$('#SampleExamSelect').change(function(){
 		var rs=$('#SampleExamSelect').val();
 		//alert(typeof rs);
 		switch(rs)
@@ -1848,7 +1850,7 @@ $.ajax({
 
 		}
 
-		}) 
+		})
 		})
 
 
@@ -1862,7 +1864,7 @@ $.ajax({
 
 
 
-        
+
 
            </main>
     </div>
