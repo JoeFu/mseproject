@@ -8,13 +8,13 @@
 <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/studentdata</property>
 <property name="hibernate.connection.username">root</property>
-<property name="hibernate.connection.password">12345678@X</property>
+<property name="hibernate.connection.password"></property>
 <property name="hibernate.connection.pool_size">10</property>
 <property name="show_sql">true</property>
 <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 
 
 <mapping class="Event"/>
-
+<mapping class="User"/>
 </session-factory>
 </hibernate-configuration>

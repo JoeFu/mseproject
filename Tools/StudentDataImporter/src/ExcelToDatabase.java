@@ -47,34 +47,35 @@ import org.hibernate.Session;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-//import au.edu.students.dataaccesslayer.Entities.Event;
 public class ExcelToDatabase {
 
-	public static void main(String[] args) throws SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException, IOException{
-		//String fileName = "F:\\Adelaide\\University\\Semester1_2017\\MSE\\Project\\Data\\From Teacher\\ForumsData404.xls";
-		String fileName = "F:\\Adelaide\\University\\Semester1_2017\\MSE\\Project\\Data\\From Teacher\\History";
-		//List<List<String>> dataHolder = readFile(fileName);
-		List<List<String>> dataHolder = readDataFromFile(fileName);
-		//List<List<String>> dataHolder;
-		//dataHolder = readFile(fileName);
-		//saveToUser(dataHolder);
-		DatabaseHelper.saveToDatabase(dataHolder, 2);
-		//DatabaseHelper.saveToUser(dataHolder, 2);
-		//List<Event> events = DatabaseHelper.getEventsByUserId("USER0039");
-		
-	}			
+//	public static void main(String[] args) throws SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException, IOException{
+//		//String fileName = "F:\\Adelaide\\University\\Semester1_2017\\MSE\\Project\\Data\\From Teacher\\ForumsData404.xls";
+//		String fileName = "F:\\Adelaide\\University\\Semester1_2017\\MSE\\Project\\Data\\From Teacher\\History";
+//		//List<List<String>> dataHolder = readFile(fileName);
+//		List<List<String>> dataHolder = readDataFromFile(fileName);
+//		//List<List<String>> dataHolder;
+//		//dataHolder = readFile(fileName);
+//		//saveToUser(dataHolder);
+//		DatabaseHelper.saveToDatabase(dataHolder, 2);
+//		//DatabaseHelper.updateEvent();
+//		//DatabaseHelper.saveToUser(dataHolder, 2);
+//		//List<Event> events = DatabaseHelper.getEventsByUserId("USER0039");
+//		
+//	}			
 	
-//	public static void main(String[] args) {
-//
-//        EventQueue.invokeLater(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                MessageDialogsEx md = new MessageDialogsEx();
-//                md.setVisible(true);
-//            }
-//        });
-//    }	
+	public static void main(String[] args) {
+
+        EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                MessageDialogsEx md = new MessageDialogsEx();
+                md.setVisible(true);
+            }
+        });
+    }	
+	
 	public static List<List<String>> readFile(String fileName){
 		List<List<String>> cellVectorHolder = new ArrayList<List<String>>(); 
 		try{
@@ -100,21 +101,6 @@ public class ExcelToDatabase {
 
 	public static List<List<String>> readDataFromFile(String fileName) throws IOException{
 		List<List<String>> dataLines = new ArrayList<List<String>>();
-//		BufferedReader br = null;
-//		try {
-//			br = new BufferedReader(new FileReader(fileName));
-//			String line = br.readLine();			
-//			while (line != null) {
-//				String[] data = line.split(";");
-//				List<String> myList = new ArrayList<String>(Arrays.asList(data));
-//				dataLines.add(myList);
-//			}
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} finally{
-//			br.close();
-//		}
 		
 		Scanner in = new Scanner(new FileReader(fileName));
 		while(in.hasNext()) {			 
