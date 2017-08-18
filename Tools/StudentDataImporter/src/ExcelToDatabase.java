@@ -47,7 +47,6 @@ import org.hibernate.Session;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-//import au.edu.students.dataaccesslayer.Entities.Event;
 public class ExcelToDatabase {
 
 //	public static void main(String[] args) throws SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException, IOException{
@@ -102,21 +101,6 @@ public class ExcelToDatabase {
 
 	public static List<List<String>> readDataFromFile(String fileName) throws IOException{
 		List<List<String>> dataLines = new ArrayList<List<String>>();
-//		BufferedReader br = null;
-//		try {
-//			br = new BufferedReader(new FileReader(fileName));
-//			String line = br.readLine();			
-//			while (line != null) {
-//				String[] data = line.split(";");
-//				List<String> myList = new ArrayList<String>(Arrays.asList(data));
-//				dataLines.add(myList);
-//			}
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} finally{
-//			br.close();
-//		}
 		
 		Scanner in = new Scanner(new FileReader(fileName));
 		while(in.hasNext()) {			 
