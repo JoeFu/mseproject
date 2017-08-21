@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 <?php
 //Load semester for the third drop down box
-include_once('connect.php');
+include_once('../one_connection.php');
 
 //the course user chooses
 $SelectCourseId = $_POST['SelectCourseId'];
@@ -26,7 +26,7 @@ echo json_encode($arr);
 =======
 <?php
 //Load semester for the third drop down box
-include_once('connect.php');
+include_once('../one_connection.php');
 
 //the course user chooses
 $SelectCourseId = $_POST['SelectCourseId'];

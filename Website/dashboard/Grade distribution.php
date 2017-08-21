@@ -1,5 +1,5 @@
 <?php
-include_once('connect.php');
+include_once('../one_connection.php');
 
 $sql = "select   'F'   Grade,sum(case   when   Grade   between   1   and   49   then   1   else   0   end)   Number 
 from   event
@@ -32,5 +32,5 @@ while($row=mysql_fetch_array($query)){
 
 mysql_close($link);
 echo json_encode($arr);
-//[{"day":"20170304","count":"5"},{"name":"ÐÂ½®","value":"0.94"}]
+//[{"day":"20170304","count":"5"},{"name":"ï¿½Â½ï¿½","value":"0.94"}]
 ?>

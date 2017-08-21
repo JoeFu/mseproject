@@ -1,5 +1,5 @@
 <?php
-require_once('connect.php');
+require_once('../one_connection.php');
 
 $q = strtolower($_GET["term"]);
 $EventNameThreshold = $_GET["EventNameThreshold"];
