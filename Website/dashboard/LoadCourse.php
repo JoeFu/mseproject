@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 <?php
 //Load course name for the first drop down box
-include_once('connect.php');
+include_once('../one_connection.php');
 
 $sql = "SELECT distinct `CourseName` from event
 where CourseName is not NULL";
@@ -20,7 +20,7 @@ echo json_encode($arr);
 =======
 <?php
 //Load course name for the first drop down box
-include_once('connect.php');
+include_once('../one_connection.php');
 
 $sql = "SELECT distinct `CourseName` from event
 where CourseName is not NULL";

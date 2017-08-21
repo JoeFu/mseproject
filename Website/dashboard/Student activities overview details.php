@@ -1,6 +1,6 @@
 <<<<<<< HEAD
 <?php
-include_once('connect.php');
+include_once('../one_connection.php');
 $from = $_GET['from'];
 $to = $_GET['to'];
 $user = $_GET['user'];
@@ -62,7 +62,7 @@ mysql_close($link);
 
 =======
 <?php
-include_once('connect.php');
+include_once('one_connection.php');
 $from = $_GET['from'];
 $to = $_GET['to'];
 $user = $_GET['user'];

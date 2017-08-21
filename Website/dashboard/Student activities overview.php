@@ -1,6 +1,6 @@
 <<<<<<< HEAD
 <?php
-include_once('connect.php');
+include_once('../one_connection.php');
 $from = $_POST['from'];
 $to = $_POST['to'];
 $order = intval($_POST['order']);
@@ -43,10 +43,10 @@ while($row=mysql_fetch_array($query)){
 
 mysql_close($link);
 echo json_encode($arr);
-//[{"day":"20170304","count":"5"},{"name":"ÐÂ½®","value":"0.94"}]
+//[{"day":"20170304","count":"5"},{"name":"ï¿½Â½ï¿½","value":"0.94"}]
 =======
 <?php
-include_once('connect.php');
+include_once('../one_connection.php');
 $from = $_POST['from'];
 $to = $_POST['to'];
 $order = intval($_POST['order']);
@@ -89,6 +89,6 @@ while($row=mysql_fetch_array($query)){
 
 mysql_close($link);
 echo json_encode($arr);
-//[{"day":"20170304","count":"5"},{"name":"ÐÂ½®","value":"0.94"}]
+//[{"day":"20170304","count":"5"},{"name":"ï¿½Â½ï¿½","value":"0.94"}]
 >>>>>>> 2eb7366c01376b015e8a81896c102552bc1da07d
 ?>

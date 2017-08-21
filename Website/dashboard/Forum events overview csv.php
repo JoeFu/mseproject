@@ -1,5 +1,5 @@
 <?php
-include_once('connect.php');
+include_once('../one_connection.php');
 $view = $_GET['view'];
 $TimeType='';
 switch ($view)
@@ -17,7 +17,7 @@ case 3:
 
 
 $action = $_GET['action'];
-    if ($action=='export') { //µ¼³öCSV 
+    if ($action=='export') { //ï¿½ï¿½ï¿½ï¿½CSV 
 
  
 		//date_default_timezone_set('Australia/Adelaide'); //PRC
@@ -37,7 +37,7 @@ ORDER BY count desc");
             while($row=mysql_fetch_array($result)){ 
 				if($i<=3)
 				{
-					$str .= $row['days'].",".$row['count']."\n"; //ÓÃÒýÎÄ¶ººÅ·Ö¿ª
+					$str .= $row['days'].",".$row['count']."\n"; //ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½Å·Ö¿ï¿½
 					$i++;
 				}
 				else
@@ -58,7 +58,7 @@ ORDER BY count asc");
             while($row=mysql_fetch_array($result)){ 
 				if($i<=3)
 				{
-					$str .= $row['days'].",".$row['count']."\n"; //ÓÃÒýÎÄ¶ººÅ·Ö¿ª
+					$str .= $row['days'].",".$row['count']."\n"; //ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½Å·Ö¿ï¿½
 					$i++;
 				}
 				else
@@ -76,10 +76,10 @@ ORDER BY count asc");
 FROM event
 GROUP BY days");
             while($row=mysql_fetch_array($result)){ 
-               $str .= $row['days'].",".$row['count']."\n"; //ÓÃÒýÎÄ¶ººÅ·Ö¿ª 
+               $str .= $row['days'].",".$row['count']."\n"; //ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½Å·Ö¿ï¿½ 
             } 
-        $filename = 'All activities overview'.'.csv'; //ÉèÖÃÎÄ¼þÃû 
-        export_csv($filename,$str); //µ¼³ö 
+        $filename = 'All activities overview'.'.csv'; //ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ 
+        export_csv($filename,$str); //ï¿½ï¿½ï¿½ï¿½ 
     } 
 
     function export_csv($filename,$data) { 

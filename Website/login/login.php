@@ -11,7 +11,7 @@ ob_start();
 session_start();
 
 //include connection file
-include('connect.php');
+include('../one_connection.php');
 //检测用户名及密码是否正确
 $username = $_SESSION['username'];
 $password = $_SESSION['password'];

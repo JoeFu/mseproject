@@ -1,5 +1,5 @@
 <?php
-include_once('connect.php');
+include_once('../one_connection.php');
 
 $sql = "SELECT name, COUNT(  `Id` ) count
 FROM event
@@ -17,5 +17,5 @@ while($row=mysql_fetch_array($query)){
 
 mysql_close($link);
 echo json_encode($arr);
-//[{"name":"course_move","count":"5"},{"name":"ÐÂ½®","value":"0.94"}]
+//[{"name":"course_move","count":"5"},{"name":"ï¿½Â½ï¿½","value":"0.94"}]
 ?>
