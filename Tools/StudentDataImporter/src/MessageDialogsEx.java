@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -18,6 +20,10 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
 public class MessageDialogsEx extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel panel;
 	private String selectedDataSource;
 	private String selectedFilePath = "";
@@ -73,33 +79,32 @@ public class MessageDialogsEx extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				List<List<String>> dataHolder = ExcelToDatabase.readFile(selectedFilePath);
+				List<List<String>> dataHolder = new ArrayList<List<String>>();
 				try {
 					selectedDataSource = (String)comboDatasources.getSelectedItem();
 					int dataSourceType = 1; // by default
 					switch(selectedDataSource){
 					case "Moodle Forum":
 						dataSourceType = 1;
+						dataHolder = DataReaderHelper.readDataFromExcelFile(selectedFilePath);
 						break;
 					case "Web Submission":
 						dataSourceType = 2;
+						dataHolder = DataReaderHelper.readDataFromTextFile(selectedFilePath);
 						break;
 					}					
 					DatabaseHelper.saveToDatabase(dataHolder, dataSourceType);
 				} catch (SecurityException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (RollbackException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (HeuristicMixedException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (HeuristicRollbackException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (SystemException e1) {
-					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
 					e1.printStackTrace();
 				}							
 			}
