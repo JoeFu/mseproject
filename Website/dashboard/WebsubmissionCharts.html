@@ -121,22 +121,18 @@
 
         <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
             <h1>Dashboard</h1>
-					  	<select id="CourseName">
-						  <option  value =">" selected = "selected">Distributed System</option>
-						  <option value="<">Specialised programming</option>
+				  	<select id="SelectCourse">
+						  <option  id="PleaseSelectCourse">Select course</option>
+
 						</select>
-						<select id="CourseYear">
-						  <option  value =">" selected = "selected">2012</option>
-						  <option value="<">2013</option>
+						<select id="SelectYear">
+						  <option  id="PleaseSelectYear">SelectYear</option>
 						</select>
-						<select id="CourseSemester">
-						  <option  value =">" selected = "selected">S1</option>
-						  <option value="<">S2</option>
-						</select>						
-						<select id="AssignmentName">
-						  <option  value =">" selected = "selected">Assignment 1</option>
-						  <option value="<">Assignment 2</option>
-						  <option value="<">Exam</option>
+						<select id="SelectSemester">
+						  <option  id="PleaseSelectSemester">SelectSemester</option>
+						</select>
+						<select id="SelectAssignment">
+						  <option  id="PleaseSelectAssignment">SelectAssignment</option>
 						</select>
 
 <div id="SubmissionTimesOfEachStudent" style="width: 800px;height:400px;"></div>
@@ -146,6 +142,102 @@
 
 					</div>
     <script type="text/javascript">
+
+
+$(document).ready(function() {
+  
+  //Load data for select course
+	$.ajax({
+		type: "post",
+		async: true, 
+		url: "LoadCourse.php",
+		dataType: "json", 
+		success: function(result) {
+			//console.log(result);
+			var CourseName = [];
+			$.each(result,function(i,p){
+			  CourseName[i]=p['CourseName'];
+			  $("#SelectCourse").append(
+              " <option id='" + CourseName[i] + "'>"
+              + CourseName[i] + "</option>");
+			});
+		}
+	});
+
+	//When users select course, load options for "select year"
+	 $("#SelectCourse").change(function() {
+				// When users select course, remove all options in year and semester
+				$("#SelectYear option").remove();
+				$("#SelectSemester option").remove();
+				$("#SelectAssignment option").remove();
+				$("#SelectYear").append(
+					" <option id='PleaseSelectYear'>SelectYear</option>");
+				$("#SelectSemester").append(
+					" <option id='PleaseSelectSemester'>SelectSemester</option>");
+				$("#SelectAssignment").append(
+					" <option id='PleaseSelectAssignment'>SelectAssignment</option>");
+				 //Get the course user chooses
+				var SelectCourseId=$("#SelectCourse option:selected").attr("id");
+				 $.ajax({
+					type: "post",
+					async: true, 
+					url: "LoadYear.php",
+					dataType: "json", 
+					data: {"SelectCourseId":SelectCourseId},
+					success: function(result) {
+						var SchoolYear = [];
+						$.each(result,function(i,p){
+						  SchoolYear[i]=p['SchoolYear'];
+						  $("#SelectYear").append(
+						  " <option id='" + SchoolYear[i] + "'>"
+						  + SchoolYear[i] + "</option>");
+						});
+					}
+				});//ajax
+		});//change()
+
+	//When users select course and year, load options for "select semester"
+	 $("#SelectYear").change(function() {
+				// When users select course and year, remove all options in semester
+				$("#SelectSemester option").remove();
+				$("#SelectAssignment option").remove();
+				$("#SelectSemester").append(
+					" <option id='PleaseSelectSemester'>SelectSemester</option>");
+				$("#SelectAssignment").append(
+					" <option id='PleaseSelectSemester'>SelectAssignment</option>");
+				 //Get the course and year user chooses
+				var SelectCourseId=$("#SelectCourse option:selected").attr("id");
+				var SelectYearId=$("#SelectYear option:selected").attr("id");
+				 $.ajax({
+					type: "post",
+					async: true, 
+					url: "LoadSemester.php",
+					dataType: "json", 
+					data: {"SelectCourseId":SelectCourseId,"SelectYearId":SelectYearId},
+					success: function(result) {
+						var Semester = [];
+						$.each(result,function(i,p){
+						  Semester[i]=p['Semester'];
+						  $("#SelectSemester").append(
+						  " <option id='" + Semester[i] + "'>"
+						  + Semester[i] + "</option>");
+						});
+					}
+				});//ajax
+		});//change()
+
+
+
+
+
+
+
+
+	})//DocumentReady()
+
+
+
+
         // 基于准备好的dom，初始化echarts实例
         var myChartSubmissionTimesOfEachStudent = echarts.init(document.getElementById('SubmissionTimesOfEachStudent'));
 

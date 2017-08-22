@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 //Load year for the second drop down box
 include_once('../one_connection.php');
@@ -22,29 +21,4 @@ while($row=mysql_fetch_array($query)){
 mysql_close($link);
 echo json_encode($arr);
 //[{"CourseYear":"2013"},{"CourseYear":"2014"}]
-=======
-<?php
-//Load year for the second drop down box
-include_once('../one_connection.php');
-
-//the course user chooses
-$SelectCourseId = $_POST['SelectCourseId'];
-
-$sql = "SELECT distinct `SchoolYear` 
-from event
-where CourseName='{$SelectCourseId}'
-order by SchoolYear asc";
-$query = mysql_query($sql);
-while($row=mysql_fetch_array($query)){
-	$arr[] = array(
-		'SchoolYear'=> $row['SchoolYear'],
-	);
-}
-//var_dump($arr);
-
-
-mysql_close($link);
-echo json_encode($arr);
-//[{"CourseYear":"2013"},{"CourseYear":"2014"}]
->>>>>>> 2eb7366c01376b015e8a81896c102552bc1da07d
 ?>
