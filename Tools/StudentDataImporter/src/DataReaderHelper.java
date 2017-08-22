@@ -47,7 +47,7 @@ import org.hibernate.Session;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
-public class ExcelToDatabase {
+public class DataReaderHelper {
 
 //	public static void main(String[] args) throws SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException, IOException{
 //		//String fileName = "F:\\Adelaide\\University\\Semester1_2017\\MSE\\Project\\Data\\From Teacher\\ForumsData404.xls";
@@ -76,7 +76,7 @@ public class ExcelToDatabase {
         });
     }	
 	
-	public static List<List<String>> readFile(String fileName){
+	public static List<List<String>> readDataFromExcelFile(String fileName){
 		List<List<String>> cellVectorHolder = new ArrayList<List<String>>(); 
 		try{
 			FileInputStream input = new FileInputStream(fileName);			
@@ -99,7 +99,7 @@ public class ExcelToDatabase {
 		return cellVectorHolder;
 	}
 
-	public static List<List<String>> readDataFromFile(String fileName) throws IOException{
+	public static List<List<String>> readDataFromTextFile(String fileName) throws IOException{
 		List<List<String>> dataLines = new ArrayList<List<String>>();
 		
 		Scanner in = new Scanner(new FileReader(fileName));
