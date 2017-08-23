@@ -226,7 +226,33 @@ $(document).ready(function() {
 				});//ajax
 		});//change()
 
-
+	//When users select course, year, semester load options for "select assignment"
+	 $("#SelectSemester").change(function() {
+				// When users select course and year, remove all options in semester
+				$("#SelectAssignment option").remove();
+				$("#SelectAssignment").append(
+					" <option id='PleaseSelectSemester'>SelectAssignment</option>");
+				 //Get the course and year user chooses
+				var SelectCourseId=$("#SelectCourse option:selected").attr("id");
+				var SelectYearId=$("#SelectYear option:selected").attr("id");
+				var SelectSemesterId=$("#SelectSemester option:selected").attr("id");				
+				 $.ajax({
+					type: "post",
+					async: true, 
+					url: "LoadAssignment.php",
+					dataType: "json", 
+					data: {"SelectCourseId":SelectCourseId,"SelectYearId":SelectYearId,"SelectSemesterId":SelectSemesterId},
+					success: function(result) {
+						var AssignmentName = [];
+						$.each(result,function(i,p){
+						  AssignmentName[i]=p['AssignmentName'];
+						  $("#SelectAssignment").append(
+						  " <option id='" + AssignmentName[i] + "'>"
+						  + AssignmentName[i] + "</option>");
+						});
+					}
+				});//ajax
+		});//change()
 
 
 
@@ -238,7 +264,7 @@ $(document).ready(function() {
 
 
 
-        // 基于准备好的dom，初始化echarts实例
+        // initialize echarts instance
         var myChartSubmissionTimesOfEachStudent = echarts.init(document.getElementById('SubmissionTimesOfEachStudent'));
 
         // 指定图表的配置项和数据
