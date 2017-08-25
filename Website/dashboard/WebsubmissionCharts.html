@@ -121,32 +121,273 @@
 
         <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
             <h1>Dashboard</h1>
-					  	<select id="CourseName">
-						  <option  value =">" selected = "selected">Distributed System</option>
-						  <option value="<">Specialised programming</option>
+				  	<select id="SelectCourse">
+						  <option  id="PleaseSelectCourse">Select course</option>
+
 						</select>
-						<select id="CourseYear">
-						  <option  value =">" selected = "selected">2012</option>
-						  <option value="<">2013</option>
+						<select id="SelectYear">
+						  <option  id="PleaseSelectYear">SelectYear</option>
 						</select>
-						<select id="CourseSemester">
-						  <option  value =">" selected = "selected">S1</option>
-						  <option value="<">S2</option>
-						</select>						
-						<select id="AssignmentName">
-						  <option  value =">" selected = "selected">Assignment 1</option>
-						  <option value="<">Assignment 2</option>
-						  <option value="<">Exam</option>
+						<select id="SelectSemester">
+						  <option  id="PleaseSelectSemester">SelectSemester</option>
 						</select>
+						<select id="SelectAssignment">
+						  <option  id="PleaseSelectAssignment">SelectAssignment</option>
+						</select>
+
+
+    <script type="text/javascript">
+
+
+$(document).ready(function() {
+  
+  //Load data for select course
+	$.ajax({
+		type: "post",
+		async: true, 
+		url: "LoadCourse.php",
+		dataType: "json", 
+		success: function(result) {
+			//console.log(result);
+			var CourseName = [];
+			$.each(result,function(i,p){
+			  CourseName[i]=p['CourseName'];
+			  $("#SelectCourse").append(
+              " <option id='" + CourseName[i] + "'>"
+              + CourseName[i] + "</option>");
+			});
+		}
+	});
+
+	//When users select course, load options for "select year"
+	 $("#SelectCourse").change(function() {
+				// When users select course, remove all options in year and semester
+				$("#SelectYear option").remove();
+				$("#SelectSemester option").remove();
+				$("#SelectAssignment option").remove();
+				$("#SelectYear").append(
+					" <option id='PleaseSelectYear'>SelectYear</option>");
+				$("#SelectSemester").append(
+					" <option id='PleaseSelectSemester'>SelectSemester</option>");
+				$("#SelectAssignment").append(
+					" <option id='PleaseSelectAssignment'>SelectAssignment</option>");
+				 //Get the course user chooses
+				var SelectCourseId=$("#SelectCourse option:selected").attr("id");
+				 $.ajax({
+					type: "post",
+					async: true, 
+					url: "LoadYear.php",
+					dataType: "json", 
+					data: {"SelectCourseId":SelectCourseId},
+					success: function(result) {
+						var SchoolYear = [];
+						$.each(result,function(i,p){
+						  SchoolYear[i]=p['SchoolYear'];
+						  $("#SelectYear").append(
+						  " <option id='" + SchoolYear[i] + "'>"
+						  + SchoolYear[i] + "</option>");
+						});
+					}
+				});//ajax
+		});//change()
+
+	//When users select course and year, load options for "select semester"
+	 $("#SelectYear").change(function() {
+				// When users select course and year, remove all options in semester
+				$("#SelectSemester option").remove();
+				$("#SelectAssignment option").remove();
+				$("#SelectSemester").append(
+					" <option id='PleaseSelectSemester'>SelectSemester</option>");
+				$("#SelectAssignment").append(
+					" <option id='PleaseSelectSemester'>SelectAssignment</option>");
+				 //Get the course and year user chooses
+				var SelectCourseId=$("#SelectCourse option:selected").attr("id");
+				var SelectYearId=$("#SelectYear option:selected").attr("id");
+				 $.ajax({
+					type: "post",
+					async: true, 
+					url: "LoadSemester.php",
+					dataType: "json", 
+					data: {"SelectCourseId":SelectCourseId,"SelectYearId":SelectYearId},
+					success: function(result) {
+						var Semester = [];
+						$.each(result,function(i,p){
+						  Semester[i]=p['Semester'];
+						  $("#SelectSemester").append(
+						  " <option id='" + Semester[i] + "'>"
+						  + Semester[i] + "</option>");
+						});
+					}
+				});//ajax
+		});//change()
+
+	//When users select course, year, semester load options for "select assignment"
+	 $("#SelectSemester").change(function() {
+				// When users select course and year, remove all options in semester
+				$("#SelectAssignment option").remove();
+				$("#SelectAssignment").append(
+					" <option id='PleaseSelectSemester'>SelectAssignment</option>");
+				 //Get the course and year user chooses
+				var SelectCourseId=$("#SelectCourse option:selected").attr("id");
+				var SelectYearId=$("#SelectYear option:selected").attr("id");
+				var SelectSemesterId=$("#SelectSemester option:selected").attr("id");				
+				 $.ajax({
+					type: "post",
+					async: true, 
+					url: "LoadAssignment.php",
+					dataType: "json", 
+					data: {"SelectCourseId":SelectCourseId,"SelectYearId":SelectYearId,"SelectSemesterId":SelectSemesterId},
+					success: function(result) {
+						var AssignmentName = [];
+						$.each(result,function(i,p){
+						  AssignmentName[i]=p['AssignmentName'];
+						  $("#SelectAssignment").append(
+						  " <option id='" + AssignmentName[i] + "'>"
+						  + AssignmentName[i] + "</option>");
+						});
+					}
+				});//ajax
+		});//change()
+
+
+
+
+
+
+	})//DocumentReady()
+
+
+//after user chooses assignment, update all charts
+$(document).ready(function(){ 
+
+		$('#SelectAssignment').change(function(){
+		
+		SubmissionTimeDistribution5Days();
+		}) 
+		}) 
+  </script>
+
+<!-- the chart SubmissionTimeDistribution 5 days after and before deadline-->
+<div id="SubmissionTimeDistribution5Days" style="width: 800px;height:400px;"></div>
+<div style="width: 200px;height:100px;position: relative; top: -400px;left: 870px;"></div>
+    <script type="text/javascript">
+        //initialize echarts instance
+        var myChartSubmissionTimeDistribution5Days = echarts.init(document.getElementById('SubmissionTimeDistribution5Days'));
+
+        // configuration and data of chart
+        var option = {
+            title: {
+                text: 'Submission Time Distribution 5 Days'
+            },
+            tooltip: {},
+            xAxis: {
+                data: []
+            },
+            yAxis: {
+				name: 'Amount of submission',
+			},
+			dataZoom: [
+				{   // dataZoom component controls x-axis by default
+					type: 'slider', 
+					start: 0,      // left
+					end: 100         // right
+				}
+			],
+            series: [
+				{
+					name: 'Amount of submission',
+					type: 'bar',
+					data: []
+
+				}
+
+			],
+			toolbox: {
+				show: true,
+				feature: {
+					dataView: {readOnly: false},
+					magicType: {type: ['line', 'bar']},
+					restore: {},
+					saveAsImage: {}
+				}
+			}
+        };
+
+
+        myChartSubmissionTimeDistribution5Days.setOption(option);
+
+		function SubmissionTimeDistribution5Days(){
+
+		var SelectCourse=$("#SelectCourse option:selected").attr("id");
+		var SelectYear=$("#SelectYear option:selected").attr("id");
+		var SelectSemester=$("#SelectSemester option:selected").attr("id");
+		var SelectAssignment=$("#SelectAssignment option:selected").attr("id");
+
+		$.ajax({
+			type: "post",
+			async: true, 
+			url: "SubmissionTimeDistribution5Days.php",
+			data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment},
+			dataType: "json", 
+			success: function(result) {
+				var days = [];
+				var count = [];
+				var dueDate = [];
+				$.each(result,function(i,p){
+				  days[i]=p['days'];
+				  count[i]=p['count'];
+				  dueDate[i]=p['dueDate'];
+				});
+				myChartSubmissionTimeDistribution5Days.hideLoading();
+				myChartSubmissionTimeDistribution5Days.setOption({
+					xAxis: {
+						axisLabel :{
+							interval: 'auto', 
+							rotate:0
+						},
+						name: 'Day',
+						data: days,
+
+	
+					},
+
+					series: [
+						{
+						
+							name: 'Amount of submission',
+							data: count,
+							markArea: {
+								data: [ [{
+									name: 'Due Date',
+									xAxis: dueDate[0]
+								}, {
+									xAxis: dueDate[0]
+								}]]
+							}
+						}
+					]
+				});
+			}
+		})//ajax
+		}//function SubmissionTimeDistribution5Days
+
+
+
+   </script>
+
+
+
+
 
 <div id="SubmissionTimesOfEachStudent" style="width: 800px;height:400px;"></div>
 <div style="width: 200px;height:100px;position: relative;
 					  top: -400px;
-					  left: 870px;<!--background-color:yellow;-->">
+					  left: 870px;">
 
 					</div>
+
     <script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
+        // initialize echarts instance
         var myChartSubmissionTimesOfEachStudent = echarts.init(document.getElementById('SubmissionTimesOfEachStudent'));
 
         // 指定图表的配置项和数据
@@ -237,7 +478,7 @@
    <div id="SubmissionTimeDistribution" style="width: 800px;height:400px;"></div>
 <div style="width: 200px;height:100px;position: relative;
 					  top: -400px;
-					  left: 870px;<!--background-color:yellow;-->">
+					  left: 870px;">
 
 					</div>
     <script type="text/javascript">
@@ -309,21 +550,31 @@
 							rotate:0
 						},
 						name: 'Day',
-						data: days
+						data: days,
+	
 					},
 
 					series: [{
 						// 根据名字对应到相应的系列
 						name: 'Amount of submission',
-						data: count
+						data: count,
+						markArea: {
+							data: [ [{
+								name: 'Deadline',
+								xAxis: '20121108'
+							}, {
+								xAxis: '20121109'
+							}]]
+						}
+							  
+							  
+							  
+							
 					}]
 				});
-			},
-			error: function(errorMsg) {
-				alert("Retrieving data failure!");
 			}
-		});
-		}
+		})//ajax
+		}//function SubmissionTimeDistribution
 
 		SubmissionTimeDistribution();
 
