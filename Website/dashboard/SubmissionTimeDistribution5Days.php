@@ -7,7 +7,7 @@ $SelectSemester = $_POST['SelectSemester'];
 $SelectAssignment = $_POST['SelectAssignment'];
 
 //get assignment deadline
-$sql = "SELECT distinct DATE_FORMAT(  `DueDate` ,  '%Y%m%d%H' ) dueDate 
+$sql = "SELECT distinct DATE_FORMAT(  `DueDate` ,  '%Y%m%d' ) dueDate 
 from event
 where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2";
 
