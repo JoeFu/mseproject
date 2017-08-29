@@ -17,9 +17,12 @@ while($row=mysql_fetch_array($query)){
 
 	
 }
+//Convert $DueDate to time
+$timeDueDate= strtotime($DueDate);
 
+//the 5th day before deadline
 $DueDateMinus5=date('Ymd',strtotime("$DueDate -5 day"));
-
+//the 6th day after deadline
 $DueDatePlus6=date('Ymd',strtotime("$DueDate +6 day"));
 
 
@@ -29,19 +32,45 @@ where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semes
 GROUP BY days
 having days between '{$DueDateMinus5}' and '{$DueDatePlus6}'";
 
-
+//the main purpose of the following code is to add those days with 0
+//submission to array, since the query result will not include them
+$i=-5;
 $query = mysql_query($sql);
 while($row=mysql_fetch_array($query)){
+	//difference between 2 dates
+	$tmpDays=(int)round((strtotime($row['days'])-$timeDueDate)/3600/24);
+	if($i==$tmpDays)
+	{
+		$arr[] = array(
+			'days'=> $tmpDays,
+			'count' => $row['count'],
+			'dueDate' => 0
+		);
+	}
+	else
+	{
+		$arr[] = array(
+			'days'=> $i,
+			'count' => 0,
+			'dueDate' => 0
+		);
+	}
+	$i++;
+}
+while($i<=5)
+{
 	$arr[] = array(
-		'days'=> $row['days'],
-		'count' => $row['count'],
-		'dueDate' => $DueDate
+			'days'=> $i,
+			'count' => 0,
+			'dueDate' => 0
 	);
+
+	$i++;
 }
 
 
 
 mysql_close($link);
 echo json_encode($arr);
-//[{"day":"20170304","count":"5","dueDate":"20120123"},{"day":"20170305","count":"5","dueDate":"20120123"}]
+//[{"day":"-5","count":"5","dueDate":"0"},{"day":"-4","count":"5","dueDate":"0"}]
 ?>
