@@ -263,6 +263,7 @@ $(document).ready(function(){
 		$('#SelectAssignment').change(function(){
 		
 		SubmissionTimeDistribution5Days();
+		SubmissionTimeDistribution96Hours();
 		}) 
 		}) 
   </script>
@@ -368,7 +369,104 @@ $(document).ready(function(){
 
    </script>
 
+<!-- the chart SubmissionTimeDistribution 96 hours after and before deadline-->
+<div id="SubmissionTimeDistribution96Hours" style="width: 800px;height:400px;"></div>
+<div style="width: 200px;height:100px;position: relative; top: -400px;left: 870px;"></div>
+    <script type="text/javascript">
+        //initialize echarts instance
+        var myChartSubmissionTimeDistribution96Hours = echarts.init(document.getElementById('SubmissionTimeDistribution96Hours'));
 
+        // configuration and data of chart
+        var option = {
+            title: {
+                text: 'Submission Time Distribution 96 Hours'
+            },
+            tooltip: {},
+            xAxis: {
+                data: []
+            },
+            yAxis: {
+				name: 'Amount of submission',
+			},
+			dataZoom: [
+				{   // dataZoom component controls x-axis by default
+					type: 'slider', 
+					start: 0,      // left
+					end: 100         // right
+				}
+			],
+            series: [
+				{
+					name: 'Amount of submission',
+					type: 'bar',
+					data: []
+
+				}
+
+			],
+			toolbox: {
+				show: true,
+				feature: {
+					dataView: {readOnly: false},
+					magicType: {type: ['line', 'bar']},
+					restore: {},
+					saveAsImage: {}
+				}
+			}
+        };
+
+
+        myChartSubmissionTimeDistribution96Hours.setOption(option);
+
+		function SubmissionTimeDistribution96Hours(){
+
+		var SelectCourse=$("#SelectCourse option:selected").attr("id");
+		var SelectYear=$("#SelectYear option:selected").attr("id");
+		var SelectSemester=$("#SelectSemester option:selected").attr("id");
+		var SelectAssignment=$("#SelectAssignment option:selected").attr("id");
+
+		$.ajax({
+			type: "post",
+			async: true, 
+			url: "SubmissionTimeDistribution96Hours.php",
+			data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment},
+			dataType: "json", 
+			success: function(result) {
+				var days = [];
+				var count = [];
+				$.each(result,function(i,p){
+				  days[i]=p['days'];
+				  count[i]=p['count'];
+				});
+				myChartSubmissionTimeDistribution96Hours.hideLoading();
+				myChartSubmissionTimeDistribution96Hours.setOption({
+					xAxis: {
+						axisLabel :{
+							interval: 'auto', 
+							rotate:0
+						},
+						name: 'Hour',
+						data: days,
+
+	
+					},
+
+					series: [
+						{
+						
+							name: 'Amount of submission',
+							data: count,
+
+						}
+					]
+				});
+			}
+		})//ajax
+		}//function SubmissionTimeDistribution96Hours
+
+
+
+   </script>
 
 
 
