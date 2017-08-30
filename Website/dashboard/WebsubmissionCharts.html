@@ -265,6 +265,7 @@ $(document).ready(function(){
 		SubmissionTimeDistribution5Days();
 		SubmissionTimeDistribution96Hours();
 		FirstSubmissionTimeDistribution();
+		LastSubmissionTimeDistribution();
 		}) 
 		}) 
   </script>
@@ -566,6 +567,108 @@ $(document).ready(function(){
 			}
 		})//ajax
 		}//function FirstSubmissionTimeDistribution
+
+
+
+   </script>
+
+
+<!-- the chart LastSubmissionTimeDistribution -->
+<div id="LastSubmissionTimeDistribution" style="width: 800px;height:400px;"></div>
+<div style="width: 200px;height:100px;position: relative; top: -400px;left: 870px;"></div>
+    <script type="text/javascript">
+        //initialize echarts instance
+        var myChartLastSubmissionTimeDistribution= echarts.init(document.getElementById('LastSubmissionTimeDistribution'));
+
+        // configuration and data of chart
+        var option = {
+            title: {
+                text: 'Last Submission Time Distribution'
+            },
+            tooltip: {},
+            xAxis: {
+                data: []
+            },
+            yAxis: {
+				name: 'Amount of submission',
+			},
+			dataZoom: [
+				{   // dataZoom component controls x-axis by default
+					type: 'slider', 
+					start: 0,      // left
+					end: 100         // right
+				}
+			],
+            series: [
+				{
+					name: 'Amount of submission',
+					type: 'bar',
+					data: []
+
+				}
+
+			],
+			toolbox: {
+				show: true,
+				feature: {
+					dataView: {readOnly: false},
+					magicType: {type: ['line', 'bar']},
+					restore: {},
+					saveAsImage: {}
+				}
+			}
+        };
+
+
+        myChartLastSubmissionTimeDistribution.setOption(option);
+
+		function LastSubmissionTimeDistribution(){
+
+		var SelectCourse=$("#SelectCourse option:selected").attr("id");
+		var SelectYear=$("#SelectYear option:selected").attr("id");
+		var SelectSemester=$("#SelectSemester option:selected").attr("id");
+		var SelectAssignment=$("#SelectAssignment option:selected").attr("id");
+
+		$.ajax({
+			type: "post",
+			async: true, 
+			url: "LastSubmissionTimeDistribution.php",
+			data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment},
+			dataType: "json", 
+			success: function(result) {
+				console.log("test");
+				console.log(result);
+				var days = [];
+				var count = [];
+				$.each(result,function(i,p){
+				  days[i]=p['days'];
+				  count[i]=p['count'];
+				});
+				myChartLastSubmissionTimeDistribution.hideLoading();
+				myChartLastSubmissionTimeDistribution.setOption({
+					xAxis: {
+						axisLabel :{
+							interval: 'auto', 
+							rotate:0
+						},
+						name: 'Day',
+						data: days,
+
+	
+					},
+
+					series: [
+						{
+						
+							name: 'Amount of submission',
+							data: count,
+
+						}
+					]
+				});
+			}
+		})//ajax
+		}//function LastSubmissionTimeDistribution
 
 
 
