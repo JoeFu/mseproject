@@ -27,15 +27,15 @@ $StartDateMinus0=date('Ymd',strtotime("$StartDate"));
 //the 6th day after deadline
 $DueDatePlus6=date('Ymd',strtotime("$DueDate +6 day"));
 
-//minimum repository version stands for the first submission
-//we get the first submission of each user 
-$sql = "select min(RepositoryVersion) rv,FKUserId
+//maximum repository version stands for the last submission
+//we get the last submission of each user 
+$sql = "select max(RepositoryVersion) rv,FKUserId
 from event
 where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2 and `FKEventTypeId`=5
 group by FKUserId";
 $query = mysql_query($sql);
 
-//get the Id of each user's first submission record
+//get the Id of each user's last submission record
 $i=1;
 while($row=mysql_fetch_array($query)){
 	$arrRv[$i]=$row['rv'];
@@ -74,7 +74,7 @@ where Id in {$IdInCondition}";
 //the difference between start date and due date
 $i=(int)round(($timeStartDate-$timeDueDate)/3600/24);
 
-//arrCount array to store how many first submissions per day
+//arrCount array to store how many last submissions per day
 $arrCount=array();
 for ($x=$i; $x<=200; $x++) {
   $arrCount[$x]=0;
