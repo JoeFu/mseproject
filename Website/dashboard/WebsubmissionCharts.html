@@ -534,8 +534,6 @@ $(document).ready(function(){
 			data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment},
 			dataType: "json", 
 			success: function(result) {
-				console.log("test");
-				console.log(result);
 				var days = [];
 				var count = [];
 				$.each(result,function(i,p){
@@ -636,8 +634,6 @@ $(document).ready(function(){
 			data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment},
 			dataType: "json", 
 			success: function(result) {
-				console.log("test");
-				console.log(result);
 				var days = [];
 				var count = [];
 				$.each(result,function(i,p){
