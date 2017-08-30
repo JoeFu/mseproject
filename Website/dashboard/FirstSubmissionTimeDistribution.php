@@ -1,10 +1,16 @@
 <?php
 include_once('../one_connection.php');
 
+//get the data in ajax request
+$SelectCourse = $_POST['SelectCourse'];
+$SelectYear = $_POST['SelectYear'];
+$SelectSemester = $_POST['SelectSemester'];
+$SelectAssignment = $_POST['SelectAssignment'];
+
 //get assignment start date and end date
 $sql = "SELECT distinct DATE_FORMAT(  `StartDate` ,  '%Y%m%d' ) startDate, DATE_FORMAT(  `DueDate` ,  '%Y%m%d' ) dueDate 
 from event
-where `CourseName`='MSE' and `SchoolYear`='2012' and `Semester`='Semester 2' and `AssignmentName`='Assignment 2' and `DataSourceType`=2";
+where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2 and `FKEventTypeId`=5";
 
 $query = mysql_query($sql);
 while($row=mysql_fetch_array($query)){
@@ -25,7 +31,7 @@ $DueDatePlus6=date('Ymd',strtotime("$DueDate +6 day"));
 //we get the first submission of each user and the Id of that record 
 $sql = "select min(RepositoryVersion) rv,FKUserId,Id
 from event
-where `CourseName`='MSE' and `SchoolYear`='2012' and `Semester`='Semester 2' and `AssignmentName`='Assignment 2' and `DataSourceType`=2 and `FKEventTypeId`=5
+where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2 and `FKEventTypeId`=5
 group by FKUserId";
 $query = mysql_query($sql);
 //build the condition for "where in" query, example value of $IdInCondition is (27975,27979,27977), 
@@ -52,7 +58,7 @@ $i=(int)round(($timeStartDate-$timeDueDate)/3600/24);
 
 //arrCount array to store how many first submissions per day
 $arrCount=array();
-for ($x=$i; $x<=5; $x++) {
+for ($x=$i; $x<=200; $x++) {
   $arrCount[$x]=0;
 } 
 
