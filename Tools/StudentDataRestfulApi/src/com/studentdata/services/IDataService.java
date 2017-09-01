@@ -11,4 +11,5 @@ import javax.ws.rs.core.Response;
  */
 public interface IDataService {
 	Response addData(String dataMessageJson);
+	Response getEventTotal();	
 }

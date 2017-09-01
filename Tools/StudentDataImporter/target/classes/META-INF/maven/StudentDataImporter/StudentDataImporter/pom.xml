@@ -40,5 +40,59 @@
 		<artifactId>jersey-json</artifactId>
 		<version>1.8</version>
 	</dependency>
+  	<dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<version>4.8.1</version>
+  		<scope>test</scope>
+  	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-test-framework -->
+	<dependency>
+        <groupId>com.sun.jersey.jersey-test-framework</groupId>
+        <artifactId>jersey-test-framework-core</artifactId>
+        <version>1.19</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.sun.jersey.jersey-test-framework</groupId>
+        <artifactId>jersey-test-framework-external</artifactId>
+        <version>1.19</version>
+    </dependency>	
+    <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+	<dependency>
+	    <groupId>org.apache.poi</groupId>
+	    <artifactId>poi-ooxml</artifactId>
+	    <version>3.16</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+	<dependency>
+	    <groupId>org.apache.poi</groupId>
+	    <artifactId>poi</artifactId>
+	    <version>3.16</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
+	<dependency>
+	    <groupId>org.apache.poi</groupId>
+	    <artifactId>poi-ooxml-schemas</artifactId>
+	    <version>3.16</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/antlr/antlr -->
+	<dependency>
+	    <groupId>antlr</groupId>
+	    <artifactId>antlr</artifactId>
+	    <version>2.7.7</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/dom4j/dom4j -->
+	<dependency>
+	    <groupId>dom4j</groupId>
+	    <artifactId>dom4j</artifactId>
+	    <version>1.6.1</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.xmlbeans/xmlbeans -->
+	<dependency>
+	    <groupId>org.apache.xmlbeans</groupId>
+	    <artifactId>xmlbeans</artifactId>
+	    <version>2.6.0</version>
+	</dependency>	        	
   </dependencies>  
 </project>
