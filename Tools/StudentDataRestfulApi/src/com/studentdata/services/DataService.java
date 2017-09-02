@@ -25,6 +25,7 @@ import com.studentdata.common.DataReader;
 import com.studentdata.common.JsonHelper;
 import com.studentdata.common.ObjectMapper;
 import com.studentdata.dao.DataDao;
+import com.studentdata.entities.GenericEntity;
 
 /**
  * @author TonyPhan
@@ -38,8 +39,8 @@ public class DataService implements IDataService{
   @Produces(MediaType.APPLICATION_JSON)
   public Response getEventTotal(){
     DataDao dataDao = DaoFactory.getInstance().createReportDao();
-    int eventTotal = dataDao.getEventTotal();    
-    return Response.status(201).entity(eventTotal).build();
+    int eventTotal = dataDao.getTotalCountByType(1);
+    return Response.status(201).entity(String.valueOf(eventTotal)).build();
   }
 	
 	@Path("/addData")
@@ -74,39 +75,93 @@ public class DataService implements IDataService{
 
 		DataDao dataDao = DaoFactory.getInstance().createReportDao();
 		try {
-			dataDao.saveToDatabase(dataHolder, dataMessage.getDataSourceType());
+	      dataDao.saveToDatabase(dataHolder, dataMessage.getDataSourceType());
 		} catch (SecurityException | RollbackException | HeuristicMixedException | HeuristicRollbackException
 				| SystemException e) {			
-			e.printStackTrace();
+		  e.printStackTrace();
 		}		
-		return Response.status(201).entity(dataHolder.size()).build();				
+		return Response.status(201).entity(String.valueOf(dataHolder.size())).build();				
 	}
 	
 	@Path("/addComponents")
     @POST   
-    @Consumes(MediaType.APPLICATION_JSON)	
+    @Produces(MediaType.APPLICATION_JSON)	
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addComponents(){
       DataDao<Component> dataDao = DaoFactory.getInstance().createReportDao();
-      int total = dataDao.getComponentTotal();
+      int total = dataDao.getTotalCountByType(2);
+      // If Component table had data, it is unnecessary to add more.
       if (total > 0)
-        return Response.status(201).entity(total).build();
+        return Response.status(201).entity(String.valueOf(total)).build();
       
       try {
         int compNum = 0;
-        List<com.studentdata.entities.Component> components = new ArrayList<com.studentdata.entities.Component>();
+        List<GenericEntity> components = new ArrayList<com.studentdata.entities.GenericEntity>();
         for(int i = 1; i < 8; i++){
           Component component = buildComponent(i);
           components.add(ObjectMapper.toEntityComponent(component));
           compNum = i;
-        }          
-        dataDao.saveComponents(components);
-        return Response.status(201).entity(compNum).build();
+        }
+        dataDao.saveEntities(components);
+        return Response.status(201).entity(String.valueOf(compNum)).build();
       } catch (SecurityException e) {          
           e.printStackTrace();
       }     
       return null;
 	}
 	
+	@Path("/addEventTypes")
+    @POST   
+    @Consumes(MediaType.APPLICATION_JSON)   
+    public Response addEventTypes(){
+      DataDao<EventType> dataDao = DaoFactory.getInstance().createReportDao();
+      int total = dataDao.getTotalCountByType(3);
+      // If EventType table had data, it is unnecessary to add more.
+      if (total > 0)
+        return Response.status(201).entity(String.valueOf(total)).build();
+      
+      try {
+        int compNum = 0;
+        List<com.studentdata.entities.GenericEntity> eventTypes = new ArrayList<com.studentdata.entities.GenericEntity>();
+        for(int i = 1; i < 7; i++){
+          EventType eventType = buildEventType(i);
+          eventTypes.add(ObjectMapper.toEntityEventType(eventType));
+          compNum = i;
+        }
+        dataDao.saveEntities(eventTypes);
+        return Response.status(201).entity(String.valueOf(compNum)).build();
+      } catch (SecurityException e) {          
+          e.printStackTrace();
+      }     
+      return null;
+    }
+
+    @Path("/addUserTypes")
+    @POST   
+    @Consumes(MediaType.APPLICATION_JSON)   
+    public Response addUserTypes(){
+      DataDao<Component> dataDao = DaoFactory.getInstance().createReportDao();
+      int total = dataDao.getTotalCountByType(4);
+      // If Component table had data, it is unnecessary to add more.
+      if (total > 0)
+        return Response.status(201).entity(String.valueOf(total)).build();
+      
+      try {
+        int compNum = 0;
+        List<com.studentdata.entities.GenericEntity> userTypes = new ArrayList<com.studentdata.entities.GenericEntity>();
+        for(int i = 1; i < 3; i++){
+          UserType userType = buildUserType(i);
+          userTypes.add(ObjectMapper.toEntityUserType(userType));
+          compNum = i;
+        }
+        dataDao.saveEntities(userTypes);
+        return Response.status(201).entity(String.valueOf(compNum)).build();
+      } catch (SecurityException e) {          
+          e.printStackTrace();
+      }     
+      return null;
+    }
+	    
 	private Component buildComponent(int id){	  
       Component component = new Component();
       component.setId(id);
@@ -134,5 +189,53 @@ public class DataService implements IDataService{
           break;          
       }              
 	  return component;
+	}
+	
+	private EventType buildEventType(int id){     
+      EventType eventType = new EventType();
+      eventType.setId(id);
+      switch(id){
+        case 1:
+          eventType.setName("Course");
+          eventType.setDescription("Events related to courses");
+          break;
+        case 2:
+          eventType.setName("Assignment");
+          eventType.setDescription("Events related to assignments");
+          break;
+        case 3:
+          eventType.setName("Quiz");
+          eventType.setDescription("Events related to quiz");
+          break;
+        case 4:
+          eventType.setName("Forum");
+          eventType.setDescription("Events related to forum");
+          break;
+        case 5:
+          eventType.setName("Marking");
+          eventType.setDescription("Events related to marking");
+          break;
+        case 6:
+          eventType.setName("Submission");
+          eventType.setDescription("Events related to submission");
+          break;
+      }              
+      return eventType;
+    }	
+	
+	private UserType buildUserType(int id){
+	  UserType userType = new UserType();
+	  userType.setId(id);
+	  switch(id){
+	    case 1:
+	      userType.setType("Student");
+	      userType.setDescription("Student");
+	      break;
+	    case 2:
+          userType.setType("Teacher");
+          userType.setDescription("Teacher");	      
+	      break;
+	  }
+	  return userType;
 	}
 }

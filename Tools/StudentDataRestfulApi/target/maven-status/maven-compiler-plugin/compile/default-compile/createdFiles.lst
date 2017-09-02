@@ -1,4 +1,5 @@
 com\studentdata\common\DaoFactory.class
+com\studentdata\common\ObjectMapper.class
 com\studentdata\entities\GenericEntity.class
 com\studentdata\services\DataService.class
 com\studentdata\services\GenericService.class
