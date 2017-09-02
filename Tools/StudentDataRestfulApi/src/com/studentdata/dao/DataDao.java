@@ -15,32 +15,61 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.studentdata.common.HibernateHelper;
+import com.studentdata.entities.Component;
 import com.studentdata.entities.Event;
 
-public class DataDao extends GenericDao{
+public class DataDao<T> extends GenericDao<T>{
 
 	@Override
-	public void create(Object entity) {
+	public void create(T entity) {
+		super.save(entity);		
+	}
+
+	@Override
+	public void update(T entity) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void update(Object entity) {
+	public void delete(T entity) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void delete(Object entity) {
-		// TODO Auto-generated method stub
-		
-	}
+	public int getComponentTotal(){
+      SessionFactory sessFactory = null;
+      try{
+          sessFactory = HibernateHelper.getSessionFactory();
+          Session session = sessFactory.openSession();
 
+          Query query = session.createQuery("from Component");
+          List<Event> list = query.list();
+          return list.size();
+      }finally{
+          sessFactory.close();
+      }  
+	}
+	
+	public int getEventTotal(){	  
+	  SessionFactory sessFactory = null;
+      try{
+          sessFactory = HibernateHelper.getSessionFactory();
+          Session session = sessFactory.openSession();
+
+          Query query = session.createQuery("from Event");
+          List<Event> list = query.list();
+          return list.size();
+      }finally{
+          sessFactory.close();
+      }                     
+	}
+	
 	public void saveToDatabase(List<List<String>> dataHolder, int dataSourceType) throws SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException{
 		SessionFactory sessFactory = null;
     	try{
@@ -69,7 +98,10 @@ public class DataDao extends GenericDao{
         		break;
         	}
             tr.commit();
-    	}finally{
+    	}catch(Exception ex){
+    	  ex.printStackTrace();
+    	}
+    	finally{
     		sessFactory.close();
     	}               		
     	System.out.println("Successfully inserted");             
@@ -264,4 +296,24 @@ public class DataDao extends GenericDao{
 		return eventTypeId;		
 	}
 	
+	public void saveComponents(List<Component> components){
+      Session session = null;
+      SessionFactory sessFactory = null;      
+      try{
+        for (Component component : components) {
+          sessFactory = HibernateHelper.getSessionFactory();          
+          session = sessFactory.openSession();
+          org.hibernate.Transaction tr = session.beginTransaction();
+          
+            session.save(component);
+            tr.commit();            
+          }
+      }catch(Exception ex){
+          ex.printStackTrace();
+      }
+      finally{          
+          sessFactory.close();
+      }       
+	  
+	}
 }

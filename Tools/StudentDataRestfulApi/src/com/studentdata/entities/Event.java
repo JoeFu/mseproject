@@ -1,6 +1,5 @@
 package com.studentdata.entities;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -17,65 +16,66 @@ public class Event extends GenericEntity{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	//@GeneratedValue
-	@Column(name="id")	
+    @Id
+    @Column(name="id")	
 	private String id;
 	
-	@Column(name="name")
+    @Column(name="name")    
 	private String name;
 	
-	@Column(name="description")
+    @Column(name="description")    
 	private String description;
 	
-	@Column(name="fKComponentId")
+    @Column(name="fKComponentId")    
 	private int fKComponentId;
 	
-	@Column(name="fKEventTypeId")
+    @Column(name="fKEventTypeId")        
 	private int fKEventTypeId;
 	
-	@Column(name="fKUserId")
+    @Column(name="fKUserId")        
 	private String fKUserId;
 	
-	@Column(name="grade")
+    @Column(name="grade")        
 	private float grade;
 	
-	@Column(name="maxGrade")
+    @Column(name="maxGrade")
 	private float maxGrade;
 		
-	@Column(name="startDate")
+    @Column(name="startDate")   
 	private Timestamp startDate;
 	
-	@Column(name="dueDate")
+    @Column(name="dueDate")        
 	private Timestamp dueDate;
 	
-	@Column(name="repositoryVersion")
+    @Column(name="repositoryVersion")        
 	private String repositoryVersion;
 	
-	@Column(name="courseName")
+    @Column(name="courseName")        
 	private String courseName;
 	
-	@Column(name="semester")
+    @Column(name="semester")        
 	private String semester;
 	
-	@Column(name="schoolYear")
+    @Column(name="schoolYear")        
 	private int schoolYear;
 	
-	@Column(name="eventTime")
+    @Column(name="eventTime")        
 	private Timestamp eventTime;
 	
-	@Column(name="context")
+    @Column(name="context")        
 	private String context;
 	
-	@Column(name="prefix")
+    @Column(name="prefix")    
 	private String prefix;
 	
-	@Column(name="datasourcetype")
+    @Column(name="datasourcetype")        
 	private Integer datasourcetype;
 		
-	@Column(name="assignmentName")
+    @Column(name="assignmentName")        
 	private String assignmentName;
 		
+	public Event(){}
+	
 	public String getId(){
 		return id;
 	}
@@ -84,6 +84,10 @@ public class Event extends GenericEntity{
 		return name;
 	}
 	
+    public String getDescription(){
+      return description;
+    }
+    
 	public int getComponenId(){
 		return fKComponentId;
 	}
@@ -99,7 +103,11 @@ public class Event extends GenericEntity{
 	public float getGrade(){
 		return grade;
 	}
-	
+	    
+    public float getMaxGrade(){
+      return maxGrade;
+    }
+        
 	public Timestamp getStartDate(){
 		return startDate;
 	}
@@ -131,7 +139,7 @@ public class Event extends GenericEntity{
 	public String getContext(){
 		return context;
 	}
-	
+	    
 	public String getPrefix(){
 		return prefix;
 	}
@@ -140,7 +148,7 @@ public class Event extends GenericEntity{
 		return datasourcetype;
 	}
 	
-	public String getAssignmentName(String assignmentName){
+	public String getAssignmentName(){
 		return assignmentName;
 	}
 	

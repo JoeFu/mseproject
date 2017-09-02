@@ -14,10 +14,7 @@ public abstract class GenericDao<T> {
     	Session session = null;
 		SessionFactory sessFactory = null;
     	try{
-    		sessFactory = HibernateHelper.getSessionFactory();
-    		if (sessFactory.isClosed())
-    			return;
-    		
+    		sessFactory = HibernateHelper.getSessionFactory();    		
     		session = sessFactory.openSession();
     		org.hibernate.Transaction tr = session.beginTransaction();
     		session.save(object);
@@ -25,7 +22,7 @@ public abstract class GenericDao<T> {
     	}catch(Exception ex){
     		ex.printStackTrace();
     	}
-    	finally{
+    	finally{    	  
     		sessFactory.close();
     	}		
 	}

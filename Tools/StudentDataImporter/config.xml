@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<savedataturl>http://localhost:8084/StudentDataRestfulApi/studentdata/DataService/addData</savedataturl>
+	<addcomponentturl>http://localhost:8084/StudentDataRestfulApi/studentdata/DataService/addComponents</addcomponentturl>
+	<geteventturl>http://localhost:8084/StudentDataRestfulApi/studentdata/DataService/getEvents</geteventturl>
+	
 </configuration>

@@ -6,7 +6,7 @@
 <hibernate-configuration>
 <session-factory>
 <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/studentdata</property>
+<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/studentdataunittest</property>
 <property name="hibernate.connection.username">root</property>
 <property name="hibernate.connection.password"></property>
 <property name="hibernate.connection.pool_size">10</property>
@@ -16,5 +16,8 @@
 
 <mapping class="com.studentdata.entities.Event"/>
 <mapping class="com.studentdata.entities.User"/>
+<mapping class="com.studentdata.entities.Component"/>
+<mapping class="com.studentdata.entities.EventType"/>
+<mapping class="com.studentdata.entities.UserType"/>
 </session-factory>
 </hibernate-configuration>

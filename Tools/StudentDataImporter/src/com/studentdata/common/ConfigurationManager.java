@@ -8,12 +8,16 @@ import org.xml.sax.InputSource;
 
 public class ConfigurationManager {
 	  public static String SAVE_DATA_URL;
-
+	  public static String ADD_COMPONENT_URL;
+	  public static String GET_EVENT_URL;
+	  
 	  public static void loadConfiguration(){
 		  try {
 			  XPath xpath = XPathFactory.newInstance().newXPath();
 			  InputSource inputSource = new InputSource("config.xml");			  
 			  SAVE_DATA_URL = xpath.evaluate("//savedataturl", inputSource);
+			  ADD_COMPONENT_URL = xpath.evaluate("//addcomponentturl", inputSource);
+			  GET_EVENT_URL = xpath.evaluate("//geteventturl", inputSource);
 		} catch (XPathExpressionException e) { 
 			e.printStackTrace();
 		}
