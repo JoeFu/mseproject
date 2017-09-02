@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -18,10 +19,15 @@ import javax.transaction.SystemException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.service.UnknownServiceException;
 
 import com.studentdata.common.HibernateHelper;
 import com.studentdata.entities.Component;
 import com.studentdata.entities.Event;
+import com.studentdata.entities.EventType;
+import com.studentdata.entities.GenericEntity;
+import com.studentdata.entities.User;
 
 public class DataDao<T> extends GenericDao<T>{
 
@@ -41,38 +47,89 @@ public class DataDao<T> extends GenericDao<T>{
 		// TODO Auto-generated method stub
 		
 	}
-
-	public int getComponentTotal(){
+		
+    // Get the total number of objects by type: 1: Event, 2: Component, 3: EventType, 4: UserType 
+    public int getTotalCountByType(int type){
       SessionFactory sessFactory = null;
       try{
           sessFactory = HibernateHelper.getSessionFactory();
           Session session = sessFactory.openSession();
-
-          Query query = session.createQuery("from Component");
-          List<Event> list = query.list();
-          return list.size();
-      }finally{
+          Query query = null;
+          switch(type){
+            case 1:
+              query = session.createQuery("select count(*) from Event");
+              break;
+            case 2:
+              query = session.createQuery("select count(*) from Component");
+              break;
+            case 3:
+              query = session.createQuery("select count(*) from EventType");
+              break;
+            case 4:
+              query = session.createQuery("select count(*) from UserType");
+              break;
+            case 5:
+              query = session.createQuery("select count(*) from User");
+              break;
+          }          
+          Long result = (Long)query.uniqueResult();
+          return result.intValue();
+      }catch(Exception ex){
+        ex.printStackTrace();
+      }
+      finally{
           sessFactory.close();
-      }  
-	}
-	
-	public int getEventTotal(){	  
-	  SessionFactory sessFactory = null;
+      }
+      return 0;
+    }	
+		
+    public void saveUsers(List<List<String>> dataHolder, int dataSourceType) throws SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException{
+      List<String> userIds = new ArrayList<String>();
+      for(int i = 0; i < dataHolder.size(); i++){
+          if (i == 0) continue;
+          List list = dataHolder.get(i);          
+          int j = 0;
+          switch(dataSourceType){
+          case 1:
+              j = 1;
+              break;
+          case 2:
+              j = 0;
+              break;
+          }
+          if (!userIds.contains(list.get(j).toString()))
+              userIds.add(list.get(j).toString());
+      }
+              
+      SessionFactory sessFactory = null;
       try{
           sessFactory = HibernateHelper.getSessionFactory();
           Session session = sessFactory.openSession();
-
-          Query query = session.createQuery("from Event");
-          List<Event> list = query.list();
-          return list.size();
-      }finally{
+          org.hibernate.Transaction tr = session.beginTransaction();
+          for(int i = 0; i < userIds.size(); i++){
+              User user = new User();
+              user.setId(userIds.get(i));
+              user.setUserTypeId(1);
+              if (!doesUserExist(session, user.getId())){
+                session.save(user);             
+                System.out.println("Row " + i);                
+              }else
+                System.out.println("User " + user.getId() + " existed.");
+          }                       
+          tr.commit();
+      }catch(Exception e){
+          e.printStackTrace();
+      }
+      finally{
           sessFactory.close();
-      }                     
-	}
-	
+      }                       
+      System.out.println("Successfully inserted");                    
+  }
+    
 	public void saveToDatabase(List<List<String>> dataHolder, int dataSourceType) throws SecurityException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException{
-		SessionFactory sessFactory = null;
-    	try{
+	  saveUsers(dataHolder, dataSourceType);
+	  SessionFactory sessFactory = null;
+      try{
     		sessFactory = HibernateHelper.getSessionFactory();
     		Session session = sessFactory.openSession();
         	org.hibernate.Transaction tr = session.beginTransaction();
@@ -84,16 +141,22 @@ public class DataDao<T> extends GenericDao<T>{
                 	}        	
                 	List<String> list = dataHolder.get(i);
                 	Event event = getEvent(i, list, dataSourceType);
-                	session.save(event);            	
-                	System.out.println("Row " + i);
+                	if (!doesEventExist(session, event.getId())){
+                      session.save(event);                
+                      System.out.println("Row " + i);                	  
+                	}else
+                	  System.out.println("Event " + event.getId() + " existed.");
                 }
         		break;
         	case 2:
                 for(int i = 0; i < dataHolder.size(); i++){
                 	List<String> list = dataHolder.get(i);
                 	Event event = getEvent(i, list, dataSourceType);
-                	session.save(event);            	
-                	System.out.println("Row " + i);
+                    if (!doesEventExist(session, event.getId())){
+                      session.save(event);                
+                      System.out.println("Row " + i);                     
+                    }else
+                      System.out.println("Row " + i + " existed.");
                 }        		
         		break;
         	}
@@ -106,6 +169,30 @@ public class DataDao<T> extends GenericDao<T>{
     	}               		
     	System.out.println("Successfully inserted");             
 	}
+	
+	private boolean doesEventExist(Session session, String id){
+      try{
+          Query query = session.createQuery("select count(*) from Event where Id = :Id");
+          query.setParameter("Id", id);
+          Long result = (Long)query.uniqueResult();
+          return (result.intValue() > 0) ? true : false;
+      }catch(Exception ex){
+        ex.printStackTrace();
+      }
+	  return false;
+	}
+	
+	private boolean doesUserExist(Session session, String id){
+      try{
+        Query query = session.createQuery("select count(*) from User where Id = :Id");
+        query.setParameter("Id", id);
+        Long result = (Long)query.uniqueResult();
+        return (result.intValue() > 0) ? true : false;
+      }catch(Exception ex){
+        ex.printStackTrace();
+      }
+      return false;
+    }
 	
 	private Event getEvent(int id, List list, int dataSourceType){
 		Event event = new Event();
@@ -296,24 +383,22 @@ public class DataDao<T> extends GenericDao<T>{
 		return eventTypeId;		
 	}
 	
-	public void saveComponents(List<Component> components){
+	public void saveEntities(List<GenericEntity> entities){
       Session session = null;
       SessionFactory sessFactory = null;      
       try{
-        for (Component component : components) {
+        for (GenericEntity entity : entities) {
           sessFactory = HibernateHelper.getSessionFactory();          
           session = sessFactory.openSession();
-          org.hibernate.Transaction tr = session.beginTransaction();
-          
-            session.save(component);
-            tr.commit();            
-          }
+          org.hibernate.Transaction tr = session.beginTransaction();         
+          session.save(entity);
+          tr.commit();
+        }
       }catch(Exception ex){
           ex.printStackTrace();
       }
       finally{          
           sessFactory.close();
-      }       
-	  
-	}
+      }
+	}	
 }
