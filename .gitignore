@@ -1,30 +1,10 @@
+.DS_Store
+.DS_Store?
+*.swp
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
 
-Documents/.DS_Store
-Documents/Meetings/.DS_Store
-Documents/Meetings/S2 Week5/.DS_Store
-Student_data/2012/.DS_Store
-Student_data/2012/s2/.DS_Store
-.DS_Store
-Tools/StudentDataRestfulApi/.DS_Store
-Student_data/.DS_Store
-Proposal/.DS_Store
-Documents/Meetings/.DS_Store
-Documents/.DS_Store
-Website/dashboard/.DS_Store
-Tools/StudentDataRestfulApi/.DS_Store
-Student_data/.DS_Store
-Documents/Meetings/.DS_Store
-Documents/.DS_Store
-.DS_Store
-<<<<<<< HEAD
-Website/dashboard/.DS_Store
-.DS_Store
-=======
-.DS_Store
-.DS_Store
-.DS_Store
-Documents/Meetings/.DS_Store
-Documents/.DS_Store
->>>>>>> master
-Website/dashboard/.DS_Store
-.DS_Store
