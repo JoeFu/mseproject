@@ -1,13 +1,20 @@
 <?php
 include_once('../one_connection.php');
 
+
+//get the data in ajax request
+$SelectCourse = $_POST['SelectCourse'];
+$SelectYear = $_POST['SelectYear'];
+$SelectSemester = $_POST['SelectSemester'];
+$SelectAssignment = $_POST['SelectAssignment'];
 //1: by GPA 2: by 10% step
-$conf=2;
+$MarkDistributionSelect= $_POST['MarkDistributionSelect'];
+
 
 //get the max mark of all submissions of an assignment for each user
 $sql = "select floor(max(Grade)*100/MaxGrade) TopGrade,FKUserId
 from event
-where `CourseName`='MSE' and `SchoolYear`='2012' and `Semester`='Semester 2' and `AssignmentName`='Assignment 2' and `DataSourceType`=2 and FKEventTypeId=5
+where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2 and FKEventTypeId=5
 group by FKUserId";
 $query = mysql_query($sql);
 
@@ -25,16 +32,16 @@ for ($x=1; $x<=5; $x++) {
 } 
 
 $arrStep=array();
-$arrStep[1]="0%-10%";
-$arrStep[2]="11%-20%";
-$arrStep[3]="21%-30%";
-$arrStep[4]="31%-40%";
-$arrStep[5]="41%-50%";
-$arrStep[6]="51%-60%";
-$arrStep[7]="61%-70%";
-$arrStep[8]="71%-80%";
-$arrStep[9]="81%-90%";
-$arrStep[10]="91%-100%";
+$arrStep[1]="0-10%";
+$arrStep[2]="11-20%";
+$arrStep[3]="21-30%";
+$arrStep[4]="31-40%";
+$arrStep[5]="41-50%";
+$arrStep[6]="51-60%";
+$arrStep[7]="61-70%";
+$arrStep[8]="71-80%";
+$arrStep[9]="81-90%";
+$arrStep[10]="91-100%";
 
 $arrStepCount=array();
 for ($x=1; $x<=10; $x++) {
@@ -44,7 +51,7 @@ for ($x=1; $x<=10; $x++) {
 while($row=mysql_fetch_array($query)){
 
 
-	if ($conf==1)// by GPA
+	if ($MarkDistributionSelect==1)// by GPA
 	{	//convert string to int
 		$tmp=(int)$row['TopGrade'];
 		if($tmp>=0&&$tmp<=49)
@@ -75,7 +82,7 @@ while($row=mysql_fetch_array($query)){
 	
 
 	}
-	else if($conf==2)// by 10% step
+	else if($MarkDistributionSelect==2)// by 10% step
 	{	//convert string to int
 		$tmp=(int)$row['TopGrade'];
 		if($tmp>=0&&$tmp<=10)
@@ -133,7 +140,7 @@ while($row=mysql_fetch_array($query)){
 mysql_close($link);
 
 //convert to another array that is in JSON format
-if($conf==1)// by GPA
+if($MarkDistributionSelect==1)// by GPA
 {
 	for ($x=1; $x<=5; $x++) {
   		$arr[] = array(
@@ -142,7 +149,7 @@ if($conf==1)// by GPA
 		);
 	} 
 }
-else if($conf==2)// by 10% step
+else if($MarkDistributionSelect==2)// by 10% step
 {
 	for ($x=1; $x<=10; $x++) {
   		$arr[] = array(
