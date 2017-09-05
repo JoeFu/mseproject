@@ -1,8 +1,13 @@
 <?php
 include_once('../one_connection.php');
 
+//get the data in ajax request
+$SelectCourse = $_POST['SelectCourse'];
+$SelectYear = $_POST['SelectYear'];
+$SelectSemester = $_POST['SelectSemester'];
+$SelectAssignment = $_POST['SelectAssignment'];
+$order = intval($_POST['order']);
 //$OrderBy records the order: alphabetical, descending, ascending
-$order =2;
 $OrderBy='';
 switch ($order)
 {
@@ -19,7 +24,7 @@ case 3:
 
 $sql = "SELECT FKUserId, COUNT(  `Id` ) count
 from event
-where `CourseName`='MSE' and `SchoolYear`='2012' and `Semester`='Semester 2' and `AssignmentName`='Assignment 2' and `DataSourceType`=2 and `FKEventTypeId`=6
+where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2 and `FKEventTypeId`=6
 GROUP BY FKUserId
 HAVING count {$OrderBy}";
 
