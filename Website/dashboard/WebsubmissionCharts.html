@@ -79,7 +79,7 @@
         </nav>
 
         <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-            <h1>Dashboard</h1>
+             <h1>Dashboard</h1>
 				  	<select id="SelectCourse">
 						  <option  id="PleaseSelectCourse">Select course</option>
 
@@ -318,6 +318,34 @@ $(document).ready(function(){
 						
 							name: 'Amount of submission',
 							data: count,
+							markArea: {
+								data: [ 
+									[{
+									name: 'Due day',
+									xAxis: 5
+								}, {
+									xAxis: 5
+								}]
+
+								]
+							},
+							markLine : {
+								label:{
+									normal:{
+										show:false
+									
+									}
+								},
+								lineStyle: {
+									normal: {
+										type: 'solid'
+									}
+								},
+								data : [
+	
+									{ xAxis: 5 }
+								]
+							}//markLine
 
 						}
 					]
@@ -517,6 +545,41 @@ $(document).ready(function(){
 						
 							name: 'Amount of submission',
 							data: count,
+							markArea: {
+								data: [ 
+									[{
+									name: 'Start day',
+									xAxis: 0
+								}, {
+									xAxis: 0
+								}],
+								[{
+									name: 'Due day',
+									xAxis: 31
+								}, {
+									xAxis: 31
+								}]
+
+								]
+							},
+							markLine : {
+								label:{
+									normal:{
+										show:false
+									
+									}
+								},
+								lineStyle: {
+									normal: {
+										type: 'solid'
+									}
+								},
+								data : [
+	
+									{ xAxis: 0 },
+									{ xAxis: 31 }
+								]
+							}//markLine
 
 						}
 					]
@@ -814,10 +877,27 @@ $(document).ready(function(){
 						markArea: {
 							data: [ [{
 								name: 'Deadline',
-								xAxis: '20121108'
+								xAxis: '20121106'
 							}, {
-								xAxis: '20121109'
+								xAxis: '20121106'
 							}]]
+						},
+						markLine : {
+							label:{
+								normal:{
+									show:false
+								
+								}
+							},
+							lineStyle: {
+								normal: {
+									type: 'solid'
+								}
+							},
+							data : [
+								
+								{ xAxis: '20121106' }
+							]
 						}
 							  
 							  
