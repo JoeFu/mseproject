@@ -77,6 +77,16 @@ public class MessageDialogsEx extends JFrame {
 		btnBrowse.setBounds(200, 34, 86, 29);
 		panel.add(btnBrowse);
 		
+        JLabel lblMessage = new JLabel("Inserted successfully!");
+        lblMessage.setBounds(34, 150, 230, 29);
+        lblMessage.setVisible(false);
+        panel.add(lblMessage);
+        
+        setTitle("Data Importer tool");
+        setSize(350, 250);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 		JButton importButton = new JButton("Import");
 		importButton.addActionListener(new ActionListener() {
 			
@@ -107,7 +117,8 @@ public class MessageDialogsEx extends JFrame {
 		    		}	        	
 		        	System.out.println("Output from Server .... \n");
 		    		String output = response.getEntity(String.class);
-		    		System.out.println(output);	        	
+		    		System.out.println(output);	        
+		    		lblMessage.setVisible(true);
 					
 				} catch (SecurityException e1) {
 					// TODO Auto-generated catch block
@@ -119,15 +130,6 @@ public class MessageDialogsEx extends JFrame {
 		importButton.setBounds(34, 100, 86, 29);
 		panel.add(importButton);
 		
-		JLabel lblMessage = new JLabel("Inserted successfully!");
-		lblMessage.setBounds(34, 150, 230, 29);
-		lblMessage.setVisible(false);
-		panel.add(lblMessage);
-		
-        setTitle("Data Importer tool");
-        setSize(350, 250);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 	
 	
