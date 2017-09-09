@@ -38,7 +38,7 @@ public class DataService implements IDataService{
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getEventTotal(){
-    DataDao dataDao = DaoFactory.getInstance().createReportDao();
+    DataDao dataDao = DaoFactory.getInstance().createDataDao();
     int eventTotal = dataDao.getTotalCountByType(1);
     return Response.status(201).entity(String.valueOf(eventTotal)).build();
   }
@@ -73,7 +73,7 @@ public class DataService implements IDataService{
 			return Response.status(201).entity(result).build();			
 		}
 
-		DataDao dataDao = DaoFactory.getInstance().createReportDao();
+		DataDao dataDao = DaoFactory.getInstance().createDataDao();
 		try {
 	      dataDao.saveToDatabase(dataHolder, dataMessage.getDataSourceType());
 		} catch (SecurityException | RollbackException | HeuristicMixedException | HeuristicRollbackException
@@ -88,7 +88,7 @@ public class DataService implements IDataService{
     @Produces(MediaType.APPLICATION_JSON)	
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addComponents(){
-      DataDao<Component> dataDao = DaoFactory.getInstance().createReportDao();
+      DataDao<Component> dataDao = DaoFactory.getInstance().createDataDao();
       int total = dataDao.getTotalCountByType(2);
       // If Component table had data, it is unnecessary to add more.
       if (total > 0)
@@ -114,7 +114,7 @@ public class DataService implements IDataService{
     @POST   
     @Consumes(MediaType.APPLICATION_JSON)   
     public Response addEventTypes(){
-      DataDao<EventType> dataDao = DaoFactory.getInstance().createReportDao();
+      DataDao<EventType> dataDao = DaoFactory.getInstance().createDataDao();
       int total = dataDao.getTotalCountByType(3);
       // If EventType table had data, it is unnecessary to add more.
       if (total > 0)
@@ -140,7 +140,7 @@ public class DataService implements IDataService{
     @POST   
     @Consumes(MediaType.APPLICATION_JSON)   
     public Response addUserTypes(){
-      DataDao<Component> dataDao = DaoFactory.getInstance().createReportDao();
+      DataDao<Component> dataDao = DaoFactory.getInstance().createDataDao();
       int total = dataDao.getTotalCountByType(4);
       // If Component table had data, it is unnecessary to add more.
       if (total > 0)

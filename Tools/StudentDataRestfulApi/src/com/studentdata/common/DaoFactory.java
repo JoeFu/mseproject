@@ -1,6 +1,7 @@
 package com.studentdata.common;
 
 import com.studentdata.dao.DataDao;
+import com.studentdata.dao.EventDao;
 
 /**
  * Created by TonyPhan
@@ -9,6 +10,7 @@ import com.studentdata.dao.DataDao;
 public class DaoFactory {	
 	private static DaoFactory daoFactory = new DaoFactory();
 	private static DataDao dataDao = null;
+	private static EventDao eventDao = null;
 	/* A private Constructor prevents any other
 	 * class from instantiating.
 	*/
@@ -20,9 +22,15 @@ public class DaoFactory {
    	}
 	
 	/* Create the report data access class */
-	public DataDao createReportDao(){
+	public DataDao createDataDao(){
 		if (dataDao == null)
 			return new DataDao();
 		return dataDao;
+	}
+	
+	public EventDao createEventDao(){
+	  if (eventDao == null)
+	    return new EventDao();
+	  return eventDao;
 	}
 }
