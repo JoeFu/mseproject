@@ -1,21 +1,26 @@
 package com.studentdata.main;
-import java.awt.EventQueue;
 
 import com.studentdata.common.ConfigurationManager;
+import java.awt.EventQueue;
 
+/**
+ * @author TonyPhan.
+ *
+ */
 public class Application {
-
-	public static void main(String[] args) {
-		ConfigurationManager.loadConfiguration();
-        EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                MessageDialogsEx md = new MessageDialogsEx();
-                md.setVisible(true);
-            }
-        });
-    }	
-	
-	
+  
+  /**
+  * The main method of the application.
+  *
+  */
+  public static void main(String[] args) {
+    ConfigurationManager.loadConfiguration();
+    EventQueue.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        MessageDialogsEx md = new MessageDialogsEx();
+        md.setVisible(true);
+        }
+      });
+  }
 }
