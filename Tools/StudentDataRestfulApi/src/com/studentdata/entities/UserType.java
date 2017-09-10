@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.studentdata.entities;
 
 import javax.persistence.Column;
@@ -10,16 +7,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @author TonyPhan
+ * @author TonyPhan. The UserType class which describes the type of User.
  *
  */
 @Entity
 @Table(name = "UserType")
-public class UserType extends GenericEntity{
+public class UserType extends GenericEntity {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
 
   @Id
@@ -35,27 +29,27 @@ public class UserType extends GenericEntity{
   
   public UserType(){}
   
-  public Integer getId(){
+  public Integer getId() {
     return id;
   }
   
-  public String getType(){
+  public String getType() {
     return type;
   }
   
-  public String getDescription(){
+  public String getDescription() {
     return description;
   }
   
-  public void setId(Integer id){
+  public void setId(Integer id) {
     this.id = id;
   }
   
-  public void setType(String type){
+  public void setType(String type) {
     this.type = type;
   }
   
-  public void setDescription(String description){
+  public void setDescription(String description) {
     this.description = description;
   }
 }

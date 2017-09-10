@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<savedataturl>http://localhost:8084/StudentDataRestfulApi/studentdata/DataService/addData</savedataturl>
-	<addcomponentturl>http://localhost:8084/StudentDataRestfulApi/studentdata/DataService/addComponents</addcomponentturl>
-	<addeventtypeturl>http://localhost:8084/StudentDataRestfulApi/studentdata/DataService/addEventTypes</addeventtypeturl>
-	<addusertypeturl>http://localhost:8084/StudentDataRestfulApi/studentdata/DataService/addUserTypes</addusertypeturl>
-	<removedataturl>http://localhost:8084/StudentDataRestfulApi/studentdata/DataService/removeData</removedataturl>	
-	<geteventturl>http://localhost:8084/StudentDataRestfulApi/studentdata/DataService/getEvents</geteventturl>
+	<savedataturl>http://localhost:8086/StudentDataRestfulApi/studentdata/DataService/addData</savedataturl>
+	<addcomponentturl>http://localhost:8086/StudentDataRestfulApi/studentdata/DataService/addComponents</addcomponentturl>
+	<addeventtypeturl>http://localhost:8086/StudentDataRestfulApi/studentdata/DataService/addEventTypes</addeventtypeturl>
+	<addusertypeturl>http://localhost:8086/StudentDataRestfulApi/studentdata/DataService/addUserTypes</addusertypeturl>
+	<removedataturl>http://localhost:8086/StudentDataRestfulApi/studentdata/DataService/removeData</removedataturl>	
+	<geteventturl>http://localhost:8086/StudentDataRestfulApi/studentdata/DataService/getEvents</geteventturl>
 	
 </configuration>

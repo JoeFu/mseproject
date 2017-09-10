@@ -1,34 +1,28 @@
-/**
- * 
- */
 package com.studentdata.services;
 
 /**
- * @author TonyPhan
+ * @author TonyPhan. The Component class of business layer which is one of DTO class.
  *
  */
-public class Component extends GenericBusinessObject{
+public class Component extends GenericBusinessObject {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
   private Integer id;
   private String name;
   
-  public Integer getId(){
+  public Integer getId() {
     return id;
   }
   
-  public String getName(){
+  public String getName() {
     return name;
   }
   
-  public void setId(Integer id){
+  public void setId(Integer id) {
     this.id = id;
   }
   
-  public void setName(String name){
+  public void setName(String name) {
     this.name = name;
   }
 }

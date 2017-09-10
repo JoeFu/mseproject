@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.studentdata.entities;
 
 import javax.persistence.Column;
@@ -10,16 +7,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @author TonyPhan
+ * @author TonyPhan. The Component class.
  *
  */
 @Entity
 @Table(name = "Component")
-public class Component extends GenericEntity{
-
-  /**
-   * 
-   */
+public class Component extends GenericEntity {
+  
   private static final long serialVersionUID = 1L;
   
   @Id
@@ -32,19 +26,19 @@ public class Component extends GenericEntity{
   
   public Component(){}
   
-  public Integer getId(){
+  public Integer getId() {
     return id;
   }
   
-  public String getName(){
+  public String getName() {
     return name;
   }
   
-  public void setId(Integer id){
+  public void setId(Integer id) {
     this.id = id;
   }
   
-  public void setName(String name){
+  public void setName(String name) {
     this.name = name;
   }
 }
