@@ -10,5 +10,13 @@ switch ($type) {
 			echo $response;
 		}
         break;
+	case 'loadYear':
+		{
+			//the course user chooses
+			$SelectCourseId = $_GET['SelectCourseId'];
+			$response = $service->loadYear($SelectCourseId);
+			echo $response;
+		}
+		break;
 }
 ?>
