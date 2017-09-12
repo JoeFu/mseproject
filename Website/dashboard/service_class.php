@@ -51,5 +51,23 @@ class Service
 		mysql_close($link);
 		return json_encode($arr);
 	}
+
+	//Load assignment for the fourth drop down box
+	public function loadAssignment($SelectCourseId = "", $SelectYearId="", $SelectSemesterId="")
+	{
+		include('../one_connection.php');
+		$sql = "SELECT distinct `AssignmentName` 
+		from event
+		where CourseName='{$SelectCourseId}' and SchoolYear= '{$SelectYearId}' and Semester='{$SelectSemesterId}'
+		order by AssignmentName asc";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$arr[] = array(
+				'AssignmentName'=> $row['AssignmentName'],
+			);
+		}
+		mysql_close($link);
+		return json_encode($arr);
+	}
 }
 ?>

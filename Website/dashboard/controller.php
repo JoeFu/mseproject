@@ -29,5 +29,16 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'loadAssignment':
+		{
+			//the course, year, semester user chooses
+			$SelectCourseId = $_GET['SelectCourseId'];
+			$SelectYearId = $_GET['SelectYearId'];
+			$SelectSemesterId= $_GET['SelectSemesterId'];
+
+			$response = $service->loadAssignment($SelectCourseId, $SelectYearId, $SelectSemesterId);
+			echo $response;
+		}
+		break;
 }
 ?>
