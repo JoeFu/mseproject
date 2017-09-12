@@ -517,9 +517,9 @@ $(document).ready(function(){
 		var SelectAssignment=$("#SelectAssignment option:selected").attr("id");
 
 		$.ajax({
-			type: "post",
+			type: "get",
 			async: true, 
-			url: "FirstSubmissionTimeDistribution.php",
+			url: "controller.php?type=firstSubmissionTimeDistribution",
 			data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment},
 			dataType: "json", 
 			success: function(result) {
