@@ -192,9 +192,9 @@
   
   //Load data for select course
 	$.ajax({
-		type: "post",
+		type: "get",
 		async: true, 
-		url: "LoadCourse.php",
+		url: "controller.php?type=loadCourse",
 		dataType: "json", 
 		success: function(result) {
 			//console.log(result);
@@ -220,9 +220,9 @@
 				 //Get the course user chooses
 				var SelectCourseId=$("#SelectCourse option:selected").attr("id");
 				 $.ajax({
-					type: "post",
+					type: "get",
 					async: true, 
-					url: "LoadYear.php",
+					url: "controller.php?type=loadYear",
 					dataType: "json", 
 					data: {"SelectCourseId":SelectCourseId},
 					success: function(result) {
@@ -247,9 +247,9 @@
 				var SelectCourseId=$("#SelectCourse option:selected").attr("id");
 				var SelectYearId=$("#SelectYear option:selected").attr("id");
 				 $.ajax({
-					type: "post",
+					type: "get",
 					async: true, 
-					url: "LoadSemester.php",
+					url: "controller.php?type=loadSemester",
 					dataType: "json", 
 					data: {"SelectCourseId":SelectCourseId,"SelectYearId":SelectYearId},
 					success: function(result) {
@@ -362,9 +362,9 @@ function StudentActivitiesOverviewUpdate()
 	//console.log(to);
 	console.log(order);
 	$.ajax({
-		type: "post",
+		type: "get",
 		async: true, //异步执行
-		url: "Student activities overview.php",
+		url: "controller.php?type=studentActivitiesOverview",
 		dataType: "json", //返回数据形式为json
 		data: {"from":from,"to":to,"order":order,"ThresholdSelect":ThresholdSelect,"Threshold":Threshold,"CourseName":CourseName},
 		success: function(result) {
