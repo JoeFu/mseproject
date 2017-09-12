@@ -757,9 +757,9 @@ $(document).ready(function(){
 		var SelectAssignment=$("#SelectAssignment option:selected").attr("id");
 
 		$.ajax({
-			type: "post",
+			type: "get",
 			async: true, //asynchronous
-			url: "SubmissionTimesOfEachStudent.php",
+			url: "controller.php?type=numberOfSubmissionsOfEachStudent",
 			data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment,"order":order},
 			dataType: "json", //return data in JSON format
 			success: function(result) {
