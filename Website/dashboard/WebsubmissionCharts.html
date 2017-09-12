@@ -417,9 +417,9 @@ $(document).ready(function(){
 		var SelectAssignment=$("#SelectAssignment option:selected").attr("id");
 
 		$.ajax({
-			type: "post",
+			type: "get",
 			async: true, 
-			url: "SubmissionTimeDistribution96Hours.php",
+			url: "controller.php?type=submissionTimeDistribution96Hours",
 			data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment},
 			dataType: "json", 
 			success: function(result) {
