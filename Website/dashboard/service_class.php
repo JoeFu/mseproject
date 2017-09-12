@@ -362,5 +362,41 @@ class Service
 		return json_encode($arr);
 		//example format of output: [{"day":"-5","count":"5"},{"day":"-4","count":"5"}]
 	}
+
+	//Load data for the chart Number Of Submissions Of Each Student
+	public function numberOfSubmissionsOfEachStudent($SelectCourse = "", $SelectYear="", $SelectSemester="", $SelectAssignment="", $order="")
+	{
+		include('../one_connection.php');
+
+		//$OrderBy records the order: alphabetical, descending, ascending
+		$OrderBy='';
+		switch ($order){
+			case 1:
+				$OrderBy='';
+				break;
+			case 2:
+				$OrderBy='ORDER BY count desc';
+				break;
+			case 3:
+				$OrderBy='ORDER BY count asc';
+				break;
+		}
+
+		$sql = "SELECT FKUserId, COUNT(  `Id` ) count
+		from event
+		where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2 and `FKEventTypeId`=6
+		GROUP BY FKUserId
+		HAVING count {$OrderBy}";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$arr[] = array(
+				'FKUserId'=> $row['FKUserId'],
+				'count' => $row['count']
+			);
+		}
+		mysql_close($link);
+		return json_encode($arr);
+		//example format of output: [{"FKUserId":"21685","count":"5"},{"FKUserId":"21687","count":"6"}]
+	}
 }
 ?>

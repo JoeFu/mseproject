@@ -88,5 +88,18 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'numberOfSubmissionsOfEachStudent':
+		{
+			//the course, year, semester, assignment user chooses
+			$SelectCourse = $_GET['SelectCourse'];
+			$SelectYear = $_GET['SelectYear'];
+			$SelectSemester = $_GET['SelectSemester'];
+			$SelectAssignment = $_GET['SelectAssignment'];
+			$order = intval($_GET['order']);
+
+			$response = $service->numberOfSubmissionsOfEachStudent($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment, $order);
+			echo $response;
+		}
+		break;
 }
 ?>
