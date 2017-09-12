@@ -4,7 +4,7 @@ class Service
 	//Load course name for the first drop down box
 	public function loadCourse()
 	{
-		include_once('../one_connection.php');
+		include('../one_connection.php');
 		$sql = "SELECT distinct `CourseName` from event where CourseName is not NULL";
 		$query = mysql_query($sql);
 		while($row=mysql_fetch_array($query)){
@@ -13,8 +13,7 @@ class Service
 			);
 		}
 		mysql_close($link);
-		echo json_encode($arr);
-		//[{"CourseName":"Distributed system"},{"CourseName":"Specialised programming"}]
+		return json_encode($arr);
 	}
 }
 ?>

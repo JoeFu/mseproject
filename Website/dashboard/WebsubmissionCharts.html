@@ -102,9 +102,9 @@ $(document).ready(function() {
   
   //Load data for select course
 	$.ajax({
-		type: "post",
+		type: "get",
 		async: true, 
-		url: "LoadCourse.php",
+		url: "controller.php?type=loadCourse",
 		dataType: "json", 
 		success: function(result) {
 			//console.log(result);

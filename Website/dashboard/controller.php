@@ -10,6 +10,5 @@ switch ($type) {
 			echo $response;
 		}
         break;
-
 }
 ?>
