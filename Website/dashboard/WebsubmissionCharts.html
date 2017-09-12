@@ -191,9 +191,9 @@ $(document).ready(function() {
 				var SelectYearId=$("#SelectYear option:selected").attr("id");
 				var SelectSemesterId=$("#SelectSemester option:selected").attr("id");				
 				 $.ajax({
-					type: "post",
+					type: "get",
 					async: true, 
-					url: "LoadAssignment.php",
+					url: "controller.php?type=loadAssignment",
 					dataType: "json", 
 					data: {"SelectCourseId":SelectCourseId,"SelectYearId":SelectYearId,"SelectSemesterId":SelectSemesterId},
 					success: function(result) {
