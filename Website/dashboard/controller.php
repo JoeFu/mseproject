@@ -64,5 +64,17 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'firstSubmissionTimeDistribution':
+		{
+			//the course, year, semester, assignment user chooses
+			$SelectCourse = $_GET['SelectCourse'];
+			$SelectYear = $_GET['SelectYear'];
+			$SelectSemester = $_GET['SelectSemester'];
+			$SelectAssignment = $_GET['SelectAssignment'];
+
+			$response = $service->firstSubmissionTimeDistribution($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
+			echo $response;
+		}
+		break;
 }
 ?>
