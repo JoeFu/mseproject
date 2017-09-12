@@ -984,9 +984,9 @@ $(document).ready(function(){
 		var MarkDistributionSelect=$('#MarkDistributionSelect').val();
 
 		$.ajax({
-			type: "post",
+			type: "get",
 			async: true, //asynchronous
-			url: "MarkDistribution.php",
+			url: "controller.php?type=markDistribution",
 			data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment,"MarkDistributionSelect":MarkDistributionSelect},
 			dataType: "json", //return data in JSON format
 			success: function(result) {
