@@ -33,5 +33,23 @@ class Service
 		mysql_close($link);
 		return json_encode($arr);
 	}
+
+	//Load semester for the third drop down box
+	public function loadSemester($SelectCourseId = "", $SelectYearId="")
+	{
+		include('../one_connection.php');
+		$sql = "SELECT distinct `Semester` 
+		from event
+		where CourseName='{$SelectCourseId}' and SchoolYear= '{$SelectYearId}'
+		order by Semester asc";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$arr[] = array(
+				'Semester'=> $row['Semester'],
+			);
+		}
+		mysql_close($link);
+		return json_encode($arr);
+	}
 }
 ?>
