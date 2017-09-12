@@ -9,7 +9,7 @@
     */
     $host="localhost";
     $db_user="root";
-    $db_pass="123456";
+    $db_pass="outlook";
     $db_name="studentdata";
     
     
