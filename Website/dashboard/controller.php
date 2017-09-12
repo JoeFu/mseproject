@@ -90,7 +90,7 @@ switch ($type) {
 		break;
 	case 'numberOfSubmissionsOfEachStudent':
 		{
-			//the course, year, semester, assignment user chooses
+			//the course, year, semester, assignment, presentation order user chooses
 			$SelectCourse = $_GET['SelectCourse'];
 			$SelectYear = $_GET['SelectYear'];
 			$SelectSemester = $_GET['SelectSemester'];
@@ -98,6 +98,20 @@ switch ($type) {
 			$order = intval($_GET['order']);
 
 			$response = $service->numberOfSubmissionsOfEachStudent($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment, $order);
+			echo $response;
+		}
+		break;
+	case 'markDistribution':
+		{
+			//the course, year, semester, assignment, configuration option user chooses
+			$SelectCourse = $_GET['SelectCourse'];
+			$SelectYear = $_GET['SelectYear'];
+			$SelectSemester = $_GET['SelectSemester'];
+			$SelectAssignment = $_GET['SelectAssignment'];
+			//1: by GPA 2: by 10% step
+			$MarkDistributionSelect= $_GET['MarkDistributionSelect'];
+
+			$response = $service->markDistribution($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment, $MarkDistributionSelect);
 			echo $response;
 		}
 		break;
