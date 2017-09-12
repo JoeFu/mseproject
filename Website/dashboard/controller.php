@@ -115,5 +115,19 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'studentActivitiesOverview':
+		{
+			//the course, start day, end day, presentation order, threshold user chooses
+			$CourseName=$_GET['CourseName'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$order = intval($_GET['order']);
+			$ThresholdSelect = $_GET['ThresholdSelect'];
+			$Threshold = $_GET['Threshold'];
+
+			$response = $service->studentActivitiesOverview($CourseName, $from, $to, $order, $ThresholdSelect, $Threshold);
+			echo $response;
+		}
+		break;
 }
 ?>

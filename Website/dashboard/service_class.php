@@ -521,5 +521,43 @@ class Service
 		}
 		return json_encode($arr);
 	}
+
+	//Load data for the chart Student Activities Overview
+	public function studentActivitiesOverview($CourseName="", $from="", $to="", $order="", $ThresholdSelect="", $Threshold="")
+	{
+		include('../one_connection.php');
+		
+		$OrderBy='';
+		switch ($order) {
+			case 1:
+				$OrderBy='';
+				break;
+			case 2:
+				$OrderBy='ORDER BY count desc';
+				break;
+			case 3:
+				$OrderBy='ORDER BY count asc';
+				break;
+		}
+
+		$sql = "SELECT FKUserId, COUNT(  `Id` ) count
+		FROM event
+		WHERE CourseName='{$CourseName}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
+		GROUP BY FKUserId
+		HAVING count{$ThresholdSelect}{$Threshold}
+		{$OrderBy}";
+		$query = mysql_query($sql);
+		$amount=mysql_num_rows($query);
+		while($row=mysql_fetch_array($query)){
+			$row['FKUserId']=str_replace('SER','',$row['FKUserId']);
+			$arr[] = array(
+				'name'=> $row['FKUserId'],
+				'count' => $row['count'],
+				'amount' => $amount
+			);
+		}
+		mysql_close($link);
+		return json_encode($arr);
+	}
 }
 ?>
