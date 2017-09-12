@@ -133,9 +133,9 @@ $(document).ready(function() {
 				 //Get the course user chooses
 				var SelectCourseId=$("#SelectCourse option:selected").attr("id");
 				 $.ajax({
-					type: "post",
+					type: "get",
 					async: true, 
-					url: "LoadYear.php",
+					url: "controller.php?type=loadYear",
 					dataType: "json", 
 					data: {"SelectCourseId":SelectCourseId},
 					success: function(result) {
