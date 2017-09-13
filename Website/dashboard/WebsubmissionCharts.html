@@ -724,120 +724,109 @@ $(document).ready(function(){
 }) 
 </script>
 
-<div id="MarkDistribution" style="width: 800px;height:400px;"></div>
-<div style="width: 200px;height:100px;position: relative;
-					  top: -400px;
-					  left: 870px;">
-<label for="MarkDistributionSelect">Configuration option </label>
-					  	<select id="MarkDistributionSelect">
-						  <option  value ="1" selected = "selected">By GPA</option>
-						  <option value ="2">By 10% step</option>
-						</select>
-					</div>
-    <script type="text/javascript">
-        // initialize echart instance
-        var myChartMarkDistribution = echarts.init(document.getElementById('MarkDistribution'));
+      <div id="MarkDistribution" style="width: 800px;height:400px;"></div>
+      <div style="width: 200px;height:100px;position: relative;top: -400px;left: 870px;">
+        <label for="MarkDistributionSelect">Configuration option </label>
+		<select id="MarkDistributionSelect">
+		  <option  value ="1" selected = "selected">By GPA</option>
+		  <option value ="2">By 10% step</option>
+		</select>
+	  </div>
 
-        // configure items and data
-        var option = {
-            title: {
-                text: 'Mark Distribution'
-            },
-            tooltip: {},
-            xAxis: {
-                data: []
-            },
-            yAxis: {
-				name: 'Number of students'
-			},
-			dataZoom: [
-				{   //dataZoom component controls x-axis by default
-					type: 'slider', 
-					start: 0,      // left position 0% 
-					end: 100         // right position 100% 
-				}
-			],
-            series: [{
-                name: 'Mark',
-                type: 'bar',
-                data: []
-            }],
-			toolbox: {
-				show: true,
-				feature: {
-					dataView: {readOnly: false},
-					magicType: {type: ['line', 'bar']},
-					restore: {},
-					saveAsImage: {}
-				}
-			}
-        };
+<script type="text/javascript">
+// initialize echart instance
+var myChartMarkDistribution = echarts.init(document.getElementById('MarkDistribution'));
 
-        // display chart using the configuration items and data set
-
-        myChartMarkDistribution.setOption(option);
-
-		function MarkDistributionUpdate(){
-		
-		var SelectCourse=$("#SelectCourse option:selected").attr("id");
-		var SelectYear=$("#SelectYear option:selected").attr("id");
-		var SelectSemester=$("#SelectSemester option:selected").attr("id");
-		var SelectAssignment=$("#SelectAssignment option:selected").attr("id");
-
-		var MarkDistributionSelect=$('#MarkDistributionSelect').val();
-
-		$.ajax({
-			type: "get",
-			async: true, //asynchronous
-			url: "controller.php?type=markDistribution",
-			data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment,"MarkDistributionSelect":MarkDistributionSelect},
-			dataType: "json", //return data in JSON format
-			success: function(result) {
-				var grade = [];
-				var count = [];
-				$.each(result,function(i,p){
-				  grade[i]=p['grade'];
-				  count[i]=p['count'];
-				});
-				myChartMarkDistribution.hideLoading();
-				myChartMarkDistribution.setOption({
-					xAxis: {
-						axisLabel :{
-							interval: 'auto', 
-							rotate:0
-						},
-						name: 'Mark',
-						data: grade
-					},
-
-					series: [{
-						name: 'Number of students',
-						data: count
-					}]
-				});
-			}
-		});
+// configure items and data
+var option = {
+	title: {
+		text: 'Mark Distribution'
+	},
+	tooltip: {},
+	xAxis: {
+		data: []
+	},
+	yAxis: {
+		name: 'Number of students'
+	},
+	dataZoom: [
+		{   //dataZoom component controls x-axis by default
+			type: 'slider', 
+			start: 0,      // left position 0% 
+			end: 100         // right position 100% 
 		}
-		//after user chooses configuration option for Mark Distribution Chart, update the Mark Distribution Chart
-		$(document).ready(function(){ 
+	],
+	series: [{
+		name: 'Mark',
+		type: 'bar',
+		data: []
+	}],
+	toolbox: {
+		show: true,
+		feature: {
+			dataView: {readOnly: false},
+			magicType: {type: ['line', 'bar']},
+			restore: {},
+			saveAsImage: {}
+		}
+	}
+};
 
-				$('#MarkDistributionSelect').change(function(){ 
-					MarkDistributionUpdate();
-				}) 
-		}) 
-   </script>
+// display chart using the configuration items and data set
+myChartMarkDistribution.setOption(option);
 
+function MarkDistributionUpdate(){
+	var SelectCourse=$("#SelectCourse option:selected").attr("id");
+	var SelectYear=$("#SelectYear option:selected").attr("id");
+	var SelectSemester=$("#SelectSemester option:selected").attr("id");
+	var SelectAssignment=$("#SelectAssignment option:selected").attr("id");
+	var MarkDistributionSelect=$('#MarkDistributionSelect').val();
 
+	$.ajax({
+		type: "get",
+		async: true, //asynchronous
+		url: "controller.php?type=markDistribution",
+		data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment,"MarkDistributionSelect":MarkDistributionSelect},
+		dataType: "json", //return data in JSON format
+		success: function(result) {
+			var grade = [];
+			var count = [];
+			$.each(result,function(i,p){
+				grade[i]=p['grade'];
+				count[i]=p['count'];
+			});
+			myChartMarkDistribution.hideLoading();
+			myChartMarkDistribution.setOption({
+				xAxis: {
+					axisLabel :{
+						interval: 'auto', 
+						rotate:0
+					},
+					name: 'Mark',
+					data: grade
+				},
+				series: [{
+					name: 'Number of students',
+					data: count
+				}]
+			});
+		}
+	});//ajax
+}//function
 
+//after user chooses configuration option for Mark Distribution Chart, update the Mark Distribution Chart
+$(document).ready(function(){ 
+	$('#MarkDistributionSelect').change(function(){ 
+		MarkDistributionUpdate();
+	}) 
+}) 
+</script>
 
-        
-
-           </main>
-    </div>
+    </main>
+  </div>
 </div>
 
 <!-- Footer  -->
-
 <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
