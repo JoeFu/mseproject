@@ -421,5 +421,54 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 		$actual = $service->numberOfSubmissionsOfEachStudent($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment,$order);
 		$this->assertNotEquals($expected,$actual);
 	}
+
+	public function testMarkDistribution() 
+	{
+		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2", assignment "Assignment 2") to verify and validate the logic of this function, we don't test other assignments of other courses in other semesters/ years for this function because we don't have real data for them.
+
+		//correct expected value for course "MSE", year "2012", semester "Semester 2", assignment "Assignment 2", configuration option "By GPA"
+		$expected = '[{"grade":"F","count":50},{"grade":"P","count":4},{"grade":"C","count":1},{"grade":"D","count":3},{"grade":"HD","count":2}]';
+		$SelectCourse="MSE";
+		$SelectYear="2012";
+		$SelectSemester="Semester 2";
+		$SelectAssignment="Assignment 2";
+		$MarkDistributionSelect=1;//By GPA
+		$service = new Service;
+		$actual = $service->markDistribution($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment, $MarkDistributionSelect);
+		$this->assertEquals($expected, $actual);
+
+		//correct expected value for course "MSE", year "2012", semester "Semester 2", assignment "Assignment 2", configuration option "By 10% Step"
+		$expected = '[{"grade":"0-10%","count":49},{"grade":"11-20%","count":0},{"grade":"21-30%","count":0},{"grade":"31-40%","count":1},{"grade":"41-50%","count":0},{"grade":"51-60%","count":4},{"grade":"61-70%","count":1},{"grade":"71-80%","count":3},{"grade":"81-90%","count":1},{"grade":"91-100%","count":1}]';
+		$SelectCourse="MSE";
+		$SelectYear="2012";
+		$SelectSemester="Semester 2";
+		$SelectAssignment="Assignment 2";
+		$MarkDistributionSelect=2;//By 10% Step
+		$service = new Service;
+		$actual = $service->markDistribution($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment, $MarkDistributionSelect);
+		$this->assertEquals($expected, $actual);
+
+		//incorrect expected value for course "MSE", year "2012", semester "Semester 2", assignment "Assignment 2", configuration option "By GPA"
+		$expected = 'false';
+		$SelectCourse="MSE";
+		$SelectYear="2012";
+		$SelectSemester="Semester 2";
+		$SelectAssignment="Assignment 2";
+		$MarkDistributionSelect=1;//By GPA
+		$service = new Service;
+		$actual = $service->markDistribution($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment, $MarkDistributionSelect);
+		$this->assertNotEquals($expected, $actual);
+
+		//incorrect expected value for course "MSE", year "2012", semester "Semester 2", assignment "Assignment 2", configuration option "By 10% Step"
+		$expected = 'false';
+		$SelectCourse="MSE";
+		$SelectYear="2012";
+		$SelectSemester="Semester 2";
+		$SelectAssignment="Assignment 2";
+		$MarkDistributionSelect=2;//By 10% Step
+		$service = new Service;
+		$actual = $service->markDistribution($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment, $MarkDistributionSelect);
+		$this->assertNotEquals($expected, $actual);
+	}
 }
 ?>
