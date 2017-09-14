@@ -362,15 +362,24 @@ class Service
 
 		//convert arrCount array to another array that is in JSON format
 		for ($x=$i; $x<=5; $x++) {
+			if ($x<=0) {
 				$arr[] = array(
-					'days'=> $x,
-					'count' => $arrCount[$x]
+					'days' => $x,
+					'count' => $arrCount[$x],
+					'dueDay' => abs($i),
 				);
+			} else {
+				$daysWithPlusSign="+".(string)$x;
+				$arr[] = array(
+					'days' => $daysWithPlusSign,
+					'count' => $arrCount[$x],
+					'dueDay' => abs($i),
+				);
+			}
 		} 
-
 		mysql_close($link);
 		return json_encode($arr);
-		//example format of output: [{"day":"-5","count":"5"},{"day":"-4","count":"5"}]
+		//example format of output: [{"day":"-5","count":"5","dueDay":"31"},{"day":"-4","count":"5","dueDay":"31"}]
 	}
 
 	//Load data for the chart Number Of Submissions Of Each Student

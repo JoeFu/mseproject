@@ -577,7 +577,7 @@ var option = {
 		data: []
 	},
 	yAxis: {
-		name: 'Amount of submission',
+		name: 'Number of submissions',
 	},
 	dataZoom: [
 		{   // dataZoom component controls x-axis by default
@@ -588,7 +588,7 @@ var option = {
 	],
 	series: [
 		{
-			name: 'Amount of submission',
+			name: 'Number of submissions',
 			type: 'bar',
 			data: []
 		}
@@ -621,9 +621,11 @@ function LastSubmissionTimeDistribution(){
 		success: function(result) {
 			var days = [];
 			var count = [];
+			var dueDay= [];
 			$.each(result,function(i,p){
 				days[i]=p['days'];
 				count[i]=p['count'];
+				dueDay[i]=p['dueDay'];
 			});
 			myChartLastSubmissionTimeDistribution.hideLoading();
 			myChartLastSubmissionTimeDistribution.setOption({
@@ -637,8 +639,45 @@ function LastSubmissionTimeDistribution(){
 				},
 				series: [
 					{
-						name: 'Amount of submission',
+						name: 'Number of submissions',
 						data: count,
+						markArea: {
+							data: [ 
+								[
+									{
+										name: 'Start day',
+										xAxis: 0
+									}, {
+										xAxis: 0
+									}
+								],
+								[
+									{
+										name: 'Due day',
+										xAxis: dueDay[0]
+									}, {
+										xAxis: dueDay[0]
+									}
+								]
+							]
+						},
+						markLine : {
+							label:{
+								normal:{
+									show:false
+								}
+							},
+							lineStyle: {
+								normal: {
+									type: 'solid',
+									color: 'blue'
+								}
+							},
+							data : [
+								{ xAxis: 0 },
+								{ xAxis: dueDay[0] }
+							]
+						}//markLine
 					}
 				]
 			});
