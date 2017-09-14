@@ -450,7 +450,7 @@ var option = {
 		data: []
 	},
 	yAxis: {
-		name: 'Amount of submission',
+		name: 'Number of submissions',
 	},
 	dataZoom: [
 		{   // dataZoom component controls x-axis by default
@@ -461,7 +461,7 @@ var option = {
 	],
 	series: [
 		{
-			name: 'Amount of submission',
+			name: 'Number of submissions',
 			type: 'bar',
 			data: []
 		}
@@ -494,9 +494,11 @@ function FirstSubmissionTimeDistribution(){
 		success: function(result) {
 			var days = [];
 			var count = [];
+			var dueDay= [];
 			$.each(result,function(i,p){
 				days[i]=p['days'];
 				count[i]=p['count'];
+				dueDay[i]=p['dueDay'];
 			});
 			myChartFirstSubmissionTimeDistribution.hideLoading();
 			myChartFirstSubmissionTimeDistribution.setOption({
@@ -510,7 +512,7 @@ function FirstSubmissionTimeDistribution(){
 				},
 				series: [
 					{
-						name: 'Amount of submission',
+						name: 'Number of submissions',
 						data: count,
 						markArea: {
 							data: [ 
@@ -525,9 +527,9 @@ function FirstSubmissionTimeDistribution(){
 								[
 									{
 										name: 'Due day',
-										xAxis: 31
+										xAxis: dueDay[0]
 									}, {
-										xAxis: 31
+										xAxis: dueDay[0]
 									}
 								]
 							]
@@ -540,12 +542,13 @@ function FirstSubmissionTimeDistribution(){
 							},
 							lineStyle: {
 								normal: {
-									type: 'solid'
+									type: 'solid',
+									color: 'blue'
 								}
 							},
 							data : [
 								{ xAxis: 0 },
-								{ xAxis: 31 }
+								{ xAxis: dueDay[0] }
 							]
 						}//markLine
 					}
@@ -662,14 +665,14 @@ var myChartSubmissionTimesOfEachStudent = echarts.init(document.getElementById('
 // set configuration items and data
 var option = {
 	title: {
-		text: 'Submission Times Of Each Student'
+		text: 'Number Of Submissions Of Each Student'
 	},
 	tooltip: {},
 	xAxis: {
 		data: []
 	},
 	yAxis: {
-		name: 'Submission Times'
+		name: 'Number of submissions'
 	},
 	dataZoom: [
 		{   //dataZoom component controls x-axis by default
@@ -680,7 +683,7 @@ var option = {
 	],
 	series: [
 		{
-			name: 'Submission Times',
+			name: 'Number of submissions',
 			type: 'bar',
 			data: []
 		}
@@ -730,7 +733,7 @@ function SubmissionTimesOfEachStudentUpdate(){
 					data: FKUserId
 				},
 				series: [{
-					name: 'Amount of activities',
+					name: 'Number of submissions',
 					data: count
 				}]
 			});
