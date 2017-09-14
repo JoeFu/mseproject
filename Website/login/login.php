@@ -1,30 +1,42 @@
-<!-- /**
-* Created by PhpStorm.
-* User: Joe Fu
-* Date: 1/4/2017
-* Time: 11:32 PM
-*/ -->
-
 <?php
-
 ob_start();
 session_start();
-
-//include connection file
 include('../one_connection.php');
-//检测用户名及密码是否正确
-$username = $_SESSION['username'];
-$password = $_SESSION['password'];
 
 
-
-$sql = "SELECT username, password From user_login;
-$query = mysql_query($sql);
-while($row=mysql_fetch_array($query))
+if(!isset($_POST['submit']))
 {
-  echo "usrename".$row["usrename"]."password".$row["password"];
+  exit('<a href="index.html"> Back </a>');
+}
+//include connection file
+$username = "";
+$password = "";
+
+
+
+if(isset($_POST['username']))
+{
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    
 }
 
-
+    $sql = "select password from login where username = '$username' limit 1";
+    $query = mysql_query($sql);
+    $row = mysql_fetch_array($query);
+    
+    if($password == $row[0])
+    {
+        $_SESSION['username'] = $username;
+        $_SESSION['login_status'] = true;
+        echo $username,' Welcome!';
+        echo '<script type="text/javascript"> window.location.href = "../dashboard/index.html";</script>';
+        exit;
+    } 
+    else 
+    {
+        exit('Login Fail <a href="javascript:history.back(-1);"> Back </a>Try Again');
+    }
+  
 
 ?>

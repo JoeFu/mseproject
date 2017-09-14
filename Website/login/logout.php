@@ -1,15 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joe
- * Date: 5/9/17
- * Time: 10:03 PM
- */
     session_start();
     unset($_SESSION["username"]);
     unset($_SESSION["password"]);
+    unset($_SESSION["login_status"]);
+    $_SESSION["login_status"]=false;
 
 
-    echo 'You have cleaned session';
-    header('Refresh: 2; URL = login.php');
+    echo 'You have cleaned session, Please wait while we transfer you to Home Page!';
+    header('Refresh: 2; URL = ../index.html');
+
 ?>
+<script language="javascript">
+   setTimeout(function() {
+    window.location.href = "../index.html"
+   }, 3000); 
+</script>
