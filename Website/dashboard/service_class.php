@@ -99,37 +99,37 @@ class Service
 
 		//the main purpose of the following code is to add those days with 
 		//0 submission to array, since the query result will not include them
-		$i=-5;
+		//arrCount array to store how many submissions per day
+		$arrCount=array();
+		for ($x=-5; $x<=5; $x++) {
+			$arrCount[$x]=0;
+		}
+		
 		$query = mysql_query($sql);
 		while($row=mysql_fetch_array($query)){
-			//difference between 2 dates
 			$tmpDays=(int)round((strtotime($row['days'])-$timeDueDate)/3600/24);
-			if($i==$tmpDays){
-				$arr[] = array(
-					'days'=> $tmpDays,
-					'count' => $row['count'],
-					'dueDate' => 0
-				);
-			}else{
-				$arr[] = array(
-					'days'=> $i,
-					'count' => 0,
-					'dueDate' => 0
-				);
-			}
-			$i++;
-		}
-		while($i<=5){
-			$arr[] = array(
-					'days'=> $i,
-					'count' => 0,
-					'dueDate' => 0
-			);
-			$i++;
+			$arrCount[$tmpDays]++;
 		}
 		mysql_close($link);
+
+		//convert arrCount array to another array that is in JSON format
+		for ($x=-5; $x<=5; $x++) {
+			if ($x<=0) {
+				$arr[] = array(
+					'days' => $x,
+					'count' => $arrCount[$x]
+				);
+			} else {
+				$daysWithPlusSign="+".(string)$x;
+				$arr[] = array(
+					'days' => $daysWithPlusSign,
+					'count' => $arrCount[$x]
+				);
+			}
+
+		} 
 		return json_encode($arr);
-		//[{"day":"-5","count":"5","dueDate":"0"},{"day":"-4","count":"5","dueDate":"0"}]
+		//[{"day":"-5","count":"5"},{"day":"-4","count":"5"}]
 	}
 
 	//Load data for the chart Submission Time Distribution 96 Hours
