@@ -108,7 +108,7 @@ class Service
 		$query = mysql_query($sql);
 		while($row=mysql_fetch_array($query)){
 			$tmpDays=(int)round((strtotime($row['days'])-$timeDueDate)/3600/24);
-			$arrCount[$tmpDays]++;
+			$arrCount[$tmpDays]=$arrCount[$tmpDays]+$row['count'];
 		}
 		mysql_close($link);
 
