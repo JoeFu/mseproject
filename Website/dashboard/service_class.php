@@ -126,7 +126,6 @@ class Service
 					'count' => $arrCount[$x]
 				);
 			}
-
 		} 
 		return json_encode($arr);
 		//[{"day":"-5","count":"5"},{"day":"-4","count":"5"}]
@@ -167,16 +166,24 @@ class Service
 		$query = mysql_query($sql);
 		while($row=mysql_fetch_array($query)){
 			$tmpDays=(int)ceil((strtotime($row['days'])-$timeDueHour)/3600);
-			$arrCount[$tmpDays]++;
+			$arrCount[$tmpDays]=$arrCount[$tmpDays]+$row['count'];
 		}
 		mysql_close($link);
 
 		//convert arrCount array to another array that is in JSON format
 		for ($x=-96; $x<=96; $x++) {
+			if ($x<=0) {
 				$arr[] = array(
-					'days'=> $x,
+					'days' => $x,
 					'count' => $arrCount[$x]
 				);
+			} else {
+				$daysWithPlusSign="+".(string)$x;
+				$arr[] = array(
+					'days' => $daysWithPlusSign,
+					'count' => $arrCount[$x]
+				);
+			}
 		} 
 		return json_encode($arr);
 		//[{"days":-96,"count":0},{"days":-95,"count":1},{"days":-94,"count":0}]
