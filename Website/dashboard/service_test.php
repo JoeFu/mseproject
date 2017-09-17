@@ -306,7 +306,7 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2", assignment "Assignment 2") to verify and validate the logic of this function, we don't test other assignments of other courses in other semesters/ years for this function because we don't have real data for them.
 
 		//correct expected value for course "MSE", year "2012", semester "Semester 2", assignment "Assignment 2"
-		$expected = '[{"days":-5,"count":4},{"days":-4,"count":6},{"days":-3,"count":7},{"days":-2,"count":7},{"days":-1,"count":6},{"days":0,"count":6},{"days":"+1","count":4},{"days":"+2","count":12},{"days":"+3","count":0},{"days":"+4","count":1},{"days":"+5","count":0}]';
+		$expected = '[{"days":-5,"count":5},{"days":-4,"count":6},{"days":-3,"count":7},{"days":-2,"count":7},{"days":-1,"count":6},{"days":0,"count":6},{"days":"+1","count":4},{"days":"+2","count":12},{"days":"+3","count":0},{"days":"+4","count":1},{"days":"+5","count":0}]';
 		$SelectCourse="MSE";
 		$SelectYear="2012";
 		$SelectSemester="Semester 2";
@@ -323,6 +323,31 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 		$SelectAssignment="Assignment 2";
 		$service = new Service;
 		$actual = $service->submissionTimeDistribution5Days($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
+		$this->assertNotEquals($expected,$actual);
+	}
+
+	public function testSubmissionTimeDistribution5DaysStudent() 
+	{
+		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2", assignment "Assignment 2") to verify and validate the logic of this function, we don't test other assignments of other courses in other semesters/ years for this function because we don't have real data for them.
+
+		//correct expected value for course "MSE", year "2012", semester "Semester 2", assignment "Assignment 2"
+		$expected = '[{"days":-5,"count":4},{"days":-4,"count":6},{"days":-3,"count":7},{"days":-2,"count":6},{"days":-1,"count":6},{"days":0,"count":5},{"days":"+1","count":4},{"days":"+2","count":12},{"days":"+3","count":0},{"days":"+4","count":1},{"days":"+5","count":0}]';
+		$SelectCourse="MSE";
+		$SelectYear="2012";
+		$SelectSemester="Semester 2";
+		$SelectAssignment="Assignment 2";
+		$service = new Service;
+		$actual = $service->submissionTimeDistribution5DaysStudent($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
+		$this->assertEquals($expected,$actual);
+
+		//incorrect expected value for course "MSE", year "2012", semester "Semester 2", assignment "Assignment 2"
+		$expected = 'false';
+		$SelectCourse="MSE";
+		$SelectYear="2012";
+		$SelectSemester="Semester 2";
+		$SelectAssignment="Assignment 2";
+		$service = new Service;
+		$actual = $service->submissionTimeDistribution5DaysStudent($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
 		$this->assertNotEquals($expected,$actual);
 	}
 
