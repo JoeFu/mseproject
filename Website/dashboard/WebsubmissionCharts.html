@@ -187,6 +187,7 @@ $(document).ready(function() {
 $(document).ready(function(){ 
 	$('#SelectAssignment').change(function(){
 		SubmissionTimeDistribution5Days();
+		SubmissionTimeDistribution5DaysStudent();
 		SubmissionTimeDistribution96Hours();
 		FirstSubmissionTimeDistribution();
 		LastSubmissionTimeDistribution();
@@ -196,7 +197,7 @@ $(document).ready(function(){
 }) 
 </script>
 
-<!-- the chart SubmissionTimeDistribution 5 days after and before deadline-->
+<!-- the chart SubmissionTimeDistribution 5 days (y-axis: Number of submissions) after and before deadline-->
       <div id="SubmissionTimeDistribution5Days" style="width: 800px;height:400px;"></div>
       <div style="width: 200px;height:100px;position: relative; top: -400px;left: 870px;"></div>
 
@@ -311,6 +312,121 @@ function SubmissionTimeDistribution5Days(){
 		}
 	})//ajax
 }//function SubmissionTimeDistribution5Days
+</script>
+
+<!-- the chart Submission Time Distribution 5 days (y-axis: Number of students submit) after and before deadline-->
+      <div id="SubmissionTimeDistribution5DaysStudent" style="width: 800px;height:400px;"></div>
+      <div style="width: 200px;height:100px;position: relative; top: -400px;left: 870px;"></div>
+
+<script type="text/javascript">
+//initialize echarts instance
+var myChartSubmissionTimeDistribution5DaysStudent = echarts.init(document.getElementById('SubmissionTimeDistribution5DaysStudent'));
+
+// configuration and data of chart
+var option = {
+	title: {
+		text: 'Submission Time Distribution 5 Days (Students)'
+	},
+	tooltip: {},
+	xAxis: {
+		data: []
+	},
+	yAxis: {
+		name: 'Number of students submit',
+	},
+	dataZoom: [
+		{   // dataZoom component controls x-axis by default
+			type: 'slider', 
+			start: 0, // left
+			end: 100  // right
+		}
+	],
+	series: [
+		{
+			name: 'Number of students submit',
+			type: 'bar',
+			data: []
+		}
+	],
+	toolbox: {
+		show: true,
+		feature: {
+			dataView: {readOnly: false},
+			magicType: {type: ['line', 'bar']},
+			restore: {},
+			saveAsImage: {}
+		}
+	}
+};
+
+myChartSubmissionTimeDistribution5DaysStudent.setOption(option);
+
+function SubmissionTimeDistribution5DaysStudent(){
+	var SelectCourse=$("#SelectCourse option:selected").attr("id");
+	var SelectYear=$("#SelectYear option:selected").attr("id");
+	var SelectSemester=$("#SelectSemester option:selected").attr("id");
+	var SelectAssignment=$("#SelectAssignment option:selected").attr("id");
+	$.ajax({
+		type: "get",
+		async: true, 
+		url: "controller.php?type=submissionTimeDistribution5DaysStudent",
+		data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment},
+		dataType: "json", 
+		success: function(result) {
+			var days = [];
+			var count = [];
+			$.each(result,function(i,p){
+				days[i]=p['days'];
+				count[i]=p['count'];
+			});
+			myChartSubmissionTimeDistribution5DaysStudent.hideLoading();
+			myChartSubmissionTimeDistribution5DaysStudent.setOption({
+				xAxis: {
+					axisLabel :{
+						interval: 'auto', 
+						rotate:0
+					},
+					name: 'Day',
+					data: days,
+				},
+				series: [
+					{
+						name: 'Number of students submit',
+						data: count,
+						markArea: {
+							data: [ 
+								[{
+									name: 'Due day',
+									xAxis: 5
+								}, {
+									xAxis: 5
+								}]
+							]
+						},
+						markLine : {
+							label:{
+								normal:{
+									show:false,
+								}
+							},
+							lineStyle: {
+								normal: {
+									type: 'solid',
+									color: 'blue'
+								}
+							},
+							data : [
+								{ 
+									xAxis: 5 
+								}
+							]
+						}//markLine
+					}
+				]
+			});
+		}
+	})//ajax
+}//function SubmissionTimeDistribution5DaysStudent
 </script>
 
       <!-- the chart SubmissionTimeDistribution 96 hours after and before deadline-->
