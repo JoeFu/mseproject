@@ -1,11 +1,6 @@
-<!-- /**
-* Created by PhpStorm.
-* User: Joe Fu
-* Date: 22/8/2017
-* Time: 12:54 PM
-*/ -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,28 +10,56 @@
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles -->
-    <link href="../css/stu_data.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/about.css" />
     <link href="../css/popWindow.css" rel="stylesheet">
 </head>
-<body>
-        <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                        data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
-                        aria-label="Toggle navigation">
+
+<body class="is-loading">
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+            aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="#">Student-Data</a>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="about.html">About us <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " href="index.html">Back</a>
-                        </li>
-                    </ul>
-            </nav>
-    
-    
+        <a class="navbar-brand" href="#">About</a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link " href="demo/index.html">Back</a>
+                </li>
+            </ul>
+    </nav>
+    <div id="wrapper">
+        <section id="main">
+            <header>
+                <span class="avatar"><img src="image/demo_01.png" alt="LOGO"/></span>
+                <h1>Data Analysis</h1>
+                <p>
+                    [ Future / Information ] Innovation
+                </p>
+            </header>
+            <footer>
+                <ul class="icons">
+                    <li><a class="fa-github" title="GitHub" href="https://github.com/JoeFu/mseproject">Git</a></li>
+                    <li><a class="fa-renren" title="Developer" href="http://fuzeqi.tk">About me</a></li>
+                    <li><a class="fa-facebook-square" title="Facebook" href="https://www.facebook.com/fuzeqi">Facebook</a></li>
+                </ul>
+            </footer>
+        </section>
+        <footer id="footer">
+            <ul class="copyright">
+                <li>Copyright &copy; 2016-2017 <a href="http://fuzeqi.tk">Zeqi Fu</a> All rights reserved</li>
+            </ul>
+        </footer>
+    </div>
+    <script>
+        if ('addEventListener' in window) { window.addEventListener('load', function () { document.body.className = document.body.className.replace(/\bis-loading\b/, ''); }); document.body.className += (navigator.userAgent.match(/(MSIE|rv:11\.0)/) ? ' is-ie' : ''); }
+    </script>
+    <script>
+        var _hmt = _hmt || []; (function () { var hm = document.createElement("script"); hm.src = "//hm.baidu.com/hm.js?9b00cc8218f3159497e6207cee8dd0c6"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s); })();
+    </script>
+
+
+
 </body>
+
 </html>

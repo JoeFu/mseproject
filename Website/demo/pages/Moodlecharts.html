@@ -27,7 +27,9 @@
 </head>
 
 <body>
+
     <div id="wrapper">
+
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top bg-inverse" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
@@ -37,10 +39,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Survey</a>
+                <a class="navbar-brand" href="#">Moodle Charts</a>
             </div>
             <!-- /.navbar-header -->
-
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" style="color:white" data-toggle="dropdown" href="#">
@@ -128,10 +129,10 @@
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
                             </div>
                             <!-- /input-group -->
                         </li>
@@ -214,35 +215,120 @@
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
-            <!-- /.navbar-static-side -->
         </nav>
+        <!--Dynamic Load Data -->
         <script type="text/javascript">
             $('#username').load('../backend/APIs.php?option=postName')
         </script>
-        <!-- Page Content -->
+
         <div id="page-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Survey 2</h1>
-                    </div>
-                    <!-- /.col-lg-12 -->
-                    <div class="col-lg-6">
-                        <p>
-                            Extend the first survey.
-                            This survey will take you about 10-15 minutes, Thank you!
-                        </p>
-                        If you can not seen the survey page below, please click <b><a href="https://www.surveymonkey.com/r/TSPYSLB"> here</a></b>                        to complete the survey, Thank you.<br></br>
-                    </div>
-                    <script>
-                            (function (t, e, n, o) { var s, c, p; t.SMCX = t.SMCX || [], e.getElementById(o) || (s = e.getElementsByTagName(n), c = s[s.length - 1], p = e.createElement(n), p.type = "text/javascript", p.async = !0, p.id = o, p.src = ["https:" === location.protocol ? "https://" : "http://", "widget.surveymonkey.com/collect/website/js/9ay9D4t8lVv_2B4BNYTI_2FLAbKD_2F1p9uQwPAhzQnYRpPSujDgY2Xp_2BLBkV9j6QaOMpk.js"].join(""), c.parentNode.insertBefore(p, c)) })(window, document, "script", "smcx-sdk");
-                    </script><a style="font: 12px Helvetica, sans-serif; color: #999; text-decoration: none;" href="survey2.html"> Thank you for your participation! </a>
-
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Moodle Charts</h1>
                 </div>
-                <!-- /.row -->
-
+                <!-- /.col-lg-12 -->
             </div>
-            <!-- /.container-fluid -->
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Example
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-line-chart"></div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Example
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-pie-chart"></div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Example
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-line-chart-multi"></div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Example
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-line-chart-moving"></div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Example
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-bar-chart"></div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Moodle Charts Explaination
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <p>
+                                Details should be here!
+                            </p>
+                            <a target="_blank" class="btn btn-default btn-lg btn-block" href="#">View Documentation</a>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+            </div>
+            <!-- /.row -->
             <p class="text-right"><a href="#" title="Back to Top"><i class="fa fa-arrow-up fa-3x" aria-hidden="true"></i></a></p>
         </div>
         <!-- /#page-wrapper -->
@@ -254,6 +340,7 @@
             <p class="text-center">&copy; 2017 Student_data Project Team. &brvbar; <a href="../../privacy.html">Privacy</a> &middot; <a href="../../terms.html">Terms</a>
             </p>
         </footer>
+
     </div>
     <!-- /#wrapper -->
 
@@ -265,6 +352,14 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+    <!-- Flot Charts JavaScript -->
+    <script src="../vendor/flot/excanvas.min.js"></script>
+    <script src="../vendor/flot/jquery.flot.js"></script>
+    <script src="../vendor/flot/jquery.flot.pie.js"></script>
+    <script src="../vendor/flot/jquery.flot.resize.js"></script>
+    <script src="../vendor/flot/jquery.flot.time.js"></script>
+    <script src="../vendor/flot-tooltip/jquery.flot.tooltip.min.js"></script>
+    <script src="../data/flot-data.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>

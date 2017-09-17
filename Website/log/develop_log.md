@@ -18,3 +18,10 @@ And create following html file which show the 404 page, for example custom_404.h
 Finally, restart the apache2 service. <br>
 <code>sudo apache2 service restart</code>
 </p>
+
+<h2>Log in 13/9/2017</h2>
+<p>Q&A</p>
+<li><b>Q 1:What's the difference between old dashboard and new dashboard'</li></b>
+<p>A: The old dashboad only show the charts, and do not have suitable User Interface to customer. And the new dashboard is to solving this problem.</br>
+    The new dashboard is using the new APIs for backend, and it contains more features in the system. For example, the charts, the table, the survey, 
+</p>
