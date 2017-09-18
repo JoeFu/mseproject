@@ -76,6 +76,18 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'submissionTimeDistribution96HoursStudent':
+		{
+			//the course, year, semester, assignment user chooses
+			$SelectCourse = $_GET['SelectCourse'];
+			$SelectYear = $_GET['SelectYear'];
+			$SelectSemester = $_GET['SelectSemester'];
+			$SelectAssignment = $_GET['SelectAssignment'];
+
+			$response = $service->submissionTimeDistribution96HoursStudent($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
+			echo $response;
+		}
+		break;
 	case 'firstSubmissionTimeDistribution':
 		{
 			//the course, year, semester, assignment user chooses

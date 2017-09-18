@@ -248,6 +248,57 @@ class Service
 		//[{"days":-96,"count":0},{"days":-95,"count":1},{"days":-94,"count":0}]
 	}
 
+	//Load data for the chart Submission Time Distribution 96 Hours (y-axis: Number of students submit)
+	public function submissionTimeDistribution96HoursStudent($SelectCourse = "", $SelectYear="", $SelectSemester="", $SelectAssignment="")
+	{
+		include('../one_connection.php');
+
+		//get assignment due hour
+		$sql = "SELECT distinct DATE_FORMAT(  `DueDate` ,  '%Y-%m-%d %H:%m:%s' ) dueHour 
+		from event
+		where `CourseName`='MSE' and `SchoolYear`='2012' and `Semester`='Semester 2' and `AssignmentName`='Assignment 2' and `DataSourceType`=2";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$DueHour = $row['dueHour'];//YYYY-MM-DD HH:MM:SS 2012-09-22 17:09:00
+		}
+
+		$sql = "SELECT DISTINCT TIMESTAMPDIFF(Hour,'{$DueHour}',`EventTime`) days, FKUserId
+		from event
+		where `CourseName`='MSE' and `SchoolYear`='2012' and `Semester`='Semester 2' and `AssignmentName`='Assignment 2' and `DataSourceType`=2 and `FKEventTypeId`=5";
+
+		//arrCount array to store how many submissions per hour
+		$arrCount=array();
+		for ($x=-96; $x<=96; $x++) {
+			$arrCount[$x]=0;
+		}
+		
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			if( $row['days']>=-96 && $row['days']<=96){
+				$arrCount[$row['days']]++;		
+			}
+		}
+		mysql_close($link);
+
+		//convert arrCount array to another array that is in JSON format
+		for ($x=-96; $x<=96; $x++) {
+			if ($x<=0) {
+				$arr[] = array(
+					'days' => $x,
+					'count' => $arrCount[$x]
+				);
+			} else {
+				$daysWithPlusSign="+".(string)$x;
+				$arr[] = array(
+					'days' => $daysWithPlusSign,
+					'count' => $arrCount[$x]
+				);
+			}
+		} 
+		return json_encode($arr);
+		//[{"days":-96,"count":0},{"days":-95,"count":1},{"days":-94,"count":0}]	
+	}
+
 	//Load data for the chart First Submission Time Distribution
 	public function firstSubmissionTimeDistribution($SelectCourse = "", $SelectYear="", $SelectSemester="", $SelectAssignment="")
 	{
