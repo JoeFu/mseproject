@@ -25,12 +25,18 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * @author TonyPhan. The DataService class which is used to save data into or retrieve data from database. 
+ * @author TonyPhan. The DataService class which is used 
+ *      to save data into or retrieve data from database. 
  */
 @Path("/DataService")
 public class DataService implements IDataService {
-  @Path("/getEvents")
-  @GET
+  
+  /**
+   * Get the total number of events.
+   */  
+  @Path("/getEventTotal")
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public Response getEventTotal() {
     DataDao dataDao = DaoFactory.getInstance().createDataDao();
@@ -38,6 +44,10 @@ public class DataService implements IDataService {
     return Response.status(201).entity(String.valueOf(eventTotal)).build();
   }
   
+  /**
+   * Add data into Event and User tables.
+   * dataMessageJson: the parameter which is in Json format.
+   */    
   @Path("/addData")
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
@@ -49,10 +59,10 @@ public class DataService implements IDataService {
       return Response.status(201).entity(result).build();
     }
     List<List<String>> dataHolder = null;
-    switch(dataMessage.getDataSourceType()) {
+    switch (dataMessage.getDataSourceType()) {
       case 1:
         dataHolder = DataReader.readDataFromExcel(dataMessage.getFilePath());
-      break;
+        break;
       case 2:
         try {
           dataHolder = DataReader.readDataFromFile(dataMessage.getFilePath());
@@ -79,6 +89,9 @@ public class DataService implements IDataService {
     return Response.status(201).entity(String.valueOf(dataHolder.size())).build();
   }
   
+  /**
+   * Add data into Component table.
+   */
   @Path("/addComponents")
   @POST
   @Produces(MediaType.APPLICATION_JSON)
@@ -107,6 +120,9 @@ public class DataService implements IDataService {
     return null;
   }
   
+  /**
+   * Add data into EventType table.
+   */  
   @Path("/addEventTypes")
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
@@ -135,6 +151,9 @@ public class DataService implements IDataService {
     return null;
   }
   
+  /**
+   * Add data into UserType table.
+   */  
   @Path("/addUserTypes")
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
@@ -166,7 +185,7 @@ public class DataService implements IDataService {
   private Component buildComponent(int id) {
     Component component = new Component();
     component.setId(id);
-    switch(id) {
+    switch (id) {
       case 1:
         component.setName("System");
         break;
@@ -187,7 +206,10 @@ public class DataService implements IDataService {
         break;
       case 7:
         component.setName("mod_discussion");
-        break;          
+        break;
+      default:
+        component.setName("System");
+        break;
     }
     return component;
   }
