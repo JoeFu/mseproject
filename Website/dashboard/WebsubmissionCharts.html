@@ -184,15 +184,15 @@ $(document).ready(function() {
 
 	//after user chooses assignment, update all charts
 	$('#SelectAssignment').change(function(){
-		SubmissionTimeDistribution5Days();
-		SubmissionTimeDistribution5DaysStudent();
-		SubmissionTimeDistribution96Hours();
-		SubmissionTimeDistribution96HoursStudent();
+		submissionTimeDistribution5Days();
+		submissionTimeDistribution5DaysStudent();
+		submissionTimeDistribution96Hours();
+		submissionTimeDistribution96HoursStudent();
 		submissionTimeDistributionSubmission();
-		FirstSubmissionTimeDistribution();
-		LastSubmissionTimeDistribution();
-		MarkDistributionUpdate();
-		SubmissionTimesOfEachStudentUpdate();
+		firstSubmissionTimeDistribution();
+		lastSubmissionTimeDistribution();
+		markDistributionUpdate();
+		submissionTimesOfEachStudentUpdate();
 	}) 
 })//DocumentReady()
 </script>
@@ -244,7 +244,7 @@ var option = {
 
 myChartSubmissionTimeDistribution5Days.setOption(option);
 
-function SubmissionTimeDistribution5Days(){
+function submissionTimeDistribution5Days(){
 	var SelectCourse=$("#SelectCourse option:selected").attr("id");
 	var SelectYear=$("#SelectYear option:selected").attr("id");
 	var SelectSemester=$("#SelectSemester option:selected").attr("id");
@@ -311,7 +311,7 @@ function SubmissionTimeDistribution5Days(){
 			});
 		}
 	})//ajax
-}//function SubmissionTimeDistribution5Days
+}//function submissionTimeDistribution5Days
 </script>
 
 <!-- the chart Submission Time Distribution 5 days (y-axis: Number of students submit) after and before deadline-->
@@ -361,7 +361,7 @@ var option = {
 
 myChartSubmissionTimeDistribution5DaysStudent.setOption(option);
 
-function SubmissionTimeDistribution5DaysStudent(){
+function submissionTimeDistribution5DaysStudent(){
 	var SelectCourse=$("#SelectCourse option:selected").attr("id");
 	var SelectYear=$("#SelectYear option:selected").attr("id");
 	var SelectSemester=$("#SelectSemester option:selected").attr("id");
@@ -426,7 +426,7 @@ function SubmissionTimeDistribution5DaysStudent(){
 			});
 		}
 	})//ajax
-}//function SubmissionTimeDistribution5DaysStudent
+}//function submissionTimeDistribution5DaysStudent
 </script>
 
       <!-- the chart SubmissionTimeDistribution 96 hours after and before deadline-->
@@ -476,7 +476,7 @@ var option = {
 
 myChartSubmissionTimeDistribution96Hours.setOption(option);
 
-function SubmissionTimeDistribution96Hours(){
+function submissionTimeDistribution96Hours(){
 	var SelectCourse=$("#SelectCourse option:selected").attr("id");
 	var SelectYear=$("#SelectYear option:selected").attr("id");
 	var SelectSemester=$("#SelectSemester option:selected").attr("id");
@@ -542,7 +542,7 @@ function SubmissionTimeDistribution96Hours(){
 			});
 		}
 	})//ajax
-}//function SubmissionTimeDistribution96Hours
+}//function submissionTimeDistribution96Hours
 </script>
 
      <!-- the chart "Submission Time Distribution 96 hours after and before due hour (y-axis: Number of students submit)"-->
@@ -592,7 +592,7 @@ var option = {
 
 myChartSubmissionTimeDistribution96HoursStudent.setOption(option);
 
-function SubmissionTimeDistribution96HoursStudent(){
+function submissionTimeDistribution96HoursStudent(){
 	var SelectCourse=$("#SelectCourse option:selected").attr("id");
 	var SelectYear=$("#SelectYear option:selected").attr("id");
 	var SelectSemester=$("#SelectSemester option:selected").attr("id");
@@ -658,7 +658,7 @@ function SubmissionTimeDistribution96HoursStudent(){
 			});
 		}
 	})//ajax
-}//function SubmissionTimeDistribution96HoursStudent
+}//function submissionTimeDistribution96HoursStudent
 </script>
 
      <!-- the chart Submission Time Distribution (y-axis: Number of submissions) -->
@@ -835,7 +835,7 @@ var option = {
 
 myChartFirstSubmissionTimeDistribution.setOption(option);
 
-function FirstSubmissionTimeDistribution(){
+function firstSubmissionTimeDistribution(){
 	var SelectCourse=$("#SelectCourse option:selected").attr("id");
 	var SelectYear=$("#SelectYear option:selected").attr("id");
 	var SelectSemester=$("#SelectSemester option:selected").attr("id");
@@ -912,7 +912,7 @@ function FirstSubmissionTimeDistribution(){
 			});
 		}
 	})//ajax
-}//function FirstSubmissionTimeDistribution
+}//function firstSubmissionTimeDistribution
 </script>
 
       <!-- the chart LastSubmissionTimeDistribution -->
@@ -962,7 +962,7 @@ var option = {
 
 myChartLastSubmissionTimeDistribution.setOption(option);
 
-function LastSubmissionTimeDistribution(){
+function lastSubmissionTimeDistribution(){
 	var SelectCourse=$("#SelectCourse option:selected").attr("id");
 	var SelectYear=$("#SelectYear option:selected").attr("id");
 	var SelectSemester=$("#SelectSemester option:selected").attr("id");
@@ -1039,7 +1039,7 @@ function LastSubmissionTimeDistribution(){
 			});
 		}
 	})//ajax
-}//function LastSubmissionTimeDistribution
+}//function lastSubmissionTimeDistribution
 </script>
 
       <!-- the chart "Submission Times Of Each Student"-->
@@ -1097,7 +1097,7 @@ var option = {
 // display chart using the configuration items and data set
 myChartSubmissionTimesOfEachStudent.setOption(option);
 
-function SubmissionTimesOfEachStudentUpdate(){
+function submissionTimesOfEachStudentUpdate(){
 	var order=$('#SubmissionTimesOfEachStudentSelect').val();
 	var SelectCourse=$("#SelectCourse option:selected").attr("id");
 	var SelectYear=$("#SelectYear option:selected").attr("id");
@@ -1139,7 +1139,7 @@ function SubmissionTimesOfEachStudentUpdate(){
 //When user changes the presentation order, undate the chart "Submission Times Of Each Student"
 $(document).ready(function(){ 
 	$('#SubmissionTimesOfEachStudentSelect').change(function(){ 
-		SubmissionTimesOfEachStudentUpdate();
+		submissionTimesOfEachStudentUpdate();
 	}) 
 }) 
 </script>
@@ -1195,7 +1195,7 @@ var option = {
 // display chart using the configuration items and data set
 myChartMarkDistribution.setOption(option);
 
-function MarkDistributionUpdate(){
+function markDistributionUpdate(){
 	var SelectCourse=$("#SelectCourse option:selected").attr("id");
 	var SelectYear=$("#SelectYear option:selected").attr("id");
 	var SelectSemester=$("#SelectSemester option:selected").attr("id");
@@ -1237,7 +1237,7 @@ function MarkDistributionUpdate(){
 //after user chooses configuration option for Mark Distribution Chart, update the Mark Distribution Chart
 $(document).ready(function(){ 
 	$('#MarkDistributionSelect').change(function(){ 
-		MarkDistributionUpdate();
+		markDistributionUpdate();
 	}) 
 }) 
 </script>
