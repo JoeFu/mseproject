@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'./service_class.php';
 
 //Development environment: WAMPServer Version 2.2 (PHP 5.3.13, MYSQL 5.5.24)
 //Testing tool: PhpUnit4.8.36
-//Database and data used for testing: studentdata_#74.sql
+//Database and data used for testing: studentdata_#122.sql
 
 class ServiceTest extends PHPUnit_Framework_TestCase 
 {
@@ -423,6 +423,31 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 		$SelectAssignment="Assignment 2";
 		$service = new Service;
 		$actual = $service->submissionTimeDistributionSubmission($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
+		$this->assertNotEquals($expected,$actual);
+	}
+
+	public function testSubmissionTimeDistributionStudent() 
+	{
+		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2", assignment "Assignment 2") to verify and validate the logic of this function, we don't test other assignments of other courses in other semesters/ years for this function because we don't have real data for them.
+
+		//correct expected value for course "MSE", year "2012", semester "Semester 2", assignment "Assignment 2"
+		$expected = '[{"days":-31,"count":0,"dueDay":31},{"days":-30,"count":0,"dueDay":31},{"days":-29,"count":0,"dueDay":31},{"days":-28,"count":0,"dueDay":31},{"days":-27,"count":0,"dueDay":31},{"days":-26,"count":0,"dueDay":31},{"days":-25,"count":0,"dueDay":31},{"days":-24,"count":0,"dueDay":31},{"days":-23,"count":0,"dueDay":31},{"days":-22,"count":0,"dueDay":31},{"days":-21,"count":0,"dueDay":31},{"days":-20,"count":1,"dueDay":31},{"days":-19,"count":0,"dueDay":31},{"days":-18,"count":1,"dueDay":31},{"days":-17,"count":3,"dueDay":31},{"days":-16,"count":5,"dueDay":31},{"days":-15,"count":5,"dueDay":31},{"days":-14,"count":4,"dueDay":31},{"days":-13,"count":7,"dueDay":31},{"days":-12,"count":6,"dueDay":31},{"days":-11,"count":5,"dueDay":31},{"days":-10,"count":5,"dueDay":31},{"days":-9,"count":7,"dueDay":31},{"days":-8,"count":3,"dueDay":31},{"days":-7,"count":4,"dueDay":31},{"days":-6,"count":2,"dueDay":31},{"days":-5,"count":4,"dueDay":31},{"days":-4,"count":6,"dueDay":31},{"days":-3,"count":7,"dueDay":31},{"days":-2,"count":6,"dueDay":31},{"days":-1,"count":6,"dueDay":31},{"days":0,"count":5,"dueDay":31},{"days":"+1","count":4,"dueDay":31},{"days":"+2","count":12,"dueDay":31},{"days":"+3","count":0,"dueDay":31},{"days":"+4","count":1,"dueDay":31},{"days":"+5","count":0,"dueDay":31}]';
+		$SelectCourse="MSE";
+		$SelectYear="2012";
+		$SelectSemester="Semester 2";
+		$SelectAssignment="Assignment 2";
+		$service = new Service;
+		$actual = $service->submissionTimeDistributionStudent($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
+		$this->assertEquals($expected,$actual);
+
+		//incorrect expected value for course "MSE", year "2012", semester "Semester 2", assignment "Assignment 2"
+		$expected = 'false';
+		$SelectCourse="MSE";
+		$SelectYear="2012";
+		$SelectSemester="Semester 2";
+		$SelectAssignment="Assignment 2";
+		$service = new Service;
+		$actual = $service->submissionTimeDistributionStudent($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
 		$this->assertNotEquals($expected,$actual);
 	}
 
