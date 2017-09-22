@@ -52,6 +52,18 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'submissionTimeDistribution5DaysStudent':
+		{
+			//the course, year, semester, assignment user chooses
+			$SelectCourse = $_GET['SelectCourse'];
+			$SelectYear = $_GET['SelectYear'];
+			$SelectSemester = $_GET['SelectSemester'];
+			$SelectAssignment = $_GET['SelectAssignment'];
+
+			$response = $service->submissionTimeDistribution5DaysStudent($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
+			echo $response;
+		}
+		break;
 	case 'submissionTimeDistribution96Hours':
 		{
 			//the course, year, semester, assignment user chooses
@@ -61,6 +73,42 @@ switch ($type) {
 			$SelectAssignment = $_GET['SelectAssignment'];
 
 			$response = $service->submissionTimeDistribution96Hours($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
+			echo $response;
+		}
+		break;
+	case 'submissionTimeDistribution96HoursStudent':
+		{
+			//the course, year, semester, assignment user chooses
+			$SelectCourse = $_GET['SelectCourse'];
+			$SelectYear = $_GET['SelectYear'];
+			$SelectSemester = $_GET['SelectSemester'];
+			$SelectAssignment = $_GET['SelectAssignment'];
+
+			$response = $service->submissionTimeDistribution96HoursStudent($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
+			echo $response;
+		}
+		break;
+	case 'submissionTimeDistributionSubmission':
+		{
+			//the course, year, semester, assignment user chooses
+			$SelectCourse = $_GET['SelectCourse'];
+			$SelectYear = $_GET['SelectYear'];
+			$SelectSemester = $_GET['SelectSemester'];
+			$SelectAssignment = $_GET['SelectAssignment'];
+
+			$response = $service->submissionTimeDistributionSubmission($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
+			echo $response;
+		}
+		break;
+	case 'submissionTimeDistributionStudent':
+		{
+			//the course, year, semester, assignment user chooses
+			$SelectCourse = $_GET['SelectCourse'];
+			$SelectYear = $_GET['SelectYear'];
+			$SelectSemester = $_GET['SelectSemester'];
+			$SelectAssignment = $_GET['SelectAssignment'];
+
+			$response = $service->submissionTimeDistributionStudent($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
 			echo $response;
 		}
 		break;

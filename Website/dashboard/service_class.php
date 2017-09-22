@@ -70,7 +70,7 @@ class Service
 		return json_encode($arr);
 	}
 
-	//Load data for the chart Submission Time Distribution 5 Days
+	//Load data for the chart Submission Time Distribution 5 Days (y-axis: Number of submissions)
 	public function submissionTimeDistribution5Days($SelectCourse = "", $SelectYear="", $SelectSemester="", $SelectAssignment="")
 	{
 		include('../one_connection.php');
@@ -109,6 +109,65 @@ class Service
 		while($row=mysql_fetch_array($query)){
 			$tmpDays=(int)round((strtotime($row['days'])-$timeDueDate)/3600/24);
 			$arrCount[$tmpDays]=$arrCount[$tmpDays]+$row['count'];
+		}
+		mysql_close($link);
+
+		//convert arrCount array to another array that is in JSON format
+		for ($x=-5; $x<=5; $x++) {
+			if ($x<=0) {
+				$arr[] = array(
+					'days' => $x,
+					'count' => $arrCount[$x]
+				);
+			} else {
+				$daysWithPlusSign="+".(string)$x;
+				$arr[] = array(
+					'days' => $daysWithPlusSign,
+					'count' => $arrCount[$x]
+				);
+			}
+		} 
+		return json_encode($arr);
+		//[{"day":"-5","count":"5"},{"day":"-4","count":"5"}]
+	}
+
+	//Load data for the chart Submission Time Distribution 5 Days (y-axis: Number of students submit)
+	public function submissionTimeDistribution5DaysStudent($SelectCourse = "", $SelectYear="", $SelectSemester="", $SelectAssignment="")
+	{
+		include('../one_connection.php');
+
+		//get assignment deadline
+		$sql = "SELECT distinct DATE_FORMAT(  `DueDate` ,  '%Y%m%d' ) dueDate 
+		from event
+		where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$DueDate = $row['dueDate'];//yyyymmdd
+		}
+
+		//Convert $DueDate to time
+		$timeDueDate= strtotime($DueDate);
+		//the 5th day before deadline
+		$DueDateMinus5=date('Ymd',strtotime("$DueDate -5 day"));
+		//the 6th day after deadline
+		$DueDatePlus6=date('Ymd',strtotime("$DueDate +6 day"));
+
+		$sql = "SELECT DISTINCT DATE_FORMAT(  `EventTime` ,  '%Y%m%d' ) days, FKUserId
+		from event
+		where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2 and `FKEventTypeId`=5";
+
+		//the main purpose of the following code is to add those days with 
+		//0 student submits to array, since the query result will not include them
+		//arrCount array to store how many students submit per day
+		$arrCount=array();
+		for ($x=-200; $x<=200; $x++) {
+			$arrCount[$x]=0;
+		}
+		
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$tmpDays=(int)round((strtotime($row['days'])-$timeDueDate)/3600/24);
+			$arrCount[$tmpDays]++;
 		}
 		mysql_close($link);
 
@@ -187,6 +246,193 @@ class Service
 		} 
 		return json_encode($arr);
 		//[{"days":-96,"count":0},{"days":-95,"count":1},{"days":-94,"count":0}]
+	}
+
+	//Load data for the chart Submission Time Distribution 96 Hours (y-axis: Number of students submit)
+	public function submissionTimeDistribution96HoursStudent($SelectCourse = "", $SelectYear="", $SelectSemester="", $SelectAssignment="")
+	{
+		include('../one_connection.php');
+
+		//get assignment due hour
+		$sql = "SELECT distinct DATE_FORMAT(  `DueDate` ,  '%Y-%m-%d %H:%m:%s' ) dueHour 
+		from event
+		where `CourseName`='MSE' and `SchoolYear`='2012' and `Semester`='Semester 2' and `AssignmentName`='Assignment 2' and `DataSourceType`=2";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$DueHour = $row['dueHour'];//YYYY-MM-DD HH:MM:SS 2012-09-22 17:09:00
+		}
+
+		$sql = "SELECT DISTINCT TIMESTAMPDIFF(Hour,'{$DueHour}',`EventTime`) days, FKUserId
+		from event
+		where `CourseName`='MSE' and `SchoolYear`='2012' and `Semester`='Semester 2' and `AssignmentName`='Assignment 2' and `DataSourceType`=2 and `FKEventTypeId`=5";
+
+		//arrCount array to store how many submissions per hour
+		$arrCount=array();
+		for ($x=-96; $x<=96; $x++) {
+			$arrCount[$x]=0;
+		}
+		
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			if( $row['days']>=-96 && $row['days']<=96){
+				$arrCount[$row['days']]++;		
+			}
+		}
+		mysql_close($link);
+
+		//convert arrCount array to another array that is in JSON format
+		for ($x=-96; $x<=96; $x++) {
+			if ($x<=0) {
+				$arr[] = array(
+					'days' => $x,
+					'count' => $arrCount[$x]
+				);
+			} else {
+				$daysWithPlusSign="+".(string)$x;
+				$arr[] = array(
+					'days' => $daysWithPlusSign,
+					'count' => $arrCount[$x]
+				);
+			}
+		} 
+		return json_encode($arr);
+		//[{"days":-96,"count":0},{"days":-95,"count":1},{"days":-94,"count":0}]	
+	}
+
+	//Load data for the chart Submission Time Distribution (y-axis: Number of submissions)
+	public function submissionTimeDistributionSubmission($SelectCourse = "", $SelectYear="", $SelectSemester="", $SelectAssignment="")
+	{
+		include('../one_connection.php');
+
+		//get assignment deadline
+		$sql = "SELECT distinct DATE_FORMAT(  `StartDate` ,  '%Y%m%d' ) startDate, DATE_FORMAT(  `DueDate` ,  '%Y%m%d' ) dueDate 
+		from event
+		where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$StartDate = $row['startDate'];//yyyymmdd
+			$DueDate = $row['dueDate'];//yyyymmdd
+		}
+
+		//Convert $StartDate,$DueDate to time
+		$timeStartDate= strtotime($StartDate);
+		$timeDueDate= strtotime($DueDate);
+		//the start date
+		$StartDateMinus0=date('Ymd',strtotime("$StartDate"));
+		//the 6th day after deadline
+		$DueDatePlus6=date('Ymd',strtotime("$DueDate +6 day"));
+
+		$sql = "SELECT DATE_FORMAT(  `EventTime` ,  '%Y%m%d' ) days, COUNT(  `Id` ) count
+		from event
+		where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2 and `FKEventTypeId`=5
+		GROUP BY days
+		having days between '{$StartDateMinus0}' and '{$DueDatePlus6}'";
+
+		//the difference between start date and due date
+		$i=(int)round(($timeStartDate-$timeDueDate)/3600/24);
+
+		//the main purpose of the following code is to add those days with 
+		//0 submission to array, since the query result will not include them
+		//arrCount array to store how many submissions per day
+		$arrCount=array();
+		for ($x=$i; $x<=5; $x++) {
+			$arrCount[$x]=0;
+		}
+		
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$tmpDays=(int)round((strtotime($row['days'])-$timeDueDate)/3600/24);
+			$arrCount[$tmpDays]=$arrCount[$tmpDays]+$row['count'];
+		}
+		mysql_close($link);
+
+		//convert arrCount array to another array that is in JSON format
+		for ($x=$i; $x<=5; $x++) {
+			if ($x<=0) {
+				$arr[] = array(
+					'days' => $x,
+					'count' => $arrCount[$x],
+					'dueDay' => abs($i)
+				);
+			} else {
+				$daysWithPlusSign="+".(string)$x;
+				$arr[] = array(
+					'days' => $daysWithPlusSign,
+					'count' => $arrCount[$x],
+					'dueDay' => abs($i)
+				);
+			}
+		} 
+		return json_encode($arr);
+		//Example of the output format: [{"day":"-5","count":"5","dueDay":"31"},{"day":"-4","count":"5","dueDay":"31"}]
+	}
+
+	//Load data for the chart Submission Time Distribution (y-axis: Number of students submit)
+	public function submissionTimeDistributionStudent($SelectCourse = "", $SelectYear="", $SelectSemester="", $SelectAssignment="")
+	{
+		include('../one_connection.php');
+
+		//get assignment deadline
+		$sql = "SELECT distinct DATE_FORMAT(  `StartDate` ,  '%Y%m%d' ) startDate, DATE_FORMAT(  `DueDate` ,  '%Y%m%d' ) dueDate 
+		from event
+		where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$StartDate = $row['startDate'];//yyyymmdd
+			$DueDate = $row['dueDate'];//yyyymmdd
+		}
+
+		//Convert $StartDate,$DueDate to time
+		$timeStartDate= strtotime($StartDate);
+		$timeDueDate= strtotime($DueDate);
+		//the start date
+		$StartDateMinus0=date('Ymd',strtotime("$StartDate"));
+		//the 6th day after deadline
+		$DueDatePlus6=date('Ymd',strtotime("$DueDate +6 day"));
+
+		$sql = "SELECT DISTINCT DATE_FORMAT(  `EventTime` ,  '%Y%m%d' ) days, FKUserId
+		from event
+		where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2 and `FKEventTypeId`=5";
+
+		//the difference between start date and due date
+		$i=(int)round(($timeStartDate-$timeDueDate)/3600/24);
+
+		//the main purpose of the following code is to add those days with 
+		//0 student submits to array, since the query result will not include them
+		//arrCount array to store how many students submit per day
+		$arrCount=array();
+		for ($x=$i; $x<=5; $x++) {
+			$arrCount[$x]=0;
+		}
+		
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$tmpDays=(int)round((strtotime($row['days'])-$timeDueDate)/3600/24);
+			if( $tmpDays>=$i && $tmpDays<=5){
+				$arrCount[$tmpDays]++;		
+			}
+		}
+		mysql_close($link);
+
+		//convert arrCount array to another array that is in JSON format
+		for ($x=$i; $x<=5; $x++) {
+			if ($x<=0) {
+				$arr[] = array(
+					'days' => $x,
+					'count' => $arrCount[$x],
+					'dueDay' => abs($i)
+				);
+			} else {
+				$daysWithPlusSign="+".(string)$x;
+				$arr[] = array(
+					'days' => $daysWithPlusSign,
+					'count' => $arrCount[$x],
+					'dueDay' => abs($i)
+				);
+			}
+		} 
+		return json_encode($arr);
+		//Example of the output format: [{"day":"-5","count":"5","dueDay":"31"},{"day":"-4","count":"5","dueDay":"31"}]
 	}
 
 	//Load data for the chart First Submission Time Distribution
