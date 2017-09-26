@@ -795,10 +795,11 @@ class Service
 	}
 
 	//Load data for the chart Student Activities Overview
-	public function studentActivitiesOverview($CourseName="", $from="", $to="", $order="", $ThresholdSelect="", $Threshold="")
+	public function studentActivitiesOverview($SelectCourse="", $from="", $to="", $order="", $ThresholdSelect="", $Threshold="")
 	{
 		include('../one_connection.php');
 		
+		//presentation order: alphabetical, descending, ascending
 		$OrderBy='';
 		switch ($order) {
 			case 1:
@@ -814,14 +815,14 @@ class Service
 
 		$sql = "SELECT FKUserId, COUNT(  `Id` ) count
 		FROM event
-		WHERE CourseName='{$CourseName}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
+		WHERE CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
 		GROUP BY FKUserId
 		HAVING count{$ThresholdSelect}{$Threshold}
 		{$OrderBy}";
 		$query = mysql_query($sql);
-		$amount=mysql_num_rows($query);
+		$amount=mysql_num_rows($query);// number of records
 		while($row=mysql_fetch_array($query)){
-			$row['FKUserId']=str_replace('SER','',$row['FKUserId']);
+			$row['FKUserId']=str_replace('SER','',$row['FKUserId']);// compress "USER0019" to "U0019"
 			$arr[] = array(
 				'name'=> $row['FKUserId'],
 				'count' => $row['count'],
