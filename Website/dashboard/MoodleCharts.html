@@ -150,9 +150,323 @@ $(document).ready(function() {
 			}
 		});//ajax
 	});//change()
+
+	//after user selects semester, update the start day and end day (the value in the input box) of all the charts and update all the charts
+	$('#SelectSemester').change(function () {
+		var SelectCourseId = $("#SelectCourse option:selected").attr("id");
+		var SelectYearId = $("#SelectYear option:selected").attr("id");
+		var SelectSemesterId = $("#SelectSemester option:selected").attr("id");
+		var PeriodFrom;
+		var PeriodTo;
+		switch (SelectYearId) {
+			//the start day and end day of semesters in different years are different
+			case "2012":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0227";
+					PeriodTo = SelectYearId + "0630";
+					$("#StudentActivitiesOverviewFrom").val(PeriodFrom);
+					$("#StudentActivitiesOverviewTo").val(PeriodTo);
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0723";
+					PeriodTo = SelectYearId + "1117";
+					$("#StudentActivitiesOverviewFrom").val(PeriodFrom);
+					$("#StudentActivitiesOverviewTo").val(PeriodTo);
+				}
+				break;
+			case "2013":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0304";
+					PeriodTo = SelectYearId + "0705";
+					$("#StudentActivitiesOverviewFrom").val(PeriodFrom);
+					$("#StudentActivitiesOverviewTo").val(PeriodTo);
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0729";
+					PeriodTo = SelectYearId + "1122";
+					$("#StudentActivitiesOverviewFrom").val(PeriodFrom);
+					$("#StudentActivitiesOverviewTo").val(PeriodTo);
+				}
+				break;
+			case "2014":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0303";
+					PeriodTo = SelectYearId + "0704";
+					$("#StudentActivitiesOverviewFrom").val(PeriodFrom);
+					$("#StudentActivitiesOverviewTo").val(PeriodTo);
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0728";
+					PeriodTo = SelectYearId + "1121";
+					$("#StudentActivitiesOverviewFrom").val(PeriodFrom);
+					$("#StudentActivitiesOverviewTo").val(PeriodTo);
+				}
+				break;
+		}
+		studentActivitiesOverviewUpdate();
+	})//$('#SelectSemester').change(function ()
 })//DocumentReady()
 </script>
 
+	  <div id="StudentActivitiesOverview" style="width: 800px;height:400px;"></div>
+	  <div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
+	    <label for="StudentActivitiesOverviewPresentationOrder">Change Presentation Order</label>
+		<select id="StudentActivitiesOverviewPresentationOrder">
+		  <option value ="1" selected = "selected">Alphabetical order</option>
+		  <option value ="2">Descending order</option>
+		  <option value ="3">Ascending order</option>
+		</select>
+		</br></br>
+		<label>Set period (YYYYMMDD)</label>
+		</br>
+		<label>From</label>
+		<input type="text" id="StudentActivitiesOverviewFrom">
+		</br>
+		<label>To</label>&nbsp&nbsp&nbsp&nbsp
+		<input type="text" id="StudentActivitiesOverviewTo">
+		<button type="button" id="StudentActivitiesOverviewSetPeriod">Set period</button></br></br>
+		<label for="Threshold">Threshold (Amount of activities)</label>
+		</br>
+		<select id="StudentActivitiesOverviewThresholdSelect">
+		  <option  value =">" selected = "selected">></option>
+		  <option value =">=">>=</option>
+		  <option value="<"><</option>
+		  <option value="<="><=</option>
+		  <option value="=">=</option>
+		</select>
+		<input type="text" id="StudentActivitiesOverviewThreshold" value="0">
+		<button type="button" id="StudentActivitiesOverviewSetThreshold">Set threshold</button>
+		</br></br>
+        <button type="button" id="StudentActivitiesOverviewCSV">Export CSV</button>
+      </div>
+				
+<script type="text/javascript">
+//DatePicker for the chart "Student Activities Overview"
+$(document).ready(function () {
+	$("#StudentActivitiesOverviewFrom").datepicker({
+		defaultDate: "+1w",
+		changeMonth: true,
+		changeYear: true,
+		numberOfMonths: 3,
+		onClose: function (selectedDate) {
+			$("#StudentActivitiesOverviewTo").datepicker("option", "minDate", selectedDate);
+		}
+	});
+	$("#StudentActivitiesOverviewTo").datepicker({
+		defaultDate: "+1w",
+		changeMonth: true,
+		changeYear: true,
+		numberOfMonths: 3,
+		onClose: function (selectedDate) {
+			$("#StudentActivitiesOverviewFrom").datepicker("option", "maxDate", selectedDate);
+		}
+	});
+
+	//set the format (YYYYMMDD) of start date and end date for the chart "Student Activities Overview" 
+	$("#StudentActivitiesOverviewFrom").datepicker("option", "dateFormat", "yymmdd");//YYYYMMDD
+	$("#StudentActivitiesOverviewTo").datepicker("option", "dateFormat", "yymmdd");//YYYYMMDD
+})
+
+//Initialize e-charts instance
+var myChartStudentActivitiesOverview = echarts.init(document.getElementById('StudentActivitiesOverview'));
+
+//configuration item and data for the chart
+var option = {
+	title: {
+		text: 'Student activities overview'
+	},
+	tooltip: {},
+	xAxis: {
+		name: 'User',
+		data: []
+	},
+	yAxis: {
+		name: 'Amount of activities'
+	},
+	grid: {
+		x: 100,
+		y2: 100
+	},
+	dataZoom: [
+		{   // dataZoom component controls x-axis by default
+			type: 'slider',
+			start: 0, // left position 0%
+			end: 100  // right position 100%
+		}
+	],
+	series: [{
+		name: 'Amount of activities',
+		type: 'bar',
+		data: []
+	}],
+	toolbox: {
+		show: true,
+		feature: {
+			dataView: { readOnly: false },
+			magicType: { type: ['line', 'bar'] },
+			restore: {},
+			saveAsImage: {}
+		}
+	}
+};
+
+// display the chart based on the configuration item and data
+myChartStudentActivitiesOverview.setOption(option);
+
+var StudentActivitiesOverviewAmount;//number of bars (number of records)
+var StudentActivitiesOverviewDiff = 100;
+
+function studentActivitiesOverviewUpdate() {
+	var SelectCourse = $("#SelectCourse option:selected").attr("id");
+	var from = $("#StudentActivitiesOverviewFrom").val();
+	var to = $("#StudentActivitiesOverviewTo").val();
+	var order = $('#StudentActivitiesOverviewPresentationOrder').val();
+	var ThresholdSelect = $('#StudentActivitiesOverviewThresholdSelect').val();
+	var Threshold = $('#StudentActivitiesOverviewThreshold').val();
+
+	$.ajax({
+		type: "get",
+		async: true, //asynchronous
+		url: "controller.php?type=studentActivitiesOverview",
+		dataType: "json", //return JSON data
+		data: { "from": from, "to": to, "order": order, "ThresholdSelect": ThresholdSelect, "Threshold": Threshold, "SelectCourse": SelectCourse},
+		success: function (result) {
+			var name = [];
+			var count = [];
+			var amount = [];
+			$.each(result, function (i, p) {
+				name[i] = p['name'];
+				count[i] = p['count'];
+				amount[i] = p['amount'];
+			});
+		StudentActivitiesOverviewAmount = amount[0];
+		myChartStudentActivitiesOverview.hideLoading();
+		var StudentActivitiesOverviewRelativeAmount = StudentActivitiesOverviewDiff * StudentActivitiesOverviewAmount / 100;
+		// the purpose of the following code is to solve the x-label issue to ensure the accuracy and correctness of information, it will determine which stage we are at when loading the data: at the first stage, display no x-label (e-charts display some of the labels by default because there is not enough space to accommodate all the x-labels, this will provide misleading information); at the second stage, display all x-labels at a 90 degree; at the third stage, display all x-labels at a 40 degree; at the last stage, display all x-labels normally (at a 0 degree).
+		if (StudentActivitiesOverviewRelativeAmount <= 8.15) {
+			myChartStudentActivitiesOverview.setOption({
+				xAxis: {
+					data: name,
+					axisLabel: {
+						show: true,
+						interval: 'auto',
+						rotate: 0
+					}
+				},
+				series: [{
+					name: 'Amount of activities',
+					data: count
+				}]
+			});
+		} else if (StudentActivitiesOverviewRelativeAmount <= 16.3) {
+			myChartStudentActivitiesOverview.setOption({
+				xAxis: {
+					data: name,
+					axisLabel: {
+						show: true,
+						interval: 0,
+						rotate: 40
+					}
+				},
+				series: [{
+					name: 'Amount of activities',
+					data: count
+				}]
+			});
+		} else if (StudentActivitiesOverviewRelativeAmount <= 48.9) {
+			myChartStudentActivitiesOverview.setOption({
+				xAxis: {
+					data: name,
+					axisLabel: {
+						show: true,
+						interval: 0,
+						rotate: 90
+					}
+				},
+				series: [{
+					name: 'Amount of activities',
+					data: count
+				}]
+			});
+		} else if (StudentActivitiesOverviewRelativeAmount > 48.9) {
+			myChartStudentActivitiesOverview.setOption({
+				xAxis: {
+					data: name,
+					axisLabel: {
+						show: false
+					}
+				},
+				series: [{
+					name: 'Amount of activities',
+					data: count
+				}]
+			});
+		}
+		}//success
+	});//ajax
+}//function studentActivitiesOverviewUpdate()
+
+//after user sets presentation order/period/threshold, update the chart "StudentActivitiesOverview"
+$(document).ready(function () {
+	$('#StudentActivitiesOverviewPresentationOrder').change(function () {
+		studentActivitiesOverviewUpdate();
+	})
+	$('#StudentActivitiesOverviewSetPeriod').click(function () {
+		studentActivitiesOverviewUpdate();
+	})
+	$('#StudentActivitiesOverviewSetThreshold').click(function () {
+		studentActivitiesOverviewUpdate();
+	})
+})
+
+// the purpose of the following code is to solve the x-label issue to ensure the accuracy and correctness of information, it will dynamically determine which stage we are at when the left position and right position of the slider are changed: at the first stage, display no x-label (e-charts display some of the labels by default because there is not enough space to accommodate all the x-labels, this will provide misleading information); at the second stage, display all x-labels at a 90 degree; at the third stage, display all x-labels at a 40 degree; at the last stage, display all x-labels normally (at a 0 degree).
+myChartStudentActivitiesOverview.on('datazoom', function (params) {
+	var diff = params.end - params.start;//difference between left and right position of the slider
+	StudentActivitiesOverviewDiff = diff;
+	var StudentActivitiesOverviewRelativeAmount = StudentActivitiesOverviewDiff * StudentActivitiesOverviewAmount / 100;
+	console.log(StudentActivitiesOverviewRelativeAmount);
+	if (StudentActivitiesOverviewRelativeAmount < 8.15) {
+		myChartStudentActivitiesOverview.setOption({
+			xAxis: {
+				axisLabel: {
+					show: true,
+					interval: 'auto',
+					rotate: 0
+				}
+
+			}
+		});
+	} else if (StudentActivitiesOverviewRelativeAmount < 16.3) {
+		myChartStudentActivitiesOverview.setOption({
+			xAxis: {
+				axisLabel: {
+					show: true,
+					interval: 0,
+					rotate: 40
+				}
+
+			}
+		});
+	} else if (StudentActivitiesOverviewRelativeAmount < 48.9) {
+		myChartStudentActivitiesOverview.setOption({
+			xAxis: {
+				axisLabel: {
+					show: true,
+					interval: 0,
+					rotate: 90
+				}
+
+			}
+		});
+	} else if (StudentActivitiesOverviewRelativeAmount >= 48.9) {
+		myChartStudentActivitiesOverview.setOption({
+			xAxis: {
+				axisLabel: {
+					show: false
+				}
+
+			}
+		});
+	}
+});
+</script>
     </main>
   </div>
 </div>
