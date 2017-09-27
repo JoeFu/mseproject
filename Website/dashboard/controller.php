@@ -163,6 +163,17 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'getAssignmentInformation':
+		{
+			//the course, year, semester user chooses
+			$SelectCourse = $_GET['SelectCourse'];
+			$SelectYear = $_GET['SelectYear'];
+			$SelectSemester = $_GET['SelectSemester'];
+
+			$response = $service->getAssignmentInformation($SelectCourse, $SelectYear, $SelectSemester);
+			echo $response;
+		}
+		break;
 	case 'studentActivitiesOverview':
 		{
 			//the course, start day, end day, presentation order, threshold user chooses
