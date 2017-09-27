@@ -73,13 +73,15 @@
 	  <select id="SelectAssignment">
 		<option  id="PleaseSelectAssignment">SelectAssignment</option>
 	  </select>
-	  <div id="Information">
+	  <div id="SemesterInformation">
         </br>
 	    <label>Semester start day (YYYYMMDD):</label>
 	    <label id="SemesterStartDay"></label>
 		</br>
 		<label>Semester end day (YYYYMMDD):</label>
 	    <label id="SemesterEndDay"></label>
+	  </div>
+	  <div id="AssignmentInformation">
 	  </div>
 	  </br></br>
 	  
@@ -244,10 +246,33 @@ $(document).ready(function() {
 		// display semester start day, end day
 		$("#SemesterStartDay").html(PeriodFrom); 
         $("#SemesterEndDay").html(PeriodTo);
+		displayAssignmentInformation();
 
 		studentActivitiesOverviewUpdate();
 	})//$('#SelectSemester').change(function ()
 })//DocumentReady()
+
+//display the start day and due day of all assignments (given the course, year, semester)
+function displayAssignmentInformation() {
+	var SelectCourse=$("#SelectCourse option:selected").attr("id");
+	var SelectYear=$("#SelectYear option:selected").attr("id");
+	var SelectSemester=$("#SelectSemester option:selected").attr("id");
+
+	$.ajax({
+		type: "get",
+		async: true, //asynchronous
+		url: "controller.php?type=getAssignmentInformation",
+		dataType: "json", //return JSON data
+		data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester},
+		success: function (result) {
+			$("#AssignmentInformation").empty();
+			$.each(result, function (i, p) {
+				$("#AssignmentInformation").append("<p>"+p['AssignmentName']+" start day (YYYYMMDD): "+p['StartDate']+"</p>"); 
+				$("#AssignmentInformation").append("<p>"+p['AssignmentName']+" due day (YYYYMMDD): "+p['DueDate']+"</p>"); 
+			});
+		}//success
+	});//ajax
+}//function displayAssignmentInformation()
 </script>
 
 	  <div id="StudentActivitiesOverview" style="width: 800px;height:400px;"></div>
