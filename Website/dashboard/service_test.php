@@ -590,6 +590,20 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 		$this->assertNotEquals($expected, $actual);
 	}
 
+	public function testGetAssignmentInformation() 
+	{
+		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2") to verify and validate the logic of this function, we don't test other assignments of other courses in other semesters/ years for this function because we don't have real data for them.
+
+		//correct expected value for course "MSE", year "2012", semester "Semester 2"
+		$expected = '[{"AssignmentName":"Assignment 2","StartDate":"20120822","DueDate":"20120922"}]';
+		$SelectCourse="MSE";
+		$SelectYear="2012";
+		$SelectSemester="Semester 2";
+		$service = new Service;
+		$actual = $service->getAssignmentInformation($SelectCourse, $SelectYear, $SelectSemester);
+		$this->assertEquals($expected, $actual);
+	}
+
 	public function testStudentActivitiesOverview() 
 	{
 		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2") to verify and validate the logic of this function, we don't test other courses in other semesters/ years for this function because we don't have real data for them.
