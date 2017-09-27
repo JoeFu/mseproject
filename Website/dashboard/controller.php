@@ -174,6 +174,18 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'getAssignmentStartAndDueDay':
+		{
+			//the course, year, semester user chooses
+			$SelectCourse = $_GET['SelectCourse'];
+			$SelectYear = $_GET['SelectYear'];
+			$SelectSemester = $_GET['SelectSemester'];
+			$SelectAssignment = $_GET['SelectAssignment'];
+
+			$response = $service->getAssignmentStartAndDueDay($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
+			echo $response;
+		}
+		break;
 	case 'studentActivitiesOverview':
 		{
 			//the course, start day, end day, presentation order, threshold user chooses

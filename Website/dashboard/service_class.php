@@ -806,7 +806,7 @@ class Service
 		$query = mysql_query($sql);
 		while($row=mysql_fetch_array($query)){
 			$arr[] = array(
-				'AssignmentName'=> $row['AssignmentName'], //yyyymmdd
+				'AssignmentName'=> $row['AssignmentName'],
 				'StartDate'=> $row['startDate'], //yyyymmdd
 				'DueDate'=> $row['dueDate'] //yyyymmdd
 			);
@@ -814,6 +814,27 @@ class Service
 		mysql_close($link);
 		return json_encode($arr);
 		//Example of the output format: [{"AssignmentName":"Assignment 1","StartDate":"20120101","DueDate":"20120109"},{"AssignmentName":"Assignment 2","StartDate":"20120201","DueDate":"20120209"}]
+	}
+
+	//get assignment start day and due day
+	public function getAssignmentStartAndDueDay($SelectCourse = "", $SelectYear="", $SelectSemester="", $SelectAssignment="")
+	{
+		include('../one_connection.php');
+
+		//get assignment name, start day and due day
+		$sql = "SELECT distinct DATE_FORMAT(  `StartDate` ,  '%Y%m%d' ) startDate, DATE_FORMAT(  `DueDate` ,  '%Y%m%d' ) dueDate 
+		from event
+		where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$arr[] = array(
+				'StartDate'=> $row['startDate'], //yyyymmdd
+				'DueDate'=> $row['dueDate'] //yyyymmdd
+			);
+		}
+		mysql_close($link);
+		return json_encode($arr);
+		//Example of the output format: [{"StartDate":"20120101","DueDate":"20120109"}]
 	}
 
 	//Load data for the chart Student Activities Overview
