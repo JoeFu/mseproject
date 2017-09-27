@@ -70,6 +70,9 @@
 	  <select id="SelectSemester">
 	    <option  id="PleaseSelectSemester">SelectSemester</option>
 	  </select>
+	  <select id="SelectAssignment">
+		<option  id="PleaseSelectAssignment">SelectAssignment</option>
+	  </select>
 	  <div id="Information">
 	  </div>
 	  
@@ -148,6 +151,34 @@ $(document).ready(function() {
 					$("#SelectSemester").append(
 						" <option id='" + Semester[i] + "'>"
 						+ Semester[i] + "</option>");
+				});
+			}
+		});//ajax
+	});//change()
+
+	//When users select course, year, semester load options for "select assignment"
+	$("#SelectSemester").change(function() {
+		// When users select course and year, remove all options in semester
+		$("#SelectAssignment option").remove();
+		$("#SelectAssignment").append(
+			" <option id='PleaseSelectSemester'>SelectAssignment</option>");
+		 //Get the course and year user chooses
+		var SelectCourseId=$("#SelectCourse option:selected").attr("id");
+		var SelectYearId=$("#SelectYear option:selected").attr("id");
+		var SelectSemesterId=$("#SelectSemester option:selected").attr("id");				
+		 $.ajax({
+			type: "get",
+			async: true, 
+			url: "controller.php?type=loadAssignment",
+			dataType: "json", 
+			data: {"SelectCourseId":SelectCourseId,"SelectYearId":SelectYearId,"SelectSemesterId":SelectSemesterId},
+			success: function(result) {
+				var AssignmentName = [];
+				$.each(result,function(i,p){
+					AssignmentName[i]=p['AssignmentName'];
+					$("#SelectAssignment").append(
+						" <option id='" + AssignmentName[i] + "'>"
+						+ AssignmentName[i] + "</option>");
 				});
 			}
 		});//ajax
