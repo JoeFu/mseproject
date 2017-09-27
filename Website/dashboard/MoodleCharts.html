@@ -74,7 +74,14 @@
 		<option  id="PleaseSelectAssignment">SelectAssignment</option>
 	  </select>
 	  <div id="Information">
+        </br>
+	    <label>Semester start day (YYYYMMDD):</label>
+	    <label id="SemesterStartDay"></label>
+		</br>
+		<label>Semester end day (YYYYMMDD):</label>
+	    <label id="SemesterEndDay"></label>
 	  </div>
+	  </br></br>
 	  
 <script type="text/javascript">
 $(document).ready(function() {
@@ -233,16 +240,10 @@ $(document).ready(function() {
 				}
 				break;
 		}
-
-		var InfoContent = $("#Information");
-		InfoContent.append("</br>");
-        InfoContent.append("Semester start day (YYYYMMDD): ");
-		InfoContent.append(PeriodFrom);
-		InfoContent.append("</br>");
-		InfoContent.append("Semester end day (YYYYMMDD): ");
-		InfoContent.append(PeriodTo);
-		InfoContent.append("</br>");
-		InfoContent.append("</br>");
+		
+		// display semester start day, end day
+		$("#SemesterStartDay").html(PeriodFrom); 
+        $("#SemesterEndDay").html(PeriodTo);
 
 		studentActivitiesOverviewUpdate();
 	})//$('#SelectSemester').change(function ()
