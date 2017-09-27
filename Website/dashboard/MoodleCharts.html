@@ -70,6 +70,8 @@
 	  <select id="SelectSemester">
 	    <option  id="PleaseSelectSemester">SelectSemester</option>
 	  </select>
+	  <div id="Information">
+	  </div>
 	  
 <script type="text/javascript">
 $(document).ready(function() {
@@ -200,6 +202,17 @@ $(document).ready(function() {
 				}
 				break;
 		}
+
+		var InfoContent = $("#Information");
+		InfoContent.append("</br>");
+        InfoContent.append("Semester start day (YYYYMMDD): ");
+		InfoContent.append(PeriodFrom);
+		InfoContent.append("</br>");
+		InfoContent.append("Semester end day (YYYYMMDD): ");
+		InfoContent.append(PeriodTo);
+		InfoContent.append("</br>");
+		InfoContent.append("</br>");
+
 		studentActivitiesOverviewUpdate();
 	})//$('#SelectSemester').change(function ()
 })//DocumentReady()
