@@ -302,7 +302,7 @@ function getAssignmentStartDueDayAndUpdateAllCharts() {
 			});
 		}//success
 	});//ajax
-}//function getAssignmentStartAndDueDay()
+}//function getAssignmentStartDueDayAndUpdateAllCharts()
 </script>
 
 	  <div id="StudentActivitiesOverview" style="width: 800px;height:400px;"></div>
@@ -565,6 +565,17 @@ myChartStudentActivitiesOverview.on('datazoom', function (params) {
 			}
 		});
 	}
+});
+
+// After user clicks a bar (a bar represents a user), redirect to another page showing the detailed information of that user (the amount of different events of that user).
+myChartStudentActivitiesOverview.on('click', function (param) {
+	var from = $("#StudentActivitiesOverviewFrom").val();
+	var to = $("#StudentActivitiesOverviewTo").val();
+	var SelectCourseId = $("#SelectCourse option:selected").attr("id");
+	var SelectYearId = $("#SelectYear option:selected").attr("id");
+	var SelectSemesterId = $("#SelectSemester option:selected").attr("id");
+	var url = 'StudentActivitiesOverviewDetails.php?user=' + param.name + '&from=' + from + '&to=' + to + '&SelectCourseId=' + SelectCourseId + '&SelectYearId=' + SelectYearId + '&SelectSemesterId=' + SelectSemesterId;
+	window.open(url, "_blank");
 });
 </script>
     </main>
