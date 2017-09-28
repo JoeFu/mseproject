@@ -248,11 +248,17 @@ $(document).ready(function() {
         $("#SemesterEndDay").html(PeriodTo);
 		displayAssignmentInformation();
 
+		// update all charts
 		studentActivitiesOverviewUpdate();
-	})//$('#SelectSemester').change(function ()
+	})//$('#SelectSemester').change()
+
+	//after user selects assignment, update the start day and end day (the value in the input box) of all the charts and update all the charts
+	$('#SelectAssignment').change(function () {
+		getAssignmentStartDueDayAndUpdateAllCharts();
+	})//$('#SelectAssignment').change()
 })//DocumentReady()
 
-//display the start day and due day of all assignments (given the course, year, semester)
+//display assignment name, the start day and due day of all assignments (given the course, year, semester)
 function displayAssignmentInformation() {
 	var SelectCourse=$("#SelectCourse option:selected").attr("id");
 	var SelectYear=$("#SelectYear option:selected").attr("id");
@@ -273,6 +279,30 @@ function displayAssignmentInformation() {
 		}//success
 	});//ajax
 }//function displayAssignmentInformation()
+
+//update the start day and end day (the value in the input box) of all the charts and update all the charts
+function getAssignmentStartDueDayAndUpdateAllCharts() {
+	var SelectCourse=$("#SelectCourse option:selected").attr("id");
+	var SelectYear=$("#SelectYear option:selected").attr("id");
+	var SelectSemester=$("#SelectSemester option:selected").attr("id");
+	var SelectAssignment=$("#SelectAssignment option:selected").attr("id");
+
+	$.ajax({
+		type: "get",
+		async: true, //asynchronous
+		url: "controller.php?type=getAssignmentStartAndDueDay",
+		dataType: "json", //return JSON data
+		data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment},
+		success: function (result) {
+			$.each(result, function (i, p) {
+				$("#StudentActivitiesOverviewFrom").val(p['StartDate']);
+				$("#StudentActivitiesOverviewTo").val(p['DueDate']);
+				// update all the charts 
+				studentActivitiesOverviewUpdate();
+			});
+		}//success
+	});//ajax
+}//function getAssignmentStartAndDueDay()
 </script>
 
 	  <div id="StudentActivitiesOverview" style="width: 800px;height:400px;"></div>
