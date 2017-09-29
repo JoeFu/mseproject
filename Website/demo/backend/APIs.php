@@ -1,80 +1,60 @@
 <?php
 /** APIs is for new DashBoard, Simple Query and Report System **/
-// Load Activity Number function
-function LoadActivityNumber()
-{
-    include_once('one_connection.php');
-    $sql = "SELECT count(*) FROM studentdata.event;";
-    $query = mysql_query($sql);
-    $result = mysql_fetch_array($query);
-    echo $result[0];
-    
-    mysql_close($link);
-    //echo json_encode($result[0]);
-}
-// Load Students Number function
-function LoadStudentsNumber()
-{
-    include_once('one_connection.php');
-    $sql = "select count(*) from event  where  FKUserId";
-    $query = mysql_query($sql);
-    $result = mysql_fetch_array($query);
-    echo $result[0];
-    mysql_close($link);
-}
-//Load Load Courses Number function
-function LoadCoursesNumber()
-{
-    include_once('one_connection.php');
-    $sql = "select count(DISTINCT CourseName) from event";
-    $query = mysql_query($sql);
-    $result = mysql_fetch_array($query);
-    echo $result[0];
-
-    mysql_close($link);
-}
-function GPAdistribute()
-{
-    include_once('one_connection.php');
-    
-
-}
-function LoadCoursesDetail()
-{
-//Load course name for the first drop down box
-    include_once('one_connection.php');
-    $sql = "SELECT distinct `CourseName` from event
-    where CourseName is not NULL";
-    $query = mysql_query($sql);
-    while($row=mysql_fetch_array($query)){
-	$arr[] = array(
-		'CourseName'=> $row['CourseName'],
-	);}
-    mysql_close($link);
-    echo json_encode($arr);
-}
-
+session_start();
+require_once 'Service.php';
+$service = new Service;
+$option = $_GET['option'];
 
 //function selection
-if($_GET['option'] == "LoadActivityNumber")
+if($option == "LoadActivityNumber")
 {
-    LoadActivityNumber();
+    $service->LoadActivityNumber();
 }
-elseif ($_GET['option'] == "LoadStudentsNumber")
+elseif ($option == "LoadStudentsNumber")
 {
-    LoadStudentsNumber();
+    $service->LoadStudentsNumber();
 }
-elseif ($_GET['option'] == "LoadCoursesNumber")
+elseif ($option == "LoadCoursesNumber")
 {
-    LoadCoursesNumber();
+    $service->LoadCoursesNumber();
 }
-elseif($_GET['option'] == "LoadCoursesDetail")
+elseif($option == "LoadCoursesDetail")
 {
-    LoadCoursesDetail();
+    $service->LoadCoursesDetail();
+}
+elseif($option == "postName")
+{
+    $service->postName();
+}
+elseif($option == "Name")
+{
+    $service->Name();
+}
+elseif($option == "LoadCourse")
+{
+    $service->LoadCourse();
+}
+elseif($option == "LoadYear")
+{
+    $SelectCourseId = $_GET['SelectCourseId'];
+    $service->LoadYear($SelectCourseId);
+}
+elseif($option == "LoadSemester")
+{
+    $SelectCourseId = $_GET['SelectCourseId'];
+    $SelectYearId = $_GET['SelectYearId'];
+    $service->LoadSemester($SelectCourseId, $SelectYearId);
+}
+elseif($option == "LoadAssignment")
+{
+    $SelectCourseId = $_GET['SelectCourseId'];
+    $SelectYearId = $_GET['SelectYearId'];
+    $SelectSemesterId= $_GET['SelectSemesterId'];
+    $service->LoadAssignment($SelectCourseId, $SelectYearId, $SelectSemesterId);
 }
 else
 {
-    echo "Error";
+    echo "Invaild Request! ";
 }
 
 ?>
