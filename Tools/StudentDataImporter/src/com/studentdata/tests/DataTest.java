@@ -1,7 +1,5 @@
 package com.studentdata.tests;
 
-import static org.junit.Assert.assertEquals;
-
 import com.studentdata.common.ConfigurationManager;
 import com.studentdata.common.DataMessage;
 import com.studentdata.common.DataReader;
@@ -10,6 +8,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
+import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -23,53 +22,20 @@ import org.junit.Test;
 public class DataTest {
   
   @Test
-  public void testSaveDataFromExcelFile() throws JSONException, URISyntaxException, IOException {
-    ConfigurationManager.loadConfiguration();
+  public void testSaveDataFromExcelFile() throws JSONException, URISyntaxException, 
+        IOException {
     int dataSourceType = 1;
-    int total = 0;
-    // Test with Moodle Forum data
     List<List<String>> dataHolder = getDataByDatasource(dataSourceType);    
-    total += dataHolder.size();
-    String dataMessageJson = "";
-    dataMessageJson = buildDataMessage(dataSourceType);
-    // Add components firstly
-    invokeRestfulApibyUrl(ConfigurationManager.ADD_COMPONENT_URL, "");
-
-    // Add eventtypes secondly
-    invokeRestfulApibyUrl(ConfigurationManager.ADD_EVENTTYPE_URL, "");
-    
-    // Add usertypes thirdly
-    invokeRestfulApibyUrl(ConfigurationManager.ADD_USERTYPE_URL, "");   
-    
-    // Lastly add events
-    String eventNum = invokeRestfulApibyUrl(ConfigurationManager.SAVE_DATA_URL, dataMessageJson);   
-    
-    assertEquals(total, Integer.parseInt(eventNum));    
+    String eventNum = getEventNumberByDatasourceType(dataSourceType);
+    assertEquals(dataHolder.size(), Integer.parseInt(eventNum));    
   }
   
   @Test
   public void testSaveDataFromTextFile() throws JSONException, URISyntaxException, IOException {
-    ConfigurationManager.loadConfiguration();
-    int dataSourceType = 1;
-    int total = 0;
-    // Test with Web Submission data
-    List<List<String>> dataHolder = getDataByDatasource(dataSourceType);
-    total += dataHolder.size();
-    String dataMessageJson = "";
-    dataMessageJson = buildDataMessage(dataSourceType);
-    // Add components firstly
-    invokeRestfulApibyUrl(ConfigurationManager.ADD_COMPONENT_URL, "");
-
-    // Add eventtypes secondly
-    invokeRestfulApibyUrl(ConfigurationManager.ADD_EVENTTYPE_URL, "");
-    
-    // Add usertypes thirdly
-    invokeRestfulApibyUrl(ConfigurationManager.ADD_USERTYPE_URL, "");   
-    
-    // Lastly add events
-    String eventNum = invokeRestfulApibyUrl(ConfigurationManager.SAVE_DATA_URL, dataMessageJson);   
-    
-    assertEquals(total, Integer.parseInt(eventNum));    
+    int dataSourceType = 2;
+    List<List<String>> dataHolder = getDataByDatasource(dataSourceType);    
+    String eventNum = getEventNumberByDatasourceType(dataSourceType);
+    assertEquals(dataHolder.size(), Integer.parseInt(eventNum));    
   }
   
   @Test
@@ -155,5 +121,25 @@ public class DataTest {
       throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
     }
     return response.getEntity(String.class);
+  }
+  
+  private String getEventNumberByDatasourceType(int dataSourceType) throws IOException {
+    // Test with Moodle Forum data
+    
+    ConfigurationManager.loadConfiguration();
+    // Add components firstly
+    invokeRestfulApibyUrl(ConfigurationManager.ADD_COMPONENT_URL, "");
+
+    // Add eventtypes secondly
+    invokeRestfulApibyUrl(ConfigurationManager.ADD_EVENTTYPE_URL, "");
+    
+    // Add usertypes thirdly
+    invokeRestfulApibyUrl(ConfigurationManager.ADD_USERTYPE_URL, "");   
+    
+    // Lastly add events
+    String dataMessageJson = "";
+    dataMessageJson = buildDataMessage(dataSourceType);    
+    String eventNum = invokeRestfulApibyUrl(ConfigurationManager.SAVE_DATA_URL, dataMessageJson);   
+    return eventNum;
   }
 }
