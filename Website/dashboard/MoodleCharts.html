@@ -514,7 +514,22 @@ $(document).ready(function () {
 	$('#StudentActivitiesOverviewSetThreshold').click(function () {
 		studentActivitiesOverviewUpdate();
 	})
-})
+
+	//export the data in CSV format according to the configuration options that user chooses, also these configuration options are included in the file name
+	$('#StudentActivitiesOverviewCSV').click(function () {
+		var SelectCourse = $("#SelectCourse option:selected").attr("id");
+		var SelectYear = $("#SelectYear option:selected").attr("id");
+		var SelectSemester = $("#SelectSemester option:selected").attr("id");
+		var from = $("#StudentActivitiesOverviewFrom").val();
+		var to = $("#StudentActivitiesOverviewTo").val();
+		var order = $('#StudentActivitiesOverviewPresentationOrder').val();
+		var ThresholdSelect = $('#StudentActivitiesOverviewThresholdSelect').val();
+		var Threshold = $('#StudentActivitiesOverviewThreshold').val();
+		// dynamically concatenate url
+		var url = 'controller.php?type=studentActivitiesOverviewCSV&from=' + from + '&to=' + to + '&order=' + order + '&ThresholdSelect=' + ThresholdSelect + '&Threshold=' + Threshold + '&SelectCourse=' + SelectCourse + '&SelectYear=' + SelectYear + '&SelectSemester=' + SelectSemester;
+		window.location.href = url;
+	})
+})// $(document).ready
 
 // the purpose of the following code is to solve the x-label issue to ensure the accuracy and correctness of information, it will dynamically determine which stage we are at when the left position and right position of the slider are changed: at the first stage, display no x-label (e-charts display some of the labels by default because there is not enough space to accommodate all the x-labels, this will provide misleading information); at the second stage, display all x-labels at a 90 degree; at the third stage, display all x-labels at a 40 degree; at the last stage, display all x-labels normally (at a 0 degree).
 myChartStudentActivitiesOverview.on('datazoom', function (params) {
