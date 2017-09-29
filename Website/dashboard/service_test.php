@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'./service_class.php';
 
 //Development environment: WAMPServer Version 2.2 (PHP 5.3.13, MYSQL 5.5.24)
 //Testing tool: PhpUnit4.8.36
-//Database and data used for testing: studentdata_#122.sql
+//Database and data used for testing: studentdata_#123.sql
 
 class ServiceTest extends PHPUnit_Framework_TestCase 
 {
@@ -623,7 +623,7 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 	{
 		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2") to verify and validate the logic of this function, we don't test other courses in other semesters/ years for this function because we don't have real data for them.
 
-		//We don't test "ascending order/descending order" cases for this function. The testing outcome is always failure for these cases. Because each time the actual output is different. For one time {"FKUserId":"U0019","count":"4"} goes before {"FKUserId":"U0018","count":"4"} in the actual output, for another time {"FKUserId":"U0018","count":"4"} goes before {"FKUserId":"U0019","count":"4"} in the actual output. The order of element changes each time, but the results are the same because the  order doesn't matters. So I only test "alphabetical order" case for this function.
+		//We don't test "ascending order/descending order" cases for this function. The testing outcome is always failure for these cases. Because each time the actual output is different. For one time {"name":"U0019","count":"4","amount":104} goes before {"name":"U0018","count":"4","amount":104} in the actual output, for another time {"name":"U0018","count":"4","amount":104} goes before {"name":"U0019","count":"4","amount":104} in the actual output. The order of element changes each time, but the results are the same because the  order doesn't matters. So I only test "alphabetical order" case for this function.
 
 		//correct expected value for course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect ">", $Threshold "0"
 		$expected = '[{"name":"U0001","count":"278","amount":104},{"name":"U0002","count":"201","amount":104},{"name":"U0004","count":"142","amount":104},{"name":"U0006","count":"35","amount":104},{"name":"U0009","count":"1","amount":104},{"name":"U0010","count":"215","amount":104},{"name":"U0011","count":"667","amount":104},{"name":"U0013","count":"346","amount":104},{"name":"U0016","count":"3","amount":104},{"name":"U0018","count":"235","amount":104},{"name":"U0019","count":"906","amount":104},{"name":"U0021","count":"85","amount":104},{"name":"U0025","count":"163","amount":104},{"name":"U0026","count":"155","amount":104},{"name":"U0028","count":"3","amount":104},{"name":"U0031","count":"4","amount":104},{"name":"U0032","count":"5","amount":104},{"name":"U0033","count":"124","amount":104},{"name":"U0034","count":"2","amount":104},{"name":"U0037","count":"7","amount":104},{"name":"U0038","count":"2","amount":104},{"name":"U0040","count":"268","amount":104},{"name":"U0041","count":"108","amount":104},{"name":"U0042","count":"170","amount":104},{"name":"U0044","count":"520","amount":104},{"name":"U0047","count":"5","amount":104},{"name":"U0048","count":"734","amount":104},{"name":"U0049","count":"290","amount":104},{"name":"U0050","count":"66","amount":104},{"name":"U0051","count":"9","amount":104},{"name":"U0054","count":"276","amount":104},{"name":"U0055","count":"122","amount":104},{"name":"U0058","count":"636","amount":104},{"name":"U0060","count":"460","amount":104},{"name":"U0062","count":"1","amount":104},{"name":"U0063","count":"295","amount":104},{"name":"U0064","count":"174","amount":104},{"name":"U0068","count":"136","amount":104},{"name":"U0069","count":"39","amount":104},{"name":"U0070","count":"163","amount":104},{"name":"U0071","count":"12","amount":104},{"name":"U0074","count":"177","amount":104},{"name":"U0075","count":"114","amount":104},{"name":"U0076","count":"121","amount":104},{"name":"U0078","count":"68","amount":104},{"name":"U0079","count":"9","amount":104},{"name":"U0080","count":"450","amount":104},{"name":"U0081","count":"154","amount":104},{"name":"U0082","count":"32","amount":104},{"name":"U0084","count":"215","amount":104},{"name":"U0085","count":"192","amount":104},{"name":"U0086","count":"2","amount":104},{"name":"U0088","count":"376","amount":104},{"name":"U0090","count":"16","amount":104},{"name":"U0091","count":"1","amount":104},{"name":"U0092","count":"60","amount":104},{"name":"U0093","count":"69","amount":104},{"name":"U0094","count":"7","amount":104},{"name":"U0095","count":"327","amount":104},{"name":"U0096","count":"108","amount":104},{"name":"U0097","count":"2","amount":104},{"name":"U0099","count":"19","amount":104},{"name":"U0100","count":"1","amount":104},{"name":"U0101","count":"270","amount":104},{"name":"U0102","count":"169","amount":104},{"name":"U0105","count":"200","amount":104},{"name":"U0107","count":"2","amount":104},{"name":"U0108","count":"307","amount":104},{"name":"U0109","count":"199","amount":104},{"name":"U0110","count":"6","amount":104},{"name":"U0111","count":"35","amount":104},{"name":"U0112","count":"472","amount":104},{"name":"U0113","count":"67","amount":104},{"name":"U0115","count":"19","amount":104},{"name":"U0118","count":"4","amount":104},{"name":"U0119","count":"1","amount":104},{"name":"U0120","count":"135","amount":104},{"name":"U0121","count":"39","amount":104},{"name":"U0122","count":"278","amount":104},{"name":"U0123","count":"488","amount":104},{"name":"U0124","count":"95","amount":104},{"name":"U0125","count":"59","amount":104},{"name":"U0126","count":"26","amount":104},{"name":"U0128","count":"14","amount":104},{"name":"U0130","count":"120","amount":104},{"name":"U0131","count":"163","amount":104},{"name":"U0133","count":"68","amount":104},{"name":"U0134","count":"356","amount":104},{"name":"U0135","count":"65","amount":104},{"name":"U0137","count":"2","amount":104},{"name":"U0138","count":"122","amount":104},{"name":"U0139","count":"21","amount":104},{"name":"U0140","count":"266","amount":104},{"name":"U0142","count":"372","amount":104},{"name":"U0143","count":"181","amount":104},{"name":"U0145","count":"8","amount":104},{"name":"U0146","count":"155","amount":104},{"name":"U0148","count":"55","amount":104},{"name":"U0149","count":"153","amount":104},{"name":"U0152","count":"267","amount":104},{"name":"U0153","count":"14","amount":104},{"name":"U0154","count":"13","amount":104},{"name":"U0155","count":"43","amount":104},{"name":"U0156","count":"1","amount":104}]';
@@ -633,6 +633,30 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 		$order=1;//Alphabetical order
 		$ThresholdSelect='>';
 		$Threshold=0;
+		$service = new Service;
+		$actual = $service->studentActivitiesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect ">=", $Threshold "400"
+		$expected = '[{"name":"U0011","count":"667","amount":9},{"name":"U0019","count":"906","amount":9},{"name":"U0044","count":"520","amount":9},{"name":"U0048","count":"734","amount":9},{"name":"U0058","count":"636","amount":9},{"name":"U0060","count":"460","amount":9},{"name":"U0080","count":"450","amount":9},{"name":"U0112","count":"472","amount":9},{"name":"U0123","count":"488","amount":9}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='>=';
+		$Threshold=400;
+		$service = new Service;
+		$actual = $service->studentActivitiesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect "<", $Threshold "20"
+		$expected = '[{"name":"U0009","count":"1","amount":31},{"name":"U0016","count":"3","amount":31},{"name":"U0028","count":"3","amount":31},{"name":"U0031","count":"4","amount":31},{"name":"U0032","count":"5","amount":31},{"name":"U0034","count":"2","amount":31},{"name":"U0037","count":"7","amount":31},{"name":"U0038","count":"2","amount":31},{"name":"U0047","count":"5","amount":31},{"name":"U0051","count":"9","amount":31},{"name":"U0062","count":"1","amount":31},{"name":"U0071","count":"12","amount":31},{"name":"U0079","count":"9","amount":31},{"name":"U0086","count":"2","amount":31},{"name":"U0090","count":"16","amount":31},{"name":"U0091","count":"1","amount":31},{"name":"U0094","count":"7","amount":31},{"name":"U0097","count":"2","amount":31},{"name":"U0099","count":"19","amount":31},{"name":"U0100","count":"1","amount":31},{"name":"U0107","count":"2","amount":31},{"name":"U0110","count":"6","amount":31},{"name":"U0115","count":"19","amount":31},{"name":"U0118","count":"4","amount":31},{"name":"U0119","count":"1","amount":31},{"name":"U0128","count":"14","amount":31},{"name":"U0137","count":"2","amount":31},{"name":"U0145","count":"8","amount":31},{"name":"U0153","count":"14","amount":31},{"name":"U0154","count":"13","amount":31},{"name":"U0156","count":"1","amount":31}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='<';
+		$Threshold=20;
 		$service = new Service;
 		$actual = $service->studentActivitiesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
 		$this->assertEquals($expected,$actual);
@@ -647,6 +671,85 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 		$Threshold=50;
 		$service = new Service;
 		$actual = $service->studentActivitiesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect "=", $Threshold "43"
+		$expected = '[{"name":"U0155","count":"43","amount":1}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='=';
+		$Threshold=43;
+		$service = new Service;
+		$actual = $service->studentActivitiesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+	}
+
+	public function testAllActivitiesOverview() 
+	{
+		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2") to verify and validate the logic of this function, we don't test other courses in other semesters/ years for this function because we don't have real data for them.
+
+		//We don't test "ascending order/descending order" cases for this function. The testing outcome is always failure for these cases. Because each time the actual output is different. For one time {"name":"resource_view","count":"4","amount":31} goes before {"name":"quiz_view","count":"4","amount":31} in the actual output, for another time {"name":"quiz_view","count":"4","amount":31} goes before {"name":"resource_view","count":"4","amount":31} in the actual output. The order of element changes each time, but the results are the same because the  order doesn't matters. So I only test "alphabetical order" case for this function.
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect ">", $Threshold "0"
+		$expected = '[{"name":"choice_add","count":"1","amount":31},{"name":"choice_choose","count":"17","amount":31},{"name":"choice_choose again","count":"3","amount":31},{"name":"choice_report","count":"21","amount":31},{"name":"choice_view","count":"128","amount":31},{"name":"course_delete mod","count":"3","amount":31},{"name":"discussion_mark read","count":"1","amount":31},{"name":"forum_add discussion","count":"101","amount":31},{"name":"forum_add post","count":"235","amount":31},{"name":"forum_delete discussi","count":"1","amount":31},{"name":"forum_delete post","count":"5","amount":31},{"name":"forum_mark read","count":"1","amount":31},{"name":"forum_subscribe","count":"2","amount":31},{"name":"forum_unsubscribe","count":"1","amount":31},{"name":"forum_update post","count":"75","amount":31},{"name":"forum_view discussion","count":"7234","amount":31},{"name":"forum_view forum","count":"5213","amount":31},{"name":"forum_view subscriber","count":"1","amount":31},{"name":"quiz_add","count":"1","amount":31},{"name":"quiz_attempt","count":"32","amount":31},{"name":"quiz_close attempt","count":"30","amount":31},{"name":"quiz_continue attemp","count":"169","amount":31},{"name":"quiz_editquestions","count":"24","amount":31},{"name":"quiz_preview","count":"2","amount":31},{"name":"quiz_report","count":"17","amount":31},{"name":"quiz_review","count":"40","amount":31},{"name":"quiz_update","count":"1","amount":31},{"name":"quiz_view","count":"157","amount":31},{"name":"resource_add","count":"24","amount":31},{"name":"resource_update","count":"7","amount":31},{"name":"resource_view","count":"2366","amount":31}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='>';
+		$Threshold=0;
+		$service = new Service;
+		$actual = $service->allActivitiesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect ">=", $Threshold "50"
+		$expected = '[{"name":"choice_view","count":"128","amount":9},{"name":"forum_add discussion","count":"101","amount":9},{"name":"forum_add post","count":"235","amount":9},{"name":"forum_update post","count":"75","amount":9},{"name":"forum_view discussion","count":"7234","amount":9},{"name":"forum_view forum","count":"5213","amount":9},{"name":"quiz_continue attemp","count":"169","amount":9},{"name":"quiz_view","count":"157","amount":9},{"name":"resource_view","count":"2366","amount":9}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='>=';
+		$Threshold=50;
+		$service = new Service;
+		$actual = $service->allActivitiesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect "<", $Threshold "50"
+		$expected = '[{"name":"choice_add","count":"1","amount":22},{"name":"choice_choose","count":"17","amount":22},{"name":"choice_choose again","count":"3","amount":22},{"name":"choice_report","count":"21","amount":22},{"name":"course_delete mod","count":"3","amount":22},{"name":"discussion_mark read","count":"1","amount":22},{"name":"forum_delete discussi","count":"1","amount":22},{"name":"forum_delete post","count":"5","amount":22},{"name":"forum_mark read","count":"1","amount":22},{"name":"forum_subscribe","count":"2","amount":22},{"name":"forum_unsubscribe","count":"1","amount":22},{"name":"forum_view subscriber","count":"1","amount":22},{"name":"quiz_add","count":"1","amount":22},{"name":"quiz_attempt","count":"32","amount":22},{"name":"quiz_close attempt","count":"30","amount":22},{"name":"quiz_editquestions","count":"24","amount":22},{"name":"quiz_preview","count":"2","amount":22},{"name":"quiz_report","count":"17","amount":22},{"name":"quiz_review","count":"40","amount":22},{"name":"quiz_update","count":"1","amount":22},{"name":"resource_add","count":"24","amount":22},{"name":"resource_update","count":"7","amount":22}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='<';
+		$Threshold=50;
+		$service = new Service;
+		$actual = $service->allActivitiesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect "<=", $Threshold "10"
+		$expected = '[{"name":"choice_add","count":"1","amount":14},{"name":"choice_choose again","count":"3","amount":14},{"name":"course_delete mod","count":"3","amount":14},{"name":"discussion_mark read","count":"1","amount":14},{"name":"forum_delete discussi","count":"1","amount":14},{"name":"forum_delete post","count":"5","amount":14},{"name":"forum_mark read","count":"1","amount":14},{"name":"forum_subscribe","count":"2","amount":14},{"name":"forum_unsubscribe","count":"1","amount":14},{"name":"forum_view subscriber","count":"1","amount":14},{"name":"quiz_add","count":"1","amount":14},{"name":"quiz_preview","count":"2","amount":14},{"name":"quiz_update","count":"1","amount":14},{"name":"resource_update","count":"7","amount":14}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='<=';
+		$Threshold=10;
+		$service = new Service;
+		$actual = $service->allActivitiesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect "=", $Threshold "30"
+		$expected = '[{"name":"quiz_close attempt","count":"30","amount":1}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='=';
+		$Threshold=30;
+		$service = new Service;
+		$actual = $service->allActivitiesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
 		$this->assertEquals($expected,$actual);
 	}
 }
