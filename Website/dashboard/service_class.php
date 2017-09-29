@@ -939,5 +939,43 @@ class Service
         echo $str; 
         exit;
 	}
+
+	//Load data for the chart All Activities Overview
+	public function allActivitiesOverview($SelectCourse="", $from="", $to="", $order="", $ThresholdSelect="", $Threshold="")
+	{
+		include('../one_connection.php');
+		
+		//presentation order: alphabetical, descending, ascending
+		$OrderBy='';
+		switch ($order) {
+			case 1:
+				$OrderBy='';
+				break;
+			case 2:
+				$OrderBy='ORDER BY count desc';
+				break;
+			case 3:
+				$OrderBy='ORDER BY count asc';
+				break;
+		}
+
+		$sql = "SELECT Name, COUNT(  `Id` ) count
+		FROM event
+		WHERE CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
+		GROUP BY Name
+		HAVING count{$ThresholdSelect}{$Threshold}
+		{$OrderBy}";
+		$query = mysql_query($sql);
+		$amount=mysql_num_rows($query);// number of records
+		while($row=mysql_fetch_array($query)){
+			$arr[] = array(
+				'name'=> $row['Name'],
+				'count' => $row['count'],
+				'amount' => $amount
+			);
+		}
+		mysql_close($link);
+		return json_encode($arr);
+	}
 }
 ?>
