@@ -1,0 +1,11 @@
+com\studentdata\common\DataMessage.class
+com\studentdata\main\MessageDialogsEx.class
+com\studentdata\main\MessageDialogsEx$2.class
+com\studentdata\main\Application$1.class
+com\studentdata\common\DataReader.class
+com\studentdata\tests\DataTest.class
+com\studentdata\common\ConfigurationManager.class
+com\studentdata\common\JsonHelper.class
+com\studentdata\main\Application.class
+com\studentdata\main\MessageDialogsEx$1.class
+com\studentdata\main\MessageDialogsEx$3.class
