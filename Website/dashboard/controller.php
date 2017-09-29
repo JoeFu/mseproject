@@ -163,17 +163,56 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'getAssignmentInformation':
+		{
+			//the course, year, semester user chooses
+			$SelectCourse = $_GET['SelectCourse'];
+			$SelectYear = $_GET['SelectYear'];
+			$SelectSemester = $_GET['SelectSemester'];
+
+			$response = $service->getAssignmentInformation($SelectCourse, $SelectYear, $SelectSemester);
+			echo $response;
+		}
+		break;
+	case 'getAssignmentStartAndDueDay':
+		{
+			//the course, year, semester user chooses
+			$SelectCourse = $_GET['SelectCourse'];
+			$SelectYear = $_GET['SelectYear'];
+			$SelectSemester = $_GET['SelectSemester'];
+			$SelectAssignment = $_GET['SelectAssignment'];
+
+			$response = $service->getAssignmentStartAndDueDay($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment);
+			echo $response;
+		}
+		break;
 	case 'studentActivitiesOverview':
 		{
 			//the course, start day, end day, presentation order, threshold user chooses
-			$CourseName=$_GET['CourseName'];
+			$SelectCourse=$_GET['SelectCourse'];
 			$from = $_GET['from'];
 			$to = $_GET['to'];
 			$order = intval($_GET['order']);
 			$ThresholdSelect = $_GET['ThresholdSelect'];
 			$Threshold = $_GET['Threshold'];
 
-			$response = $service->studentActivitiesOverview($CourseName, $from, $to, $order, $ThresholdSelect, $Threshold);
+			$response = $service->studentActivitiesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+			echo $response;
+		}
+		break;
+	case 'studentActivitiesOverviewCSV':
+		{
+			//the course, start day, end day, presentation order, threshold user chooses
+			$SelectCourse=$_GET['SelectCourse'];
+			$SelectYear=$_GET['SelectYear'];
+			$SelectSemester=$_GET['SelectSemester'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$order = intval($_GET['order']);
+			$ThresholdSelect = $_GET['ThresholdSelect'];
+			$Threshold = $_GET['Threshold'];
+
+			$response = $service->studentActivitiesOverviewCSV($SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold);
 			echo $response;
 		}
 		break;

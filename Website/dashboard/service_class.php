@@ -794,11 +794,55 @@ class Service
 		return json_encode($arr);
 	}
 
+	//get assignment name, start day and due day
+	public function getAssignmentInformation($SelectCourse = "", $SelectYear="", $SelectSemester="")
+	{
+		include('../one_connection.php');
+
+		//get assignment name, start day and due day
+		$sql = "SELECT distinct AssignmentName, DATE_FORMAT(  `StartDate` ,  '%Y%m%d' ) startDate, DATE_FORMAT(  `DueDate` ,  '%Y%m%d' ) dueDate 
+		from event
+		where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `DataSourceType`=2";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$arr[] = array(
+				'AssignmentName'=> $row['AssignmentName'],
+				'StartDate'=> $row['startDate'], //yyyymmdd
+				'DueDate'=> $row['dueDate'] //yyyymmdd
+			);
+		}
+		mysql_close($link);
+		return json_encode($arr);
+		//Example of the output format: [{"AssignmentName":"Assignment 1","StartDate":"20120101","DueDate":"20120109"},{"AssignmentName":"Assignment 2","StartDate":"20120201","DueDate":"20120209"}]
+	}
+
+	//get assignment start day and due day
+	public function getAssignmentStartAndDueDay($SelectCourse = "", $SelectYear="", $SelectSemester="", $SelectAssignment="")
+	{
+		include('../one_connection.php');
+
+		//get assignment name, start day and due day
+		$sql = "SELECT distinct DATE_FORMAT(  `StartDate` ,  '%Y%m%d' ) startDate, DATE_FORMAT(  `DueDate` ,  '%Y%m%d' ) dueDate 
+		from event
+		where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$arr[] = array(
+				'StartDate'=> $row['startDate'], //yyyymmdd
+				'DueDate'=> $row['dueDate'] //yyyymmdd
+			);
+		}
+		mysql_close($link);
+		return json_encode($arr);
+		//Example of the output format: [{"StartDate":"20120101","DueDate":"20120109"}]
+	}
+
 	//Load data for the chart Student Activities Overview
-	public function studentActivitiesOverview($CourseName="", $from="", $to="", $order="", $ThresholdSelect="", $Threshold="")
+	public function studentActivitiesOverview($SelectCourse="", $from="", $to="", $order="", $ThresholdSelect="", $Threshold="")
 	{
 		include('../one_connection.php');
 		
+		//presentation order: alphabetical, descending, ascending
 		$OrderBy='';
 		switch ($order) {
 			case 1:
@@ -814,14 +858,14 @@ class Service
 
 		$sql = "SELECT FKUserId, COUNT(  `Id` ) count
 		FROM event
-		WHERE CourseName='{$CourseName}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
+		WHERE CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
 		GROUP BY FKUserId
 		HAVING count{$ThresholdSelect}{$Threshold}
 		{$OrderBy}";
 		$query = mysql_query($sql);
-		$amount=mysql_num_rows($query);
+		$amount=mysql_num_rows($query);// number of records
 		while($row=mysql_fetch_array($query)){
-			$row['FKUserId']=str_replace('SER','',$row['FKUserId']);
+			$row['FKUserId']=str_replace('SER','',$row['FKUserId']);// compress "USER0019" to "U0019"
 			$arr[] = array(
 				'name'=> $row['FKUserId'],
 				'count' => $row['count'],
@@ -830,6 +874,70 @@ class Service
 		}
 		mysql_close($link);
 		return json_encode($arr);
+	}
+
+	//Export data (CSV format) for the chart "Student Activities Overview"
+	public function studentActivitiesOverviewCSV($SelectCourse="", $SelectYear="", $SelectSemester="",$from="", $to="", $order="", $ThresholdSelect="", $Threshold="")
+	{
+		include('../one_connection.php');
+
+		$OrderBy='';// "order" in the sql query
+		$OrderInFileName='';// "order" to be displayed in file name
+		switch ($order) {
+			case 1:
+				$OrderBy='';
+				$OrderInFileName='alpha';
+				break;
+			case 2:
+				$OrderBy='ORDER BY count desc';
+				$OrderInFileName='desc';
+				break;
+			case 3:
+				$OrderBy='ORDER BY count asc';
+				$OrderInFileName='asc';
+				break;
+		}
+
+		$ThresholdSelectInFileName='';// "Threshold type to be displayed in file name
+		switch ($ThresholdSelect) {
+			case ">":
+				$ThresholdSelectInFileName='gt';
+				break;
+			case ">=":
+				$ThresholdSelectInFileName='get';
+				break;
+			case "<":
+				$ThresholdSelectInFileName='lt';
+				break;
+			case ">=":
+				$ThresholdSelectInFileName='let';
+				break;
+			case "=":
+				$ThresholdSelectInFileName='eq';
+				break;
+		}
+
+        $str = "User,Amount of activities\n"; 
+		$result = mysql_query("SELECT FKUserId, COUNT(  `Id` ) count
+		FROM event
+		WHERE EventTime between '{$from}' and '{$to}' and CourseName='{$SelectCourse}' and DataSourceType=1  
+		GROUP BY FKUserId
+		HAVING count{$ThresholdSelect}{$Threshold}
+		{$OrderBy}");
+        while($row=mysql_fetch_array($result)) { 
+			$str .= $row['FKUserId'].",".$row['count']."\n"; 
+        } 
+		mysql_close($link);
+        $filename = $SelectCourse.$SelectYear.$SelectSemester.'StudentActivitiesOverview'.$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //set file name 
+		
+		// output CSV file
+        header("Content-type:text/csv"); 
+        header("Content-Disposition:attachment;filename=".$filename); 
+        header('Cache-Control:must-revalidate,post-check=0,pre-check=0'); 
+        header('Expires:0'); 
+        header('Pragma:public'); 
+        echo $str; 
+        exit;
 	}
 }
 ?>
