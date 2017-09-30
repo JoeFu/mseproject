@@ -804,6 +804,11 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expected,$actual);
 	}
 
+	public function testStudentActivitiesOverviewCSV() 
+	{
+		//The output of the function studentActivitiesOverviewCSV($SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold) is a CSV file, I have manually tested and verified that the data in the CSV file is correct and is the same as what is displayed in the chart. 
+	}
+
 	public function testAllActivitiesOverview() 
 	{
 		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2") to verify and validate the logic of this function, we don't test other courses in other semesters/ years for this function because we don't have real data for them.
@@ -987,6 +992,11 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 		$service = new Service;
 		$actual = $service->allActivitiesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
 		$this->assertEquals($expected,$actual);
+	}
+
+	public function testAllActivitiesOverviewCSV() 
+	{
+		//The output of the function allActivitiesOverviewCSV($SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold) is a CSV file, I have manually tested and verified that the data in the CSV file is correct and is the same as what is displayed in the chart. 
 	}
 }
 ?>
