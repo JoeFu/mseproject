@@ -849,10 +849,10 @@ class Service
 				$OrderBy='';
 				break;
 			case 2:
-				$OrderBy='ORDER BY count desc';
+				$OrderBy='ORDER BY count desc, FKUserId desc';
 				break;
 			case 3:
-				$OrderBy='ORDER BY count asc';
+				$OrderBy='ORDER BY count asc, FKUserId desc';
 				break;
 		}
 
@@ -929,6 +929,108 @@ class Service
         } 
 		mysql_close($link);
         $filename = $SelectCourse.$SelectYear.$SelectSemester.'StudentActivitiesOverview'.$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //set file name 
+		
+		// output CSV file
+        header("Content-type:text/csv"); 
+        header("Content-Disposition:attachment;filename=".$filename); 
+        header('Cache-Control:must-revalidate,post-check=0,pre-check=0'); 
+        header('Expires:0'); 
+        header('Pragma:public'); 
+        echo $str; 
+        exit;
+	}
+
+	//Load data for the chart All Activities Overview
+	public function allActivitiesOverview($SelectCourse="", $from="", $to="", $order="", $ThresholdSelect="", $Threshold="")
+	{
+		include('../one_connection.php');
+		
+		//presentation order: alphabetical, descending, ascending
+		$OrderBy='';
+		switch ($order) {
+			case 1:
+				$OrderBy='ORDER BY datesort asc';
+				break;
+			case 2:
+				$OrderBy='ORDER BY count desc, datesort asc';
+				break;
+			case 3:
+				$OrderBy='ORDER BY count asc, datesort asc';
+				break;
+		}
+
+		$sql = "SELECT DATE_FORMAT(  `EventTime` ,  '%d %b %y' ) date, DATE_FORMAT(  `EventTime` ,  '%Y%m%d' ) datesort, COUNT(  `Id` ) count
+		FROM event
+		WHERE CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
+		GROUP BY date
+		HAVING count{$ThresholdSelect}{$Threshold}
+		{$OrderBy}";
+		$query = mysql_query($sql);
+		$amount=mysql_num_rows($query);// number of records
+		while($row=mysql_fetch_array($query)){
+			$arr[] = array(
+				'date'=> $row['date'],
+				'count' => $row['count'],
+				'amount' => $amount
+			);
+		}
+		mysql_close($link);
+		return json_encode($arr);
+	}
+
+	//Export data (CSV format) for the chart "All Activities Overview"
+	public function allActivitiesOverviewCSV($SelectCourse="", $SelectYear="", $SelectSemester="",$from="", $to="", $order="", $ThresholdSelect="", $Threshold="")
+	{
+		include('../one_connection.php');
+
+		$OrderBy='';// "order" in the sql query
+		$OrderInFileName='';// "order" to be displayed in file name
+		switch ($order) {
+			case 1:
+				$OrderBy='ORDER BY datesort asc';
+				$OrderInFileName='alpha';
+				break;
+			case 2:
+				$OrderBy='ORDER BY count desc, datesort asc';
+				$OrderInFileName='desc';
+				break;
+			case 3:
+				$OrderBy='ORDER BY count asc, datesort asc';
+				$OrderInFileName='asc';
+				break;
+		}
+
+		$ThresholdSelectInFileName='';// "Threshold type to be displayed in file name
+		switch ($ThresholdSelect) {
+			case ">":
+				$ThresholdSelectInFileName='gt';
+				break;
+			case ">=":
+				$ThresholdSelectInFileName='get';
+				break;
+			case "<":
+				$ThresholdSelectInFileName='lt';
+				break;
+			case ">=":
+				$ThresholdSelectInFileName='let';
+				break;
+			case "=":
+				$ThresholdSelectInFileName='eq';
+				break;
+		}
+
+        $str = "Date,Amount of activities\n"; 
+		$result = mysql_query("SELECT DATE_FORMAT(  `EventTime` ,  '%d %b %y' ) date, DATE_FORMAT(  `EventTime` ,  '%Y%m%d' ) datesort, COUNT(  `Id` ) count
+		FROM event
+		WHERE CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
+		GROUP BY date
+		HAVING count{$ThresholdSelect}{$Threshold}
+		{$OrderBy}");
+        while($row=mysql_fetch_array($result)) { 
+			$str .= $row['date'].",".$row['count']."\n"; 
+        } 
+		mysql_close($link);
+        $filename = $SelectCourse.$SelectYear.$SelectSemester.'AllActivitiesOverview'.$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //set file name 
 		
 		// output CSV file
         header("Content-type:text/csv"); 

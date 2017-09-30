@@ -209,42 +209,34 @@ $(document).ready(function() {
 				if (SelectSemesterId=="Semester 1") {
 					PeriodFrom = SelectYearId + "0227";
 					PeriodTo = SelectYearId + "0630";
-					$("#StudentActivitiesOverviewFrom").val(PeriodFrom);
-					$("#StudentActivitiesOverviewTo").val(PeriodTo);
 				} else if (SelectSemesterId=="Semester 2") {
 					PeriodFrom = SelectYearId + "0723";
 					PeriodTo = SelectYearId + "1117";
-					$("#StudentActivitiesOverviewFrom").val(PeriodFrom);
-					$("#StudentActivitiesOverviewTo").val(PeriodTo);
 				}
 				break;
 			case "2013":
 				if (SelectSemesterId=="Semester 1") {
 					PeriodFrom = SelectYearId + "0304";
 					PeriodTo = SelectYearId + "0705";
-					$("#StudentActivitiesOverviewFrom").val(PeriodFrom);
-					$("#StudentActivitiesOverviewTo").val(PeriodTo);
 				} else if (SelectSemesterId=="Semester 2") {
 					PeriodFrom = SelectYearId + "0729";
 					PeriodTo = SelectYearId + "1122";
-					$("#StudentActivitiesOverviewFrom").val(PeriodFrom);
-					$("#StudentActivitiesOverviewTo").val(PeriodTo);
 				}
 				break;
 			case "2014":
 				if (SelectSemesterId=="Semester 1") {
 					PeriodFrom = SelectYearId + "0303";
 					PeriodTo = SelectYearId + "0704";
-					$("#StudentActivitiesOverviewFrom").val(PeriodFrom);
-					$("#StudentActivitiesOverviewTo").val(PeriodTo);
 				} else if (SelectSemesterId=="Semester 2") {
 					PeriodFrom = SelectYearId + "0728";
 					PeriodTo = SelectYearId + "1121";
-					$("#StudentActivitiesOverviewFrom").val(PeriodFrom);
-					$("#StudentActivitiesOverviewTo").val(PeriodTo);
 				}
 				break;
 		}
+		$("#StudentActivitiesOverviewFrom").val(PeriodFrom);
+		$("#StudentActivitiesOverviewTo").val(PeriodTo);
+		$("#AllActivitiesOverviewFrom").val(PeriodFrom);
+		$("#AllActivitiesOverviewTo").val(PeriodTo);
 		
 		// display semester start day, end day
 		$("#SemesterStartDay").html(PeriodFrom); 
@@ -253,6 +245,7 @@ $(document).ready(function() {
 
 		// update all charts
 		studentActivitiesOverviewUpdate();
+		allActivitiesOverviewUpdate();
 	})//$('#SelectSemester').change()
 
 	//after user selects assignment, update the start day and end day (the value in the input box) of all the charts and update all the charts
@@ -300,8 +293,11 @@ function getAssignmentStartDueDayAndUpdateAllCharts() {
 			$.each(result, function (i, p) {
 				$("#StudentActivitiesOverviewFrom").val(p['StartDate']);
 				$("#StudentActivitiesOverviewTo").val(p['DueDate']);
+				$("#AllActivitiesOverviewFrom").val(p['StartDate']);
+				$("#AllActivitiesOverviewTo").val(p['DueDate']);
 				// update all the charts 
 				studentActivitiesOverviewUpdate();
+				allActivitiesOverviewUpdate();
 			});
 		}//success
 	});//ajax
@@ -539,7 +535,6 @@ myChartStudentActivitiesOverview.on('datazoom', function (params) {
 	var diff = params.end - params.start;//difference between left and right position of the slider
 	StudentActivitiesOverviewDiff = diff;
 	var StudentActivitiesOverviewRelativeAmount = StudentActivitiesOverviewDiff * StudentActivitiesOverviewAmount / 100;
-	console.log(StudentActivitiesOverviewRelativeAmount);
 	if (StudentActivitiesOverviewRelativeAmount < 8.15) {
 		myChartStudentActivitiesOverview.setOption({
 			xAxis: {
@@ -594,6 +589,284 @@ myChartStudentActivitiesOverview.on('click', function (param) {
 	var SelectSemesterId = $("#SelectSemester option:selected").attr("id");
 	var url = 'StudentActivitiesOverviewDetails.php?user=' + param.name + '&from=' + from + '&to=' + to + '&SelectCourseId=' + SelectCourseId + '&SelectYearId=' + SelectYearId + '&SelectSemesterId=' + SelectSemesterId;
 	window.open(url, "_blank");
+});
+</script>
+
+<!-- the chart All Activities Overview and related functions -->
+<div id="AllActivitiesOverview" style="width: 800px;height:400px;"></div>
+	  <div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
+	    <label for="AllActivitiesOverviewPresentationOrder">Change Presentation Order</label>
+		<select id="AllActivitiesOverviewPresentationOrder">
+		  <option value ="1" selected = "selected">Alphabetical order</option>
+		  <option value ="2">Descending order</option>
+		  <option value ="3">Ascending order</option>
+		</select>
+		</br></br>
+		<label>Set period (YYYYMMDD)</label>
+		</br>
+		<label>From</label>
+		<input type="text" id="AllActivitiesOverviewFrom">
+		</br>
+		<label>To</label>&nbsp&nbsp&nbsp&nbsp
+		<input type="text" id="AllActivitiesOverviewTo">
+		<button type="button" id="AllActivitiesOverviewSetPeriod">Set period</button></br></br>
+		<label for="Threshold">Threshold (Amount of activities)</label>
+		</br>
+		<select id="AllActivitiesOverviewThresholdSelect">
+		  <option  value =">" selected = "selected">></option>
+		  <option value =">=">>=</option>
+		  <option value="<"><</option>
+		  <option value="<="><=</option>
+		  <option value="=">=</option>
+		</select>
+		<input type="text" id="AllActivitiesOverviewThreshold" value="0">
+		<button type="button" id="AllActivitiesOverviewSetThreshold">Set threshold</button>
+		</br></br>
+        <button type="button" id="AllActivitiesOverviewCSV">Export CSV</button>
+      </div>
+				
+<script type="text/javascript">
+//DatePicker for the chart "All Activities Overview"
+$(document).ready(function () {
+	$("#AllActivitiesOverviewFrom").datepicker({
+		defaultDate: "+1w",
+		changeMonth: true,
+		changeYear: true,
+		numberOfMonths: 3,
+		onClose: function (selectedDate) {
+			$("#AllActivitiesOverviewTo").datepicker("option", "minDate", selectedDate);
+		}
+	});
+	$("#AllActivitiesOverviewTo").datepicker({
+		defaultDate: "+1w",
+		changeMonth: true,
+		changeYear: true,
+		numberOfMonths: 3,
+		onClose: function (selectedDate) {
+			$("#AllActivitiesOverviewFrom").datepicker("option", "maxDate", selectedDate);
+		}
+	});
+
+	//set the format (YYYYMMDD) of start date and end date for the chart "All Activities Overview" 
+	$("#AllActivitiesOverviewFrom").datepicker("option", "dateFormat", "yymmdd");//YYYYMMDD
+	$("#AllActivitiesOverviewTo").datepicker("option", "dateFormat", "yymmdd");//YYYYMMDD
+})
+
+//Initialize e-charts instance
+var myChartAllActivitiesOverview = echarts.init(document.getElementById('AllActivitiesOverview'));
+
+//configuration item and data for the chart
+var option = {
+	title: {
+		text: 'All activities overview'
+	},
+	tooltip: {},
+	xAxis: {
+		name: 'Date',
+		data: []
+	},
+	yAxis: {
+		name: 'Amount of activities'
+	},
+	grid: {
+		x: 100,
+		y2: 110
+	},
+	dataZoom: [
+		{   // dataZoom component controls x-axis by default
+			type: 'slider',
+			start: 0, // left position 0%
+			end: 100  // right position 100%
+		}
+	],
+	series: [{
+		name: 'Amount of activities',
+		type: 'bar',
+		data: []
+	}],
+	toolbox: {
+		show: true,
+		feature: {
+			dataView: { readOnly: false },
+			magicType: { type: ['line', 'bar'] },
+			restore: {},
+			saveAsImage: {}
+		}
+	}
+};
+
+// display the chart based on the configuration item and data
+myChartAllActivitiesOverview.setOption(option);
+
+var AllActivitiesOverviewAmount;//number of bars (number of records)
+var AllActivitiesOverviewDiff = 100;
+
+function allActivitiesOverviewUpdate() {
+	var SelectCourse = $("#SelectCourse option:selected").attr("id");
+	var from = $("#AllActivitiesOverviewFrom").val();
+	var to = $("#AllActivitiesOverviewTo").val();
+	var order = $('#AllActivitiesOverviewPresentationOrder').val();
+	var ThresholdSelect = $('#AllActivitiesOverviewThresholdSelect').val();
+	var Threshold = $('#AllActivitiesOverviewThreshold').val();
+
+	$.ajax({
+		type: "get",
+		async: true, //asynchronous
+		url: "controller.php?type=allActivitiesOverview",
+		dataType: "json", //return JSON data
+		data: { "from": from, "to": to, "order": order, "ThresholdSelect": ThresholdSelect, "Threshold": Threshold, "SelectCourse": SelectCourse},
+		success: function (result) {
+			var date = [];
+			var count = [];
+			var amount = [];
+			$.each(result, function (i, p) {
+				date[i] = p['date'];
+				count[i] = p['count'];
+				amount[i] = p['amount'];
+			});
+		AllActivitiesOverviewAmount = amount[0];
+		myChartAllActivitiesOverview.hideLoading();
+		var AllActivitiesOverviewRelativeAmount = AllActivitiesOverviewDiff * AllActivitiesOverviewAmount / 100;
+		// the purpose of the following code is to solve the x-label issue to ensure the accuracy and correctness of information, it will determine which stage we are at when loading the data: at the first stage, display no x-label (e-charts display some of the labels by default because there is not enough space to accommodate all the x-labels, this will provide misleading information); at the second stage, display all x-labels at a 90 degree; at the third stage, display all x-labels at a 40 degree; at the last stage, display all x-labels normally (at a 0 degree).
+		if (AllActivitiesOverviewRelativeAmount <= 8.15) {
+			myChartAllActivitiesOverview.setOption({
+				xAxis: {
+					data: date,
+					axisLabel: {
+						show: true,
+						interval: 'auto',
+						rotate: 0
+					}
+				},
+				series: [{
+					name: 'Amount of activities',
+					data: count
+				}]
+			});
+		} else if (AllActivitiesOverviewRelativeAmount <= 16.3) {
+			myChartAllActivitiesOverview.setOption({
+				xAxis: {
+					data: date,
+					axisLabel: {
+						show: true,
+						interval: 0,
+						rotate: 40
+					}
+				},
+				series: [{
+					name: 'Amount of activities',
+					data: count
+				}]
+			});
+		} else if (AllActivitiesOverviewRelativeAmount <= 48.9) {
+			myChartAllActivitiesOverview.setOption({
+				xAxis: {
+					data: date,
+					axisLabel: {
+						show: true,
+						interval: 0,
+						rotate: 90
+					}
+				},
+				series: [{
+					name: 'Amount of activities',
+					data: count
+				}]
+			});
+		} else if (AllActivitiesOverviewRelativeAmount > 48.9) {
+			myChartAllActivitiesOverview.setOption({
+				xAxis: {
+					data: date,
+					axisLabel: {
+						show: false
+					}
+				},
+				series: [{
+					name: 'Amount of activities',
+					data: count
+				}]
+			});
+		}
+		}//success
+	});//ajax
+}//function allActivitiesOverviewUpdate()
+
+//after user sets presentation order/period/threshold, update the chart "AllActivitiesOverview"
+$(document).ready(function () {
+	$('#AllActivitiesOverviewPresentationOrder').change(function () {
+		allActivitiesOverviewUpdate();
+	})
+	$('#AllActivitiesOverviewSetPeriod').click(function () {
+		allActivitiesOverviewUpdate();
+	})
+	$('#AllActivitiesOverviewSetThreshold').click(function () {
+		allActivitiesOverviewUpdate();
+	})
+
+	//export the data in CSV format according to the configuration options that user chooses, also these configuration options are included in the file name
+	$('#AllActivitiesOverviewCSV').click(function () {
+		var SelectCourse = $("#SelectCourse option:selected").attr("id");
+		var SelectYear = $("#SelectYear option:selected").attr("id");
+		var SelectSemester = $("#SelectSemester option:selected").attr("id");
+		var from = $("#AllActivitiesOverviewFrom").val();
+		var to = $("#AllActivitiesOverviewTo").val();
+		var order = $('#AllActivitiesOverviewPresentationOrder').val();
+		var ThresholdSelect = $('#AllActivitiesOverviewThresholdSelect').val();
+		var Threshold = $('#AllActivitiesOverviewThreshold').val();
+		// dynamically concatenate url
+		var url = 'controller.php?type=allActivitiesOverviewCSV&from=' + from + '&to=' + to + '&order=' + order + '&ThresholdSelect=' + ThresholdSelect + '&Threshold=' + Threshold + '&SelectCourse=' + SelectCourse + '&SelectYear=' + SelectYear + '&SelectSemester=' + SelectSemester;
+		window.location.href = url;
+	})
+})// $(document).ready
+
+// the purpose of the following code is to solve the x-label issue to ensure the accuracy and correctness of information, it will dynamically determine which stage we are at when the left position and right position of the slider are changed: at the first stage, display no x-label (e-charts display some of the labels by default because there is not enough space to accommodate all the x-labels, this will provide misleading information); at the second stage, display all x-labels at a 90 degree; at the third stage, display all x-labels at a 40 degree; at the last stage, display all x-labels normally (at a 0 degree).
+myChartAllActivitiesOverview.on('datazoom', function (params) {
+	var diff = params.end - params.start;//difference between left and right position of the slider
+	AllActivitiesOverviewDiff = diff;
+	var AllActivitiesOverviewRelativeAmount = AllActivitiesOverviewDiff * AllActivitiesOverviewAmount / 100;
+	if (AllActivitiesOverviewRelativeAmount < 8.15) {
+		myChartAllActivitiesOverview.setOption({
+			xAxis: {
+				axisLabel: {
+					show: true,
+					interval: 'auto',
+					rotate: 0
+				}
+
+			}
+		});
+	} else if (AllActivitiesOverviewRelativeAmount < 16.3) {
+		myChartAllActivitiesOverview.setOption({
+			xAxis: {
+				axisLabel: {
+					show: true,
+					interval: 0,
+					rotate: 40
+				}
+
+			}
+		});
+	} else if (AllActivitiesOverviewRelativeAmount < 48.9) {
+		myChartAllActivitiesOverview.setOption({
+			xAxis: {
+				axisLabel: {
+					show: true,
+					interval: 0,
+					rotate: 90
+				}
+
+			}
+		});
+	} else if (AllActivitiesOverviewRelativeAmount >= 48.9) {
+		myChartAllActivitiesOverview.setOption({
+			xAxis: {
+				axisLabel: {
+					show: false
+				}
+
+			}
+		});
+	}
 });
 </script>
     </main>
