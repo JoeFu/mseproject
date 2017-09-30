@@ -949,27 +949,27 @@ class Service
 		$OrderBy='';
 		switch ($order) {
 			case 1:
-				$OrderBy='';
+				$OrderBy='ORDER BY datesort asc';
 				break;
 			case 2:
-				$OrderBy='ORDER BY count desc';
+				$OrderBy='ORDER BY count desc, datesort asc';
 				break;
 			case 3:
-				$OrderBy='ORDER BY count asc';
+				$OrderBy='ORDER BY count asc, datesort asc';
 				break;
 		}
 
-		$sql = "SELECT Name, COUNT(  `Id` ) count
+		$sql = "SELECT DATE_FORMAT(  `EventTime` ,  '%d %b %y' ) date, DATE_FORMAT(  `EventTime` ,  '%Y%m%d' ) datesort, COUNT(  `Id` ) count
 		FROM event
 		WHERE CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
-		GROUP BY Name
+		GROUP BY date
 		HAVING count{$ThresholdSelect}{$Threshold}
 		{$OrderBy}";
 		$query = mysql_query($sql);
 		$amount=mysql_num_rows($query);// number of records
 		while($row=mysql_fetch_array($query)){
 			$arr[] = array(
-				'name'=> $row['Name'],
+				'date'=> $row['date'],
 				'count' => $row['count'],
 				'amount' => $amount
 			);
