@@ -849,10 +849,10 @@ class Service
 				$OrderBy='';
 				break;
 			case 2:
-				$OrderBy='ORDER BY count desc';
+				$OrderBy='ORDER BY count desc, FKUserId desc';
 				break;
 			case 3:
-				$OrderBy='ORDER BY count asc';
+				$OrderBy='ORDER BY count asc, FKUserId desc';
 				break;
 		}
 
