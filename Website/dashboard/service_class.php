@@ -1079,5 +1079,69 @@ class Service
 		mysql_close($link);
 		return json_encode($arr);
 	}
+
+	//Export data (CSV format) for the chart "Event Names Overview"
+	public function eventNamesOverviewCSV($SelectCourse="", $SelectYear="", $SelectSemester="",$from="", $to="", $order="", $ThresholdSelect="", $Threshold="")
+	{
+		include('../one_connection.php');
+
+		$OrderBy='';// "order" in the sql query
+		$OrderInFileName='';// "order" to be displayed in file name
+		switch ($order) {
+			case 1:
+				$OrderBy='ORDER BY Name desc';
+				$OrderInFileName='alpha';
+				break;
+			case 2:
+				$OrderBy='ORDER BY count desc, Name desc';
+				$OrderInFileName='desc';
+				break;
+			case 3:
+				$OrderBy='ORDER BY count asc, Name desc';
+				$OrderInFileName='asc';
+				break;
+		}
+
+		$ThresholdSelectInFileName='';// "Threshold type to be displayed in file name
+		switch ($ThresholdSelect) {
+			case ">":
+				$ThresholdSelectInFileName='gt';
+				break;
+			case ">=":
+				$ThresholdSelectInFileName='get';
+				break;
+			case "<":
+				$ThresholdSelectInFileName='lt';
+				break;
+			case ">=":
+				$ThresholdSelectInFileName='let';
+				break;
+			case "=":
+				$ThresholdSelectInFileName='eq';
+				break;
+		}
+
+        $str = "Event name,Amount of activities\n"; 
+		$result = mysql_query("SELECT Name, COUNT(  `Id` ) count
+		FROM event
+		WHERE CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
+		GROUP BY Name
+		HAVING count{$ThresholdSelect}{$Threshold}
+		{$OrderBy}");
+        while($row=mysql_fetch_array($result)) { 
+			$str .= $row['Name'].",".$row['count']."\n"; 
+        } 
+		mysql_close($link);
+        $filename = $SelectCourse.$SelectYear.$SelectSemester.'EventNamesOverview'.$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //set file name 
+		
+		// output CSV file
+        header("Content-type:text/csv"); 
+        header("Content-Disposition:attachment;filename=".$filename); 
+        header('Cache-Control:must-revalidate,post-check=0,pre-check=0'); 
+        header('Expires:0'); 
+        header('Pragma:public'); 
+        echo $str; 
+        exit;
+	}
 }
 ?>
