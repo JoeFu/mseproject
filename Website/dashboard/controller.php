@@ -202,7 +202,7 @@ switch ($type) {
 		break;
 	case 'studentActivitiesOverviewCSV':
 		{
-			//the course, start day, end day, presentation order, threshold user chooses
+			//the course, year, semester, start day, end day, presentation order, threshold user chooses
 			$SelectCourse=$_GET['SelectCourse'];
 			$SelectYear=$_GET['SelectYear'];
 			$SelectSemester=$_GET['SelectSemester'];
@@ -232,7 +232,7 @@ switch ($type) {
 		break;
 	case 'allActivitiesOverviewCSV':
 		{
-			//the course, start day, end day, presentation order, threshold user chooses
+			//the course, year, semester, start day, end day, presentation order, threshold user chooses
 			$SelectCourse=$_GET['SelectCourse'];
 			$SelectYear=$_GET['SelectYear'];
 			$SelectSemester=$_GET['SelectSemester'];
@@ -243,6 +243,20 @@ switch ($type) {
 			$Threshold = $_GET['Threshold'];
 
 			$response = $service->allActivitiesOverviewCSV($SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold);
+			echo $response;
+		}
+		break;
+	case 'eventNamesOverview':
+		{
+			//the course, start day, end day, presentation order, threshold user chooses
+			$SelectCourse=$_GET['SelectCourse'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$order = intval($_GET['order']);
+			$ThresholdSelect = $_GET['ThresholdSelect'];
+			$Threshold = $_GET['Threshold'];
+
+			$response = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
 			echo $response;
 		}
 		break;
