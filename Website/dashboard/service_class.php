@@ -1143,5 +1143,38 @@ class Service
         echo $str; 
         exit;
 	}
+
+	//Load data for the auto-complete function of the chart Specific Event Name Overview
+	public function specificEventNameOverviewAutoComplete($term="", $SelectCourse="", $from="", $to="", $ThresholdSelect="", $Threshold="")
+	{
+		include('../one_connection.php');
+
+		// $in is a part of the second query, an example format of $in: (forum_view,resource_view,resource_add)
+		$in='(';
+		$sql = "SELECT Name, COUNT(  `Id` ) count
+		FROM event
+		WHERE CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
+		GROUP BY Name
+		HAVING count{$ThresholdSelect}{$Threshold}";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$in.='\''.$row['Name'].'\',';
+		}
+		$in=rtrim($in, ",");
+		$in.=')';
+		
+		//term is the text that user inputs
+		$sql = "select distinct Name 
+		from event 
+		where Name LIKE '$term%' and Name in {$in}";
+		$query = mysql_query($sql);
+		while($row = mysql_fetch_array($query)){
+			$result[] = array( 
+		 		'label' => $row['Name'] 
+			); 
+		}
+		mysql_close($link);
+		return json_encode($result);
+	}
 }
 ?>
