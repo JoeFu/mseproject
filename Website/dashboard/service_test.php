@@ -1188,5 +1188,82 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 	{
 		//The output of the function eventNamesOverviewCSV($SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold) is a CSV file, I have manually tested and verified that the data in the CSV file is correct and is the same as what is displayed in the chart. 
 	}
+
+	public function testSpecificEventNameOverviewAutoComplete() 
+	{
+		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2") to verify and validate the logic of this function, we don't test other courses in other semesters/ years for this function because we don't have real data for them.
+
+		//correct expected value for term "f", course "MSE", from "20120723", to "20121117", $ThresholdSelect ">", $Threshold "5213"
+		$expected = '[{"label":"forum_view discussion"}]';
+		$term="f";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='>';
+		$Threshold=5213;
+		$service = new Service;
+		$actual = $service->specificEventNameOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "f", course "MSE", from "20120723", to "20121117", $ThresholdSelect ">=", $Threshold "5213"
+		$expected = '[{"label":"forum_view forum"},{"label":"forum_view discussion"}]';
+		$term="f";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='>=';
+		$Threshold=5213;
+		$service = new Service;
+		$actual = $service->specificEventNameOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "f", course "MSE", from "20120723", to "20121117", $ThresholdSelect "<", $Threshold "2"
+		$expected = '[{"label":"forum_delete discussi"},{"label":"forum_mark read"},{"label":"forum_view subscriber"},{"label":"forum_unsubscribe"}]';
+		$term="f";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='<';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "f", course "MSE", from "20120723", to "20121117", $ThresholdSelect "<=", $Threshold "2"
+		$expected = '[{"label":"forum_delete discussi"},{"label":"forum_mark read"},{"label":"forum_view subscriber"},{"label":"forum_subscribe"},{"label":"forum_unsubscribe"}]';
+		$term="f";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='<=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "f", course "MSE", from "20120723", to "20121117", $ThresholdSelect "=", $Threshold "2"
+		$expected = '[{"label":"forum_subscribe"}]';
+		$term="f";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "r", course "MSE", from "20120723", to "20121117", $ThresholdSelect ">", $Threshold "1000"
+		$expected = '[{"label":"resource_view"}]';
+		$term="r";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='>';
+		$Threshold=1000;
+		$service = new Service;
+		$actual = $service->specificEventNameOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+	}
 }
 ?>
