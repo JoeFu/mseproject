@@ -292,5 +292,20 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'specificEventNameOverview':
+		{
+			//the event name, course, start day, end day, presentation order, threshold user chooses
+			$EventName=$_GET['EventName'];
+			$SelectCourse=$_GET['SelectCourse'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$order = intval($_GET['order']);
+			$ThresholdSelect = $_GET['ThresholdSelect'];
+			$Threshold = $_GET['Threshold'];
+
+			$response = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+			echo $response;
+		}
+		break;
 }
 ?>

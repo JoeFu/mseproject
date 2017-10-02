@@ -1176,5 +1176,43 @@ class Service
 		mysql_close($link);
 		return json_encode($result);
 	}
+
+	//Load data for the chart Specific Event Name Overview
+	public function specificEventNameOverview($EventName="", $SelectCourse="", $from="", $to="", $order="", $ThresholdSelect="", $Threshold="")
+	{
+		include('../one_connection.php');
+		
+		//presentation order: alphabetical, descending, ascending
+		$OrderBy='';
+		switch ($order) {
+			case 1:
+				$OrderBy='ORDER BY datesort asc';
+				break;
+			case 2:
+				$OrderBy='ORDER BY count desc, datesort asc';
+				break;
+			case 3:
+				$OrderBy='ORDER BY count asc, datesort asc';
+				break;
+		}
+
+		$sql = "SELECT DATE_FORMAT(  `EventTime` ,  '%d %b %y' ) date, DATE_FORMAT(  `EventTime` ,  '%Y%m%d' ) datesort, COUNT(  `Id` ) count
+		FROM event
+		WHERE CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1 and Name='{$EventName}'
+		GROUP BY date
+		HAVING count{$ThresholdSelect}{$Threshold}
+		{$OrderBy}";
+		$query = mysql_query($sql);
+		$amount=mysql_num_rows($query);// number of records
+		while($row=mysql_fetch_array($query)){
+			$arr[] = array(
+				'date'=> $row['date'],
+				'count' => $row['count'],
+				'amount' => $amount
+			);
+		}
+		mysql_close($link);
+		return json_encode($arr);
+	}
 }
 ?>
