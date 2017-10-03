@@ -1705,5 +1705,10 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 		$actual = $service->eventContextsOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
 		$this->assertEquals($expected,$actual);
 	}
+
+	public function testEventContextsOverviewCSV() 
+	{
+		//The output of the function eventContextsOverviewCSV($SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold) is a CSV file, I have manually tested and verified that the data in the CSV file is correct and is the same as what is displayed in the chart. 
+	}
 }
 ?>
