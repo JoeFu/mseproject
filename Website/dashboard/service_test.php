@@ -998,5 +998,503 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 	{
 		//The output of the function allActivitiesOverviewCSV($SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold) is a CSV file, I have manually tested and verified that the data in the CSV file is correct and is the same as what is displayed in the chart. 
 	}
+
+	public function testEventNamesOverview() 
+	{
+		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2") to verify and validate the logic of this function, we don't test other courses in other semesters/ years for this function because we don't have real data for them.
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect ">", $Threshold "2366"
+		$expected = '[{"name":"forum_view forum","count":"5213","amount":2},{"name":"forum_view discussion","count":"7234","amount":2}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='>';
+		$Threshold=2366;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect ">=", $Threshold "2366"
+		$expected = '[{"name":"resource_view","count":"2366","amount":3},{"name":"forum_view forum","count":"5213","amount":3},{"name":"forum_view discussion","count":"7234","amount":3}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='>=';
+		$Threshold=2366;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect "<", $Threshold "2"
+		$expected = '[{"name":"quiz_update","count":"1","amount":8},{"name":"quiz_add","count":"1","amount":8},{"name":"forum_view subscriber","count":"1","amount":8},{"name":"forum_unsubscribe","count":"1","amount":8},{"name":"forum_mark read","count":"1","amount":8},{"name":"forum_delete discussi","count":"1","amount":8},{"name":"discussion_mark read","count":"1","amount":8},{"name":"choice_add","count":"1","amount":8}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='<';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect "<=", $Threshold "2"
+		$expected = '[{"name":"quiz_update","count":"1","amount":10},{"name":"quiz_preview","count":"2","amount":10},{"name":"quiz_add","count":"1","amount":10},{"name":"forum_view subscriber","count":"1","amount":10},{"name":"forum_unsubscribe","count":"1","amount":10},{"name":"forum_subscribe","count":"2","amount":10},{"name":"forum_mark read","count":"1","amount":10},{"name":"forum_delete discussi","count":"1","amount":10},{"name":"discussion_mark read","count":"1","amount":10},{"name":"choice_add","count":"1","amount":10}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='<=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect "=", $Threshold "2"
+		$expected = '[{"name":"quiz_preview","count":"2","amount":2},{"name":"forum_subscribe","count":"2","amount":2}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Descending order", $ThresholdSelect ">", $Threshold "2366"
+		$expected = '[{"name":"forum_view discussion","count":"7234","amount":2},{"name":"forum_view forum","count":"5213","amount":2}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=2;//Descending order
+		$ThresholdSelect='>';
+		$Threshold=2366;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Descending order", $ThresholdSelect ">=", $Threshold "2366"
+		$expected = '[{"name":"forum_view discussion","count":"7234","amount":3},{"name":"forum_view forum","count":"5213","amount":3},{"name":"resource_view","count":"2366","amount":3}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=2;//Descending order
+		$ThresholdSelect='>=';
+		$Threshold=2366;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Descending order", $ThresholdSelect "<", $Threshold "2"
+		$expected = '[{"name":"quiz_update","count":"1","amount":8},{"name":"quiz_add","count":"1","amount":8},{"name":"forum_view subscriber","count":"1","amount":8},{"name":"forum_unsubscribe","count":"1","amount":8},{"name":"forum_mark read","count":"1","amount":8},{"name":"forum_delete discussi","count":"1","amount":8},{"name":"discussion_mark read","count":"1","amount":8},{"name":"choice_add","count":"1","amount":8}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=2;//Descending order
+		$ThresholdSelect='<';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Descending order", $ThresholdSelect "<=", $Threshold "2"
+		$expected = '[{"name":"quiz_preview","count":"2","amount":10},{"name":"forum_subscribe","count":"2","amount":10},{"name":"quiz_update","count":"1","amount":10},{"name":"quiz_add","count":"1","amount":10},{"name":"forum_view subscriber","count":"1","amount":10},{"name":"forum_unsubscribe","count":"1","amount":10},{"name":"forum_mark read","count":"1","amount":10},{"name":"forum_delete discussi","count":"1","amount":10},{"name":"discussion_mark read","count":"1","amount":10},{"name":"choice_add","count":"1","amount":10}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=2;//Descending order
+		$ThresholdSelect='<=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Descending order", $ThresholdSelect "=", $Threshold "2"
+		$expected = '[{"name":"quiz_preview","count":"2","amount":2},{"name":"forum_subscribe","count":"2","amount":2}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=2;//Descending order
+		$ThresholdSelect='=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Ascending order", $ThresholdSelect ">", $Threshold "2366"
+		$expected = '[{"name":"forum_view forum","count":"5213","amount":2},{"name":"forum_view discussion","count":"7234","amount":2}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=3;//Ascending order
+		$ThresholdSelect='>';
+		$Threshold=2366;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Ascending order", $ThresholdSelect ">=", $Threshold "2366"
+		$expected = '[{"name":"resource_view","count":"2366","amount":3},{"name":"forum_view forum","count":"5213","amount":3},{"name":"forum_view discussion","count":"7234","amount":3}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=3;//Ascending order
+		$ThresholdSelect='>=';
+		$Threshold=2366;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Ascending order", $ThresholdSelect "<", $Threshold "2"
+		$expected = '[{"name":"quiz_update","count":"1","amount":8},{"name":"quiz_add","count":"1","amount":8},{"name":"forum_view subscriber","count":"1","amount":8},{"name":"forum_unsubscribe","count":"1","amount":8},{"name":"forum_mark read","count":"1","amount":8},{"name":"forum_delete discussi","count":"1","amount":8},{"name":"discussion_mark read","count":"1","amount":8},{"name":"choice_add","count":"1","amount":8}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=3;//Ascending order
+		$ThresholdSelect='<';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Ascending order", $ThresholdSelect "<=", $Threshold "2"
+		$expected = '[{"name":"quiz_update","count":"1","amount":10},{"name":"quiz_add","count":"1","amount":10},{"name":"forum_view subscriber","count":"1","amount":10},{"name":"forum_unsubscribe","count":"1","amount":10},{"name":"forum_mark read","count":"1","amount":10},{"name":"forum_delete discussi","count":"1","amount":10},{"name":"discussion_mark read","count":"1","amount":10},{"name":"choice_add","count":"1","amount":10},{"name":"quiz_preview","count":"2","amount":10},{"name":"forum_subscribe","count":"2","amount":10}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=3;//Ascending order
+		$ThresholdSelect='<=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for course "MSE", from "20120723", to "20121117", order "Ascending order", $ThresholdSelect "=", $Threshold "2"
+		$expected = '[{"name":"quiz_preview","count":"2","amount":2},{"name":"forum_subscribe","count":"2","amount":2}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=3;//Ascending order
+		$ThresholdSelect='=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+	}
+
+	public function testEventNamesOverviewCSV() 
+	{
+		//The output of the function eventNamesOverviewCSV($SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold) is a CSV file, I have manually tested and verified that the data in the CSV file is correct and is the same as what is displayed in the chart. 
+	}
+
+	public function testSpecificEventNameOverviewAutoComplete() 
+	{
+		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2") to verify and validate the logic of this function, we don't test other courses in other semesters/ years for this function because we don't have real data for them.
+
+		//correct expected value for term "f", course "MSE", from "20120723", to "20121117", $ThresholdSelect ">", $Threshold "5213"
+		$expected = '[{"label":"forum_view discussion"}]';
+		$term="f";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='>';
+		$Threshold=5213;
+		$service = new Service;
+		$actual = $service->specificEventNameOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "f", course "MSE", from "20120723", to "20121117", $ThresholdSelect ">=", $Threshold "5213"
+		$expected = '[{"label":"forum_view forum"},{"label":"forum_view discussion"}]';
+		$term="f";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='>=';
+		$Threshold=5213;
+		$service = new Service;
+		$actual = $service->specificEventNameOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "f", course "MSE", from "20120723", to "20121117", $ThresholdSelect "<", $Threshold "2"
+		$expected = '[{"label":"forum_delete discussi"},{"label":"forum_mark read"},{"label":"forum_view subscriber"},{"label":"forum_unsubscribe"}]';
+		$term="f";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='<';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "f", course "MSE", from "20120723", to "20121117", $ThresholdSelect "<=", $Threshold "2"
+		$expected = '[{"label":"forum_delete discussi"},{"label":"forum_mark read"},{"label":"forum_view subscriber"},{"label":"forum_subscribe"},{"label":"forum_unsubscribe"}]';
+		$term="f";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='<=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "f", course "MSE", from "20120723", to "20121117", $ThresholdSelect "=", $Threshold "2"
+		$expected = '[{"label":"forum_subscribe"}]';
+		$term="f";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "r", course "MSE", from "20120723", to "20121117", $ThresholdSelect ">", $Threshold "1000"
+		$expected = '[{"label":"resource_view"}]';
+		$term="r";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='>';
+		$Threshold=1000;
+		$service = new Service;
+		$actual = $service->specificEventNameOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+	}
+
+	public function testSpecificEventNameOverview() 
+	{
+		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2") to verify and validate the logic of this function, we don't test other courses in other semesters/ years for this function because we don't have real data for them.
+
+		//correct expected value for EventName "forum_view forum", course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect ">", $Threshold "194"
+		$expected = '[{"date":"20 Sep 12","count":"265","amount":2},{"date":"06 Nov 12","count":"206","amount":2}]';
+		$EventName="forum_view forum";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='>';
+		$Threshold=194;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "forum_view forum", course "MSE", from "20120921", to "20121117", order "Alphabetical order", $ThresholdSelect ">", $Threshold "194"
+		$expected = '[{"date":"06 Nov 12","count":"206","amount":1}]';
+		$EventName="forum_view forum";
+		$SelectCourse="MSE";
+		$from= "20120921";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='>';
+		$Threshold=194;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect ">", $Threshold "94"
+		$expected = '[{"date":"06 Nov 12","count":"404","amount":1}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='>';
+		$Threshold=94;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect ">=", $Threshold "94"
+		$expected = '[{"date":"23 Jul 12","count":"94","amount":2},{"date":"06 Nov 12","count":"404","amount":2}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='>=';
+		$Threshold=94;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect "<", $Threshold "2"
+		$expected = '[{"date":"01 Sep 12","count":"1","amount":5},{"date":"05 Sep 12","count":"1","amount":5},{"date":"11 Oct 12","count":"1","amount":5},{"date":"09 Nov 12","count":"1","amount":5},{"date":"12 Nov 12","count":"1","amount":5}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='<';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect "<=", $Threshold "2"
+		$expected = '[{"date":"08 Aug 12","count":"2","amount":13},{"date":"30 Aug 12","count":"2","amount":13},{"date":"01 Sep 12","count":"1","amount":13},{"date":"05 Sep 12","count":"1","amount":13},{"date":"08 Sep 12","count":"2","amount":13},{"date":"13 Sep 12","count":"2","amount":13},{"date":"14 Sep 12","count":"2","amount":13},{"date":"01 Oct 12","count":"2","amount":13},{"date":"06 Oct 12","count":"2","amount":13},{"date":"11 Oct 12","count":"1","amount":13},{"date":"20 Oct 12","count":"2","amount":13},{"date":"09 Nov 12","count":"1","amount":13},{"date":"12 Nov 12","count":"1","amount":13}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='<=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Alphabetical order", $ThresholdSelect "=", $Threshold "2"
+		$expected = '[{"date":"08 Aug 12","count":"2","amount":8},{"date":"30 Aug 12","count":"2","amount":8},{"date":"08 Sep 12","count":"2","amount":8},{"date":"13 Sep 12","count":"2","amount":8},{"date":"14 Sep 12","count":"2","amount":8},{"date":"01 Oct 12","count":"2","amount":8},{"date":"06 Oct 12","count":"2","amount":8},{"date":"20 Oct 12","count":"2","amount":8}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=1;//Alphabetical order
+		$ThresholdSelect='=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Descending order", $ThresholdSelect ">", $Threshold "94"
+		$expected = '[{"date":"06 Nov 12","count":"404","amount":1}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=2;//Descending order
+		$ThresholdSelect='>';
+		$Threshold=94;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Descending order", $ThresholdSelect ">=", $Threshold "94"
+		$expected = '[{"date":"06 Nov 12","count":"404","amount":2},{"date":"23 Jul 12","count":"94","amount":2}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=2;//Descending order
+		$ThresholdSelect='>=';
+		$Threshold=94;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Descending order", $ThresholdSelect "<", $Threshold "2"
+		$expected = '[{"date":"01 Sep 12","count":"1","amount":5},{"date":"05 Sep 12","count":"1","amount":5},{"date":"11 Oct 12","count":"1","amount":5},{"date":"09 Nov 12","count":"1","amount":5},{"date":"12 Nov 12","count":"1","amount":5}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=2;//Descending order
+		$ThresholdSelect='<';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Descending order", $ThresholdSelect "<=", $Threshold "2"
+		$expected = '[{"date":"08 Aug 12","count":"2","amount":13},{"date":"30 Aug 12","count":"2","amount":13},{"date":"08 Sep 12","count":"2","amount":13},{"date":"13 Sep 12","count":"2","amount":13},{"date":"14 Sep 12","count":"2","amount":13},{"date":"01 Oct 12","count":"2","amount":13},{"date":"06 Oct 12","count":"2","amount":13},{"date":"20 Oct 12","count":"2","amount":13},{"date":"01 Sep 12","count":"1","amount":13},{"date":"05 Sep 12","count":"1","amount":13},{"date":"11 Oct 12","count":"1","amount":13},{"date":"09 Nov 12","count":"1","amount":13},{"date":"12 Nov 12","count":"1","amount":13}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=2;//Descending order
+		$ThresholdSelect='<=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Descending order", $ThresholdSelect "=", $Threshold "2"
+		$expected = '[{"date":"08 Aug 12","count":"2","amount":8},{"date":"30 Aug 12","count":"2","amount":8},{"date":"08 Sep 12","count":"2","amount":8},{"date":"13 Sep 12","count":"2","amount":8},{"date":"14 Sep 12","count":"2","amount":8},{"date":"01 Oct 12","count":"2","amount":8},{"date":"06 Oct 12","count":"2","amount":8},{"date":"20 Oct 12","count":"2","amount":8}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=2;//Descending order
+		$ThresholdSelect='=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Ascending order", $ThresholdSelect ">", $Threshold "94"
+		$expected = '[{"date":"06 Nov 12","count":"404","amount":1}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=3;//Ascending order
+		$ThresholdSelect='>';
+		$Threshold=94;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Ascending order", $ThresholdSelect ">=", $Threshold "94"
+		$expected = '[{"date":"23 Jul 12","count":"94","amount":2},{"date":"06 Nov 12","count":"404","amount":2}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=3;//Ascending order
+		$ThresholdSelect='>=';
+		$Threshold=94;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Ascending order", $ThresholdSelect "<", $Threshold "2"
+		$expected = '[{"date":"01 Sep 12","count":"1","amount":5},{"date":"05 Sep 12","count":"1","amount":5},{"date":"11 Oct 12","count":"1","amount":5},{"date":"09 Nov 12","count":"1","amount":5},{"date":"12 Nov 12","count":"1","amount":5}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=3;//Ascending order
+		$ThresholdSelect='<';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Ascending order", $ThresholdSelect "<=", $Threshold "2"
+		$expected = '[{"date":"01 Sep 12","count":"1","amount":13},{"date":"05 Sep 12","count":"1","amount":13},{"date":"11 Oct 12","count":"1","amount":13},{"date":"09 Nov 12","count":"1","amount":13},{"date":"12 Nov 12","count":"1","amount":13},{"date":"08 Aug 12","count":"2","amount":13},{"date":"30 Aug 12","count":"2","amount":13},{"date":"08 Sep 12","count":"2","amount":13},{"date":"13 Sep 12","count":"2","amount":13},{"date":"14 Sep 12","count":"2","amount":13},{"date":"01 Oct 12","count":"2","amount":13},{"date":"06 Oct 12","count":"2","amount":13},{"date":"20 Oct 12","count":"2","amount":13}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=3;//Ascending order
+		$ThresholdSelect='<=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for EventName "resource_view", course "MSE", from "20120723", to "20121117", order "Ascending order", $ThresholdSelect "=", $Threshold "2"
+		$expected = '[{"date":"08 Aug 12","count":"2","amount":8},{"date":"30 Aug 12","count":"2","amount":8},{"date":"08 Sep 12","count":"2","amount":8},{"date":"13 Sep 12","count":"2","amount":8},{"date":"14 Sep 12","count":"2","amount":8},{"date":"01 Oct 12","count":"2","amount":8},{"date":"06 Oct 12","count":"2","amount":8},{"date":"20 Oct 12","count":"2","amount":8}]';
+		$EventName="resource_view";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$order=3;//Ascending order
+		$ThresholdSelect='=';
+		$Threshold=2;
+		$service = new Service;
+		$actual = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+	}
+
+	public function testSpecificEventNameOverviewCSV() 
+	{
+		//The output of the function specificEventNameOverviewCSV($EventName, $SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold) is a CSV file, I have manually tested and verified that the data in the CSV file is correct and is the same as what is displayed in the chart. 
+	}
 }
 ?>
