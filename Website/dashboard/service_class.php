@@ -917,27 +917,27 @@ class Service
 				break;
 		}
 
-        $str = "User,Amount of activities\n"; 
+		$str = "User,Amount of activities\n"; 
 		$result = mysql_query("SELECT FKUserId, COUNT(  `Id` ) count
 		FROM event
 		WHERE EventTime between '{$from}' and '{$to}' and CourseName='{$SelectCourse}' and DataSourceType=1  
 		GROUP BY FKUserId
 		HAVING count{$ThresholdSelect}{$Threshold}
 		{$OrderBy}");
-        while($row=mysql_fetch_array($result)) { 
+		while($row=mysql_fetch_array($result)) { 
 			$str .= $row['FKUserId'].",".$row['count']."\n"; 
-        } 
+		} 
 		mysql_close($link);
-        $filename = $SelectCourse.$SelectYear.$SelectSemester.'StudentActivitiesOverview'.$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //set file name 
-		
+		$filename = $SelectCourse.$SelectYear.$SelectSemester.'StudentActivitiesOverview'.$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //set file name 
+
 		// output CSV file
-        header("Content-type:text/csv"); 
-        header("Content-Disposition:attachment;filename=".$filename); 
-        header('Cache-Control:must-revalidate,post-check=0,pre-check=0'); 
-        header('Expires:0'); 
-        header('Pragma:public'); 
-        echo $str; 
-        exit;
+		header("Content-type:text/csv"); 
+		header("Content-Disposition:attachment;filename=".$filename); 
+		header('Cache-Control:must-revalidate,post-check=0,pre-check=0'); 
+		header('Expires:0'); 
+		header('Pragma:public'); 
+		echo $str; 
+		exit;
 	}
 
 	//Load data for the chart All Activities Overview
@@ -1019,27 +1019,27 @@ class Service
 				break;
 		}
 
-        $str = "Date,Amount of activities\n"; 
+		$str = "Date,Amount of activities\n"; 
 		$result = mysql_query("SELECT DATE_FORMAT(  `EventTime` ,  '%d %b %y' ) date, DATE_FORMAT(  `EventTime` ,  '%Y%m%d' ) datesort, COUNT(  `Id` ) count
 		FROM event
 		WHERE CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
 		GROUP BY date
 		HAVING count{$ThresholdSelect}{$Threshold}
 		{$OrderBy}");
-        while($row=mysql_fetch_array($result)) { 
+		while($row=mysql_fetch_array($result)) { 
 			$str .= $row['date'].",".$row['count']."\n"; 
-        } 
+		} 
 		mysql_close($link);
-        $filename = $SelectCourse.$SelectYear.$SelectSemester.'AllActivitiesOverview'.$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //set file name 
-		
+		$filename = $SelectCourse.$SelectYear.$SelectSemester.'AllActivitiesOverview'.$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //set file name 
+
 		// output CSV file
-        header("Content-type:text/csv"); 
-        header("Content-Disposition:attachment;filename=".$filename); 
-        header('Cache-Control:must-revalidate,post-check=0,pre-check=0'); 
-        header('Expires:0'); 
-        header('Pragma:public'); 
-        echo $str; 
-        exit;
+		header("Content-type:text/csv"); 
+		header("Content-Disposition:attachment;filename=".$filename); 
+		header('Cache-Control:must-revalidate,post-check=0,pre-check=0'); 
+		header('Expires:0'); 
+		header('Pragma:public'); 
+		echo $str; 
+		exit;
 	}
 
 	//Load data for the chart Event Names Overview
@@ -1121,27 +1121,27 @@ class Service
 				break;
 		}
 
-        $str = "Event name,Amount of activities\n"; 
+		$str = "Event name,Amount of activities\n"; 
 		$result = mysql_query("SELECT Name, COUNT(  `Id` ) count
 		FROM event
 		WHERE CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
 		GROUP BY Name
 		HAVING count{$ThresholdSelect}{$Threshold}
 		{$OrderBy}");
-        while($row=mysql_fetch_array($result)) { 
+		while($row=mysql_fetch_array($result)) { 
 			$str .= $row['Name'].",".$row['count']."\n"; 
-        } 
+		} 
 		mysql_close($link);
-        $filename = $SelectCourse.$SelectYear.$SelectSemester.'EventNamesOverview'.$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //set file name 
-		
+		$filename = $SelectCourse.$SelectYear.$SelectSemester.'EventNamesOverview'.$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //set file name 
+
 		// output CSV file
-        header("Content-type:text/csv"); 
-        header("Content-Disposition:attachment;filename=".$filename); 
-        header('Cache-Control:must-revalidate,post-check=0,pre-check=0'); 
-        header('Expires:0'); 
-        header('Pragma:public'); 
-        echo $str; 
-        exit;
+		header("Content-type:text/csv"); 
+		header("Content-Disposition:attachment;filename=".$filename); 
+		header('Cache-Control:must-revalidate,post-check=0,pre-check=0'); 
+		header('Expires:0'); 
+		header('Pragma:public'); 
+		echo $str; 
+		exit;
 	}
 
 	//Load data for the auto-complete function of the chart Specific Event Name Overview
@@ -1256,27 +1256,27 @@ class Service
 				break;
 		}
 
-        $str = "Date,Amount of activities\n"; 
+		$str = "Date,Amount of activities\n"; 
 		$result = mysql_query("SELECT DATE_FORMAT(  `EventTime` ,  '%d %b %y' ) date, DATE_FORMAT(  `EventTime` ,  '%Y%m%d' ) datesort, COUNT(  `Id` ) count
 		FROM event
 		WHERE CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1 and Name='{$EventName}'
 		GROUP BY date
 		HAVING count{$ThresholdSelect}{$Threshold}
 		{$OrderBy}");
-        while($row=mysql_fetch_array($result)) { 
+		while($row=mysql_fetch_array($result)) { 
 			$str .= $row['date'].",".$row['count']."\n"; 
-        } 
+		} 
 		mysql_close($link);
-        $filename = $SelectCourse.$SelectYear.$SelectSemester.$EventName.$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //set file name 
-		
+		$filename = $SelectCourse.$SelectYear.$SelectSemester.$EventName.$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //set file name 
+
 		// output CSV file
-        header("Content-type:text/csv"); 
-        header("Content-Disposition:attachment;filename=".$filename); 
-        header('Cache-Control:must-revalidate,post-check=0,pre-check=0'); 
-        header('Expires:0'); 
-        header('Pragma:public'); 
-        echo $str; 
-        exit;
+		header("Content-type:text/csv"); 
+		header("Content-Disposition:attachment;filename=".$filename); 
+		header('Cache-Control:must-revalidate,post-check=0,pre-check=0'); 
+		header('Expires:0'); 
+		header('Pragma:public'); 
+		echo $str; 
+		exit;
 	}
 }
 ?>
