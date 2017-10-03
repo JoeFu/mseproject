@@ -241,6 +241,8 @@ $(document).ready(function() {
 		$("#EventNamesOverviewTo").val(PeriodTo);
 		$("#SpecificEventNameOverviewFrom").val(PeriodFrom);
 		$("#SpecificEventNameOverviewTo").val(PeriodTo);
+		$("#EventContextsOverviewFrom").val(PeriodFrom);
+		$("#EventContextsOverviewTo").val(PeriodTo);
 		
 		// display semester start day, end day
 		$("#SemesterStartDay").html(PeriodFrom); 
@@ -252,6 +254,7 @@ $(document).ready(function() {
 		allActivitiesOverviewUpdate();
 		eventNamesOverviewUpdate();
 		specificEventNameOverviewUpdate();
+		eventContextsOverviewUpdate();
 	})//$('#SelectSemester').change()
 
 	//after user selects assignment, update the start day and end day (the value in the input box) of all the charts and update all the charts
@@ -305,11 +308,14 @@ function getAssignmentStartDueDayAndUpdateAllCharts() {
 				$("#EventNamesOverviewTo").val(p['DueDate']);
 				$("#SpecificEventNameOverviewFrom").val(p['StartDate']);
 				$("#SpecificEventNameOverviewTo").val(p['DueDate']);
+				$("#EventContextsOverviewFrom").val(p['StartDate']);
+				$("#EventContextsOverviewTo").val(p['DueDate']);
 				// update all the charts 
 				studentActivitiesOverviewUpdate();
 				allActivitiesOverviewUpdate();
 				eventNamesOverviewUpdate();
 				specificEventNameOverviewUpdate();
+				eventContextsOverviewUpdate();
 			});
 		}//success
 	});//ajax
@@ -1485,6 +1491,285 @@ myChartSpecificEventNameOverview.on('datazoom', function (params) {
 		});
 	} else if (SpecificEventNameOverviewRelativeAmount >= 48.9) {
 		myChartSpecificEventNameOverview.setOption({
+			xAxis: {
+				axisLabel: {
+					show: false
+				}
+
+			}
+		});
+	}
+});
+</script>
+
+<!-- the chart Event Contexts Overview and related functions -->
+</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+<div id="EventContextsOverview" style="width: 800px;height:800px;"></div>
+	  <div style="width: 250px;height:100px;position: relative;top: -800px;left: 820px;">
+	    <label for="EventContextsOverviewPresentationOrder">Change Presentation Order</label>
+		<select id="EventContextsOverviewPresentationOrder">
+		  <option value ="1" selected = "selected">Alphabetical order</option>
+		  <option value ="2">Descending order</option>
+		  <option value ="3">Ascending order</option>
+		</select>
+		</br></br>
+		<label>Set period (YYYYMMDD)</label>
+		</br>
+		<label>From</label>
+		<input type="text" id="EventContextsOverviewFrom">
+		</br>
+		<label>To</label>&nbsp&nbsp&nbsp&nbsp
+		<input type="text" id="EventContextsOverviewTo">
+		<button type="button" id="EventContextsOverviewSetPeriod">Set period</button></br></br>
+		<label for="Threshold">Threshold (Amount of activities)</label>
+		</br>
+		<select id="EventContextsOverviewThresholdSelect">
+		  <option  value =">" selected = "selected">></option>
+		  <option value =">=">>=</option>
+		  <option value="<"><</option>
+		  <option value="<="><=</option>
+		  <option value="=">=</option>
+		</select>
+		<input type="text" id="EventContextsOverviewThreshold" value="0">
+		<button type="button" id="EventContextsOverviewSetThreshold">Set threshold</button>
+		</br></br>
+        <button type="button" id="EventContextsOverviewCSV">Export CSV</button>
+      </div>
+				
+<script type="text/javascript">
+//DatePicker for the chart "Event Contexts Overview"
+$(document).ready(function () {
+	$("#EventContextsOverviewFrom").datepicker({
+		defaultDate: "+1w",
+		changeMonth: true,
+		changeYear: true,
+		numberOfMonths: 3,
+		onClose: function (selectedDate) {
+			$("#EventContextsOverviewTo").datepicker("option", "minDate", selectedDate);
+		}
+	});
+	$("#EventContextsOverviewTo").datepicker({
+		defaultDate: "+1w",
+		changeMonth: true,
+		changeYear: true,
+		numberOfMonths: 3,
+		onClose: function (selectedDate) {
+			$("#EventContextsOverviewFrom").datepicker("option", "maxDate", selectedDate);
+		}
+	});
+
+	//set the format (YYYYMMDD) of start date and end date for the chart "Event Contexts Overview" 
+	$("#EventContextsOverviewFrom").datepicker("option", "dateFormat", "yymmdd");//YYYYMMDD
+	$("#EventContextsOverviewTo").datepicker("option", "dateFormat", "yymmdd");//YYYYMMDD
+})
+
+//Initialize e-charts instance
+var myChartEventContextsOverview = echarts.init(document.getElementById('EventContextsOverview'));
+
+//configuration item and data for the chart
+var option = {
+	title: {
+		text: 'Event contexts overview'
+	},
+	tooltip: {},
+	xAxis: {
+		name: 'Event context',
+		data: []
+	},
+	yAxis: {
+		name: 'Amount of activities'
+	},
+	grid: {
+		x: 100,
+		y2: 500
+	},
+	dataZoom: [
+		{   // dataZoom component controls x-axis by default
+			type: 'slider',
+			start: 0, // left position 0%
+			end: 100  // right position 100%
+		}
+	],
+	series: [{
+		name: 'Amount of activities',
+		type: 'bar',
+		data: []
+	}],
+	toolbox: {
+		show: true,
+		feature: {
+			dataView: { readOnly: false },
+			magicType: { type: ['line', 'bar'] },
+			restore: {},
+			saveAsImage: {}
+		}
+	}
+};
+
+// display the chart based on the configuration item and data
+myChartEventContextsOverview.setOption(option);
+
+var EventContextsOverviewAmount;//number of bars (number of records)
+var EventContextsOverviewDiff = 100;
+
+function eventContextsOverviewUpdate() {
+	var SelectCourse = $("#SelectCourse option:selected").attr("id");
+	var from = $("#EventContextsOverviewFrom").val();
+	var to = $("#EventContextsOverviewTo").val();
+	var order = $('#EventContextsOverviewPresentationOrder').val();
+	var ThresholdSelect = $('#EventContextsOverviewThresholdSelect').val();
+	var Threshold = $('#EventContextsOverviewThreshold').val();
+
+	$.ajax({
+		type: "get",
+		async: true, //asynchronous
+		url: "controller.php?type=eventContextsOverview",
+		dataType: "json", //return JSON data
+		data: { "from": from, "to": to, "order": order, "ThresholdSelect": ThresholdSelect, "Threshold": Threshold, "SelectCourse": SelectCourse},
+		success: function (result) {
+			var name = [];
+			var count = [];
+			var amount = [];
+			$.each(result, function (i, p) {
+				name[i] = p['name'];
+				count[i] = p['count'];
+				amount[i] = p['amount'];
+			});
+		EventContextsOverviewAmount = amount[0];
+		myChartEventContextsOverview.hideLoading();
+		var EventContextsOverviewRelativeAmount = EventContextsOverviewDiff * EventContextsOverviewAmount / 100;
+		// the purpose of the following code is to solve the x-label issue to ensure the accuracy and correctness of information, it will determine which stage we are at when loading the data: at the first stage, display no x-label (e-charts display some of the labels by default because there is not enough space to accommodate all the x-labels, this will provide misleading information); at the second stage, display all x-labels at a 90 degree; at the third stage, display all x-labels at a 40 degree; at the last stage, display all x-labels normally (at a 0 degree).
+		if (EventContextsOverviewRelativeAmount <= 0.451) {
+			myChartEventContextsOverview.setOption({
+				xAxis: {
+					data: name,
+					axisLabel: {
+						show: true,
+						interval: 'auto',
+						rotate: 0
+					}
+				},
+				series: [{
+					name: 'Amount of activities',
+					data: count
+				}]
+			});
+		} else if (EventContextsOverviewRelativeAmount <= 16.3) {
+			myChartEventContextsOverview.setOption({
+				xAxis: {
+					data: name,
+					axisLabel: {
+						show: true,
+						interval: 0,
+						rotate: 70
+					}
+				},
+				series: [{
+					name: 'Amount of activities',
+					data: count
+				}]
+			});
+		} else if (EventContextsOverviewRelativeAmount <= 48.9) {
+			myChartEventContextsOverview.setOption({
+				xAxis: {
+					data: name,
+					axisLabel: {
+						show: true,
+						interval: 0,
+						rotate: 90
+					}
+				},
+				series: [{
+					name: 'Amount of activities',
+					data: count
+				}]
+			});
+		} else if (EventContextsOverviewRelativeAmount > 48.9) {
+			myChartEventContextsOverview.setOption({
+				xAxis: {
+					data: name,
+					axisLabel: {
+						show: false
+					}
+				},
+				series: [{
+					name: 'Amount of activities',
+					data: count
+				}]
+			});
+		}
+		}//success
+	});//ajax
+}//function eventContextsOverviewUpdate()
+
+//after user sets presentation order/period/threshold, update the chart "EventContextsOverview"
+$(document).ready(function () {
+	$('#EventContextsOverviewPresentationOrder').change(function () {
+		eventContextsOverviewUpdate();
+	})
+	$('#EventContextsOverviewSetPeriod').click(function () {
+		eventContextsOverviewUpdate();
+	})
+	$('#EventContextsOverviewSetThreshold').click(function () {
+		eventContextsOverviewUpdate();
+	})
+
+	//export the data in CSV format according to the configuration options that user chooses, also these configuration options are included in the file name
+	$('#EventContextsOverviewCSV').click(function () {
+		var SelectCourse = $("#SelectCourse option:selected").attr("id");
+		var SelectYear = $("#SelectYear option:selected").attr("id");
+		var SelectSemester = $("#SelectSemester option:selected").attr("id");
+		var from = $("#EventContextsOverviewFrom").val();
+		var to = $("#EventContextsOverviewTo").val();
+		var order = $('#EventContextsOverviewPresentationOrder').val();
+		var ThresholdSelect = $('#EventContextsOverviewThresholdSelect').val();
+		var Threshold = $('#EventContextsOverviewThreshold').val();
+		// dynamically concatenate url
+		var url = 'controller.php?type=eventContextsOverviewCSV&from=' + from + '&to=' + to + '&order=' + order + '&ThresholdSelect=' + ThresholdSelect + '&Threshold=' + Threshold + '&SelectCourse=' + SelectCourse + '&SelectYear=' + SelectYear + '&SelectSemester=' + SelectSemester;
+		window.location.href = url;
+	})
+})// $(document).ready
+
+// the purpose of the following code is to solve the x-label issue to ensure the accuracy and correctness of information, it will dynamically determine which stage we are at when the left position and right position of the slider are changed: at the first stage, display no x-label (e-charts display some of the labels by default because there is not enough space to accommodate all the x-labels, this will provide misleading information); at the second stage, display all x-labels at a 90 degree; at the third stage, display all x-labels at a 40 degree; at the last stage, display all x-labels normally (at a 0 degree).
+myChartEventContextsOverview.on('datazoom', function (params) {
+	var diff = params.end - params.start;//difference between left and right position of the slider
+	EventContextsOverviewDiff = diff;
+	var EventContextsOverviewRelativeAmount = EventContextsOverviewDiff * EventContextsOverviewAmount / 100;
+	if (EventContextsOverviewRelativeAmount < 0.451) {
+		myChartEventContextsOverview.setOption({
+			xAxis: {
+				axisLabel: {
+					show: true,
+					interval: 'auto',
+					rotate: 0
+				}
+
+			}
+		});
+	} else if (EventContextsOverviewRelativeAmount < 16.3) {
+		myChartEventContextsOverview.setOption({
+			xAxis: {
+				axisLabel: {
+					show: true,
+					interval: 0,
+					rotate: 70
+				}
+
+			}
+		});
+	} else if (EventContextsOverviewRelativeAmount < 48.9) {
+		myChartEventContextsOverview.setOption({
+			xAxis: {
+				axisLabel: {
+					show: true,
+					interval: 0,
+					rotate: 90
+				}
+
+			}
+		});
+	} else if (EventContextsOverviewRelativeAmount >= 48.9) {
+		myChartEventContextsOverview.setOption({
 			xAxis: {
 				axisLabel: {
 					show: false
