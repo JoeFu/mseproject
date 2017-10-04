@@ -1710,5 +1710,94 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 	{
 		//The output of the function eventContextsOverviewCSV($SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold) is a CSV file, I have manually tested and verified that the data in the CSV file is correct and is the same as what is displayed in the chart. 
 	}
+
+	public function testSpecificEventContextOverviewAutoComplete() 
+	{
+		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2") to verify and validate the logic of this function, we don't test other courses in other semesters/ years for this function because we don't have real data for them.
+
+		//correct expected value for term "f", course "MSE", from "20120723", to "20121117", $ThresholdSelect ">", $Threshold "3771"
+		$expected = '[{"label":"Forum: News forum, Semester 2, 2012"},{"label":"Forum: Student Questions and Discussion, Semester 2, 2012"}]';
+		$term="f";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='>';
+		$Threshold=3771;
+		$service = new Service;
+		$actual = $service->specificEventContextOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "f", course "MSE", from "20120823", to "20121117", $ThresholdSelect ">", $Threshold "3771"
+		$expected = '[{"label":"Forum: Student Questions and Discussion, Semester 2, 2012"}]';
+		$term="f";
+		$SelectCourse="MSE";
+		$from= "20120823";
+		$to="20121117";
+		$ThresholdSelect='>';
+		$Threshold=3771;
+		$service = new Service;
+		$actual = $service->specificEventContextOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "f", course "MSE", from "20120723", to "20121117", $ThresholdSelect ">", $Threshold "3772"
+		$expected = '[{"label":"Forum: Student Questions and Discussion, Semester 2, 2012"}]';
+		$term="f";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='>';
+		$Threshold=3772;
+		$service = new Service;
+		$actual = $service->specificEventContextOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "f", course "MSE", from "20120723", to "20121117", $ThresholdSelect ">=", $Threshold "3772"
+		$expected = '[{"label":"Forum: News forum, Semester 2, 2012"},{"label":"Forum: Student Questions and Discussion, Semester 2, 2012"}]';
+		$term="f";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='>=';
+		$Threshold=3772;
+		$service = new Service;
+		$actual = $service->specificEventContextOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "u", course "MSE", from "20120723", to "20121117", $ThresholdSelect "<", $Threshold "3772"
+		$expected = '[{"label":"URL: The Google Story book, Semester 2, 2012"}]';
+		$term="u";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='<';
+		$Threshold=19;
+		$service = new Service;
+		$actual = $service->specificEventContextOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "u", course "MSE", from "20120723", to "20121117", $ThresholdSelect "<=", $Threshold "3772"
+		$expected = '[{"label":"URL: The Google Story book, Semester 2, 2012"},{"label":"URL: The Google File System - Research Paper - SOSP 2003, Semester 1, 2012"}]';
+		$term="u";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='<=';
+		$Threshold=19;
+		$service = new Service;
+		$actual = $service->specificEventContextOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+
+		//correct expected value for term "u", course "MSE", from "20120723", to "20121117", $ThresholdSelect "=", $Threshold "3772"
+		$expected = '[{"label":"URL: The Google File System - Research Paper - SOSP 2003, Semester 1, 2012"}]';
+		$term="u";
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$ThresholdSelect='=';
+		$Threshold=19;
+		$service = new Service;
+		$actual = $service->specificEventContextOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+		$this->assertEquals($expected,$actual);
+	}
 }
 ?>
