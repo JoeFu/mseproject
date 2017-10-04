@@ -1380,5 +1380,38 @@ class Service
 		echo $str; 
 		exit;
 	}
+
+	//Load data for the auto-complete function of the chart Specific Event Context Overview
+	public function specificEventContextOverviewAutoComplete($term="", $SelectCourse="", $from="", $to="", $ThresholdSelect="", $Threshold="")
+	{
+		include('../one_connection.php');
+
+		// $in is a part of the second query, an example format of $in: (' Assignment 4 - Marks, Semester 2, 2013',' News forum, Semester 2, 2012')
+		$in='(';
+		$sql = "SELECT Context, COUNT(  `Id` ) count
+		FROM event
+		WHERE CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1
+		GROUP BY Context
+		HAVING count{$ThresholdSelect}{$Threshold}";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$in.='\''.$row['Context'].'\',';
+		}
+		$in=rtrim($in, ",");
+		$in.=')';
+		
+		//term is the text that user inputs
+		$sql = "select distinct concat(`Prefix`,':',`Context`) EventContext
+		from event 
+		where Prefix LIKE '$term%' and Context in {$in}";
+		$query = mysql_query($sql);
+		while($row = mysql_fetch_array($query)){
+			$result[] = array( 
+		 		'label' => $row['EventContext'] 
+			); 
+		}
+		mysql_close($link);
+		return json_encode($result);
+	}
 }
 ?>

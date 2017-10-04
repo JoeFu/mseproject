@@ -354,5 +354,21 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'specificEventContextOverviewAutoComplete':
+		{
+			//the text user inputs
+			$term = strtolower($_GET["term"]);
+			
+			//the course, start day, end day, threshold user chooses
+			$SelectCourse=$_GET['SelectCourse'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$ThresholdSelect = $_GET['ThresholdSelect'];
+			$Threshold = $_GET['Threshold'];
+
+			$response = $service->specificEventContextOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+			echo $response;
+		}
+		break;
 }
 ?>
