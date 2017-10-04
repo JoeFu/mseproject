@@ -1455,5 +1455,73 @@ class Service
 		mysql_close($link);
 		return json_encode($arr);
 	}
+
+	//Export data (CSV format) for the chart "Specific Event Context Overview"
+	public function specificEventContextOverviewCSV($EventContext="", $SelectCourse="", $SelectYear="", $SelectSemester="",$from="", $to="", $order="", $ThresholdSelect="", $Threshold="")
+	{
+		include('../one_connection.php');
+
+		$OrderBy='';// "order" in the sql query
+		$OrderInFileName='';// "order" to be displayed in file name
+		switch ($order) {
+			case 1:
+				$OrderBy='ORDER BY datesort asc';
+				$OrderInFileName='alpha';
+				break;
+			case 2:
+				$OrderBy='ORDER BY count desc, datesort asc';
+				$OrderInFileName='desc';
+				break;
+			case 3:
+				$OrderBy='ORDER BY count asc, datesort asc';
+				$OrderInFileName='asc';
+				break;
+		}
+
+		$ThresholdSelectInFileName='';// "Threshold type to be displayed in file name
+		switch ($ThresholdSelect) {
+			case ">":
+				$ThresholdSelectInFileName='gt';
+				break;
+			case ">=":
+				$ThresholdSelectInFileName='get';
+				break;
+			case "<":
+				$ThresholdSelectInFileName='lt';
+				break;
+			case ">=":
+				$ThresholdSelectInFileName='let';
+				break;
+			case "=":
+				$ThresholdSelectInFileName='eq';
+				break;
+		}
+
+		// break down $EventContext into two parts (one before the colon, the other after the colon)
+		$arrEventContext = array();
+		$arrEventContext = explode(":",$EventContext);
+
+		$str = "Date,Amount of activities\n"; 
+		$result = mysql_query("SELECT DATE_FORMAT(  `EventTime` ,  '%d %b %y' ) date, DATE_FORMAT(  `EventTime` ,  '%Y%m%d' ) datesort, COUNT(  `Id` ) count
+		FROM event
+		WHERE CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1 and Prefix='{$arrEventContext[0]}'and Context='{$arrEventContext[1]}'
+		GROUP BY date
+		HAVING count{$ThresholdSelect}{$Threshold}
+		{$OrderBy}");
+		while($row=mysql_fetch_array($result)) { 
+			$str .= $row['date'].",".$row['count']."\n"; 
+		} 
+		mysql_close($link);
+		$filename = $SelectCourse.$SelectYear.$SelectSemester.$EventContext." ".$from.'-'.$to.$ThresholdSelectInFileName.$Threshold.$OrderInFileName.'.csv'; //set file name 
+
+		// output CSV file
+		header("Content-type:text/csv"); 
+		header("Content-Disposition:attachment;filename=".'"'.$filename.'"'); 
+		header('Cache-Control:must-revalidate,post-check=0,pre-check=0'); 
+		header('Expires:0'); 
+		header('Pragma:public'); 
+		echo $str; 
+		exit;
+	}
 }
 ?>

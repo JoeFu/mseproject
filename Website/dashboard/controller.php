@@ -385,5 +385,22 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'specificEventContextOverviewCSV':
+		{
+			//the event context, course, year, semester, start day, end day, presentation order, threshold user chooses
+			$EventContext=$_GET['EventContext'];
+			$SelectCourse=$_GET['SelectCourse'];
+			$SelectYear=$_GET['SelectYear'];
+			$SelectSemester=$_GET['SelectSemester'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$order = intval($_GET['order']);
+			$ThresholdSelect = $_GET['ThresholdSelect'];
+			$Threshold = $_GET['Threshold'];
+
+			$response = $service->specificEventContextOverviewCSV($EventContext, $SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold);
+			echo $response;
+		}
+		break;
 }
 ?>
