@@ -3,7 +3,7 @@
 		// Properties
 		private $dbhost = 'localhost';
 		private $dbuser = 'root';
-		private $dbpass = '';
+		private $dbpass = 'outlook';
 		private $dbname = 'studentdata';
 		
 		public function connect(){
