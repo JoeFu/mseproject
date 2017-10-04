@@ -249,7 +249,7 @@
 			$.ajax({ 
 				   type: "get",
 				   dataType: "json",
-				   url: "http://localhost/slimapp/public/index.php/api/events/search",
+				   url: "http://studata.tk/slimapp/public/index.php/api/events/search",
 				   data: { "parameters": parameters },
 				   success: function(result){
 					   loadResult(result);
@@ -305,7 +305,7 @@
 		$.ajax({ 
 			   type: "get",
 			   dataType: "json",
-			   url: "http://localhost/slimapp/public/index.php/api/eventnames/" + dataSourceType,
+			   url: "http://studata.tk/slimapp/public/index.php/api/eventnames/" + dataSourceType,
 			   success: function(data){			    
 			    $("#EventNameSelect option").remove();
 			    var $select = $('#EventNameSelect');
@@ -323,7 +323,7 @@
 		$.ajax({ 
 		   type: "get",
 		   dataType: "json",
-		   url: "http://localhost/slimapp/public/index.php/api/eventtypes",
+		   url: "http://studata.tk/slimapp/public/index.php/api/eventtypes",
 		   success: function(data){			    
 		    $("#EventTypeSelect option").remove();
 		    var $select = $('#EventTypeSelect');
@@ -341,7 +341,7 @@
 		$.ajax({ 
 		   type: "get",
 		   dataType: "json",
-		   url: "http://localhost/slimapp/public/index.php/api/components",
+		   url: "http://studata.tk/slimapp/public/index.php/api/components",
 		   success: function(data){			    
 		    $("#ComponentSelect option").remove();
 		    var $select = $('#ComponentSelect');
@@ -359,7 +359,7 @@
 		$.ajax({ 
 		   type: "get",
 		   dataType: "json",
-		   url: "http://localhost/slimapp/public/index.php/api/users",
+		   url: "http://studata.tk/slimapp/public/index.php/api/users",
 		   success: function(data){			    
 		    $("#UserSelect option").remove();
 		    var $select = $('#UserSelect');
@@ -377,7 +377,7 @@
 		$.ajax({ 
 			   type: "get",
 			   dataType: "json",
-			   url: "http://localhost/slimapp/public/index.php/api/courses",
+			   url: "http://studata.tk/slimapp/public/index.php/api/courses",
 			   success: function(data){			    
 			    $("#CourseSelect option").remove();
 			    var $select = $('#CourseSelect');
@@ -395,7 +395,7 @@
 		$.ajax({ 
 			   type: "get",
 			   dataType: "json",
-			   url: "http://localhost/slimapp/public/index.php/api/schoolyears",
+			   url: "http://studata.tk/slimapp/public/index.php/api/schoolyears",
 			   success: function(data){			    
 			    $("#SchoolYearSelect option").remove();
 			    var $select = $('#SchoolYearSelect');
@@ -413,7 +413,7 @@
 		$.ajax({ 
 			   type: "get",
 			   dataType: "json",
-			   url: "http://localhost/slimapp/public/index.php/api/semesters",
+			   url: "http://studata.tk/slimapp/public/index.php/api/semesters",
 			   success: function(data){			    
 			    $("#SemesterSelect option").remove();
 			    var $select = $('#SemesterSelect');
@@ -431,7 +431,7 @@
 		$.ajax({ 
 			   type: "get",
 			   dataType: "json",
-			   url: "http://localhost/slimapp/public/index.php/api/assignments",
+			   url: "http://studata.tk/slimapp/public/index.php/api/assignments",
 			   success: function(data){			    
 			    $("#AssignmentSelect option").remove();
 			    var $select = $('#AssignmentSelect');
