@@ -202,7 +202,7 @@ switch ($type) {
 		break;
 	case 'studentActivitiesOverviewCSV':
 		{
-			//the course, start day, end day, presentation order, threshold user chooses
+			//the course, year, semester, start day, end day, presentation order, threshold user chooses
 			$SelectCourse=$_GET['SelectCourse'];
 			$SelectYear=$_GET['SelectYear'];
 			$SelectSemester=$_GET['SelectSemester'];
@@ -232,7 +232,7 @@ switch ($type) {
 		break;
 	case 'allActivitiesOverviewCSV':
 		{
-			//the course, start day, end day, presentation order, threshold user chooses
+			//the course, year, semester, start day, end day, presentation order, threshold user chooses
 			$SelectCourse=$_GET['SelectCourse'];
 			$SelectYear=$_GET['SelectYear'];
 			$SelectSemester=$_GET['SelectSemester'];
@@ -243,6 +243,84 @@ switch ($type) {
 			$Threshold = $_GET['Threshold'];
 
 			$response = $service->allActivitiesOverviewCSV($SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold);
+			echo $response;
+		}
+		break;
+	case 'eventNamesOverview':
+		{
+			//the course, start day, end day, presentation order, threshold user chooses
+			$SelectCourse=$_GET['SelectCourse'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$order = intval($_GET['order']);
+			$ThresholdSelect = $_GET['ThresholdSelect'];
+			$Threshold = $_GET['Threshold'];
+
+			$response = $service->eventNamesOverview($SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+			echo $response;
+		}
+		break;
+	case 'eventNamesOverviewCSV':
+		{
+			//the course, year, semester, start day, end day, presentation order, threshold user chooses
+			$SelectCourse=$_GET['SelectCourse'];
+			$SelectYear=$_GET['SelectYear'];
+			$SelectSemester=$_GET['SelectSemester'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$order = intval($_GET['order']);
+			$ThresholdSelect = $_GET['ThresholdSelect'];
+			$Threshold = $_GET['Threshold'];
+
+			$response = $service->eventNamesOverviewCSV($SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold);
+			echo $response;
+		}
+		break;
+	case 'specificEventNameOverviewAutoComplete':
+		{
+			//the text user inputs
+			$term = strtolower($_GET["term"]);
+			
+			//the course, start day, end day, threshold user chooses
+			$SelectCourse=$_GET['SelectCourse'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$ThresholdSelect = $_GET['ThresholdSelect'];
+			$Threshold = $_GET['Threshold'];
+
+			$response = $service->specificEventNameOverviewAutoComplete($term, $SelectCourse, $from, $to, $ThresholdSelect, $Threshold);
+			echo $response;
+		}
+		break;
+	case 'specificEventNameOverview':
+		{
+			//the event name, course, start day, end day, presentation order, threshold user chooses
+			$EventName=$_GET['EventName'];
+			$SelectCourse=$_GET['SelectCourse'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$order = intval($_GET['order']);
+			$ThresholdSelect = $_GET['ThresholdSelect'];
+			$Threshold = $_GET['Threshold'];
+
+			$response = $service->specificEventNameOverview($EventName, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+			echo $response;
+		}
+		break;
+	case 'specificEventNameOverviewCSV':
+		{
+			//the event name, course, year, semester, start day, end day, presentation order, threshold user chooses
+			$EventName=$_GET['EventName'];
+			$SelectCourse=$_GET['SelectCourse'];
+			$SelectYear=$_GET['SelectYear'];
+			$SelectSemester=$_GET['SelectSemester'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$order = intval($_GET['order']);
+			$ThresholdSelect = $_GET['ThresholdSelect'];
+			$Threshold = $_GET['Threshold'];
+
+			$response = $service->specificEventNameOverviewCSV($EventName, $SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold);
 			echo $response;
 		}
 		break;
