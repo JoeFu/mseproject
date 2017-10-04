@@ -370,5 +370,20 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'specificEventContextOverview':
+		{
+			//the event context, course, start day, end day, presentation order, threshold user chooses
+			$EventContext=$_GET['EventContext'];
+			$SelectCourse=$_GET['SelectCourse'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$order = intval($_GET['order']);
+			$ThresholdSelect = $_GET['ThresholdSelect'];
+			$Threshold = $_GET['Threshold'];
+
+			$response = $service->specificEventContextOverview($EventContext, $SelectCourse, $from, $to, $order, $ThresholdSelect, $Threshold);
+			echo $response;
+		}
+		break;
 }
 ?>
