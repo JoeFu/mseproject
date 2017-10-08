@@ -647,28 +647,32 @@ class Service
 				$OrderBy='';
 				break;
 			case 2:
-				$OrderBy='ORDER BY count desc';
+				$OrderBy='ORDER BY count desc, FKParentId desc';
 				break;
 			case 3:
-				$OrderBy='ORDER BY count asc';
+				$OrderBy='ORDER BY count asc, FKParentId desc';
 				break;
 		}
 
-		$sql = "SELECT FKUserId, COUNT(  `Id` ) count
-		from event
+		$sql = "SELECT FKUserId, COUNT(event.Id) count, FKParentId
+		from event join user
+		on FKUserId=user.Id
 		where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2 and `FKEventTypeId`=6
-		GROUP BY FKUserId
+		GROUP BY FKParentId
 		HAVING count {$OrderBy}";
 		$query = mysql_query($sql);
+		$amount=mysql_num_rows($query);// number of records
 		while($row=mysql_fetch_array($query)){
+			$row['FKParentId']=str_replace('SER','',$row['FKParentId']);// compress "USER0019" to "U0019"
 			$arr[] = array(
-				'FKUserId'=> $row['FKUserId'],
-				'count' => $row['count']
+				'FKParentId'=> $row['FKParentId'],
+				'count' => $row['count'],
+				'amount' => $amount
 			);
 		}
 		mysql_close($link);
 		return json_encode($arr);
-		//example format of output: [{"FKUserId":"21685","count":"5"},{"FKUserId":"21687","count":"6"}]
+		//example format of output: [{"FKParentId":"U0001","count":"5",amount":2},{"FKParentId":"U0002","count":"6",amount":2}]
 	}
 
 	//Load data for the chart Mark Distribution
