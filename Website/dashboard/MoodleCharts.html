@@ -205,6 +205,78 @@ $(document).ready(function() {
 		var PeriodTo;
 		switch (SelectYearId) {
 			//the start day and end day of semesters in different years are different
+			case "2004":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0301";
+					PeriodTo = SelectYearId + "0630";
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0726";
+					PeriodTo = SelectYearId + "1120";
+				}
+				break;
+			case "2005":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0228";
+					PeriodTo = SelectYearId + "0702";
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0725";
+					PeriodTo = SelectYearId + "1119";
+				}
+				break;
+			case "2006":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0227";
+					PeriodTo = SelectYearId + "0701";
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0724";
+					PeriodTo = SelectYearId + "1118";
+				}
+				break;
+			case "2007":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0226";
+					PeriodTo = SelectYearId + "0630";
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0723";
+					PeriodTo = SelectYearId + "1117";
+				}
+				break;
+			case "2008":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0303";
+					PeriodTo = SelectYearId + "0705";
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0728";
+					PeriodTo = SelectYearId + "1122";
+				}
+				break;
+			case "2009":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0302";
+					PeriodTo = SelectYearId + "0704";
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0727";
+					PeriodTo = SelectYearId + "1121";
+				}
+				break;
+			case "2010":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0301";
+					PeriodTo = SelectYearId + "0703";
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0726";
+					PeriodTo = SelectYearId + "1120";
+				}
+				break;
+			case "2011":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0228";
+					PeriodTo = SelectYearId + "0702";
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0725";
+					PeriodTo = SelectYearId + "1129";
+				}
+				break;
 			case "2012":
 				if (SelectSemesterId=="Semester 1") {
 					PeriodFrom = SelectYearId + "0227";
@@ -230,6 +302,51 @@ $(document).ready(function() {
 				} else if (SelectSemesterId=="Semester 2") {
 					PeriodFrom = SelectYearId + "0728";
 					PeriodTo = SelectYearId + "1121";
+				}
+				break;
+			case "2015":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0302";
+					PeriodTo = SelectYearId + "0703";
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0727";
+					PeriodTo = SelectYearId + "1120";
+				}
+				break;
+			case "2016":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0229";
+					PeriodTo = SelectYearId + "0702";
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0725";
+					PeriodTo = SelectYearId + "1119";
+				}
+				break;
+			case "2017":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0227";
+					PeriodTo = SelectYearId + "0701";
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0724";
+					PeriodTo = SelectYearId + "1118";
+				}
+				break;
+			case "2018":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0226";
+					PeriodTo = SelectYearId + "0630";
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0723";
+					PeriodTo = SelectYearId + "1117";
+				}
+				break;
+			case "2019":
+				if (SelectSemesterId=="Semester 1") {
+					PeriodFrom = SelectYearId + "0304";
+					PeriodTo = SelectYearId + "0706";
+				} else if (SelectSemesterId=="Semester 2") {
+					PeriodFrom = SelectYearId + "0729";
+					PeriodTo = SelectYearId + "1123";
 				}
 				break;
 		}
