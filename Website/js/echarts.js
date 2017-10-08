@@ -71108,7 +71108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        icon: 'M17.5,17.3H33 M17.5,17.3H33 M45.4,29.5h-28 M11.5,2v56H51V14.8L38.4,2H11.5z M38.4,2.2v12.7H51 M45.4,41.7h-28',
 	        title: 'Data view',
-	        lang: ['Data view', '关闭', '刷新'],
+	        lang: ['Data view', 'Close', 'Refresh'],
 	        backgroundColor: '#fff',
 	        textColor: '#000',
 	        textareaColor: '#fff',
