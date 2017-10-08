@@ -1189,10 +1189,15 @@ var option = {
 	},
 	tooltip: {},
 	xAxis: {
+		name: 'User',
 		data: []
 	},
 	yAxis: {
 		name: 'Number of submissions'
+	},
+	grid: {
+		x: 100,
+		y2: 100
 	},
 	dataZoom: [
 		{   //dataZoom component controls x-axis by default
@@ -1222,6 +1227,9 @@ var option = {
 // display chart using the configuration items and data set
 myChartSubmissionTimesOfEachStudent.setOption(option);
 
+var SubmissionTimesOfEachStudentAmount;//number of bars (number of records)
+var SubmissionTimesOfEachStudentDiff = 100;
+
 function submissionTimesOfEachStudentUpdate(){
 	var order=$('#SubmissionTimesOfEachStudentSelect').val();
 	var SelectCourse=$("#SelectCourse option:selected").attr("id");
@@ -1236,28 +1244,78 @@ function submissionTimesOfEachStudentUpdate(){
 		data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment,"order":order},
 		dataType: "json", //return data in JSON format
 		success: function(result) {
-			var FKUserId = [];
+			var FKParentId = [];
 			var count = [];
+			var amount = [];
 			$.each(result,function(i,p){
-				FKUserId[i]=p['FKUserId'];
+				FKParentId[i]=p['FKParentId'];
 				count[i]=p['count'];
+				amount[i] = p['amount'];
 			});
+			SubmissionTimesOfEachStudentAmount = amount[0];
 			myChartSubmissionTimesOfEachStudent.hideLoading();
-			myChartSubmissionTimesOfEachStudent.setOption({
-				xAxis: {
-					axisLabel :{
-						interval: 'auto', 
-						rotate:0
+			var SubmissionTimesOfEachStudentRelativeAmount = SubmissionTimesOfEachStudentDiff * SubmissionTimesOfEachStudentAmount / 100;
+			// the purpose of the following code is to solve the x-label issue to ensure the accuracy and correctness of information, it will determine which stage we are at when loading the data: at the first stage, display no x-label (e-charts display some of the labels by default because there is not enough space to accommodate all the x-labels, this will provide misleading information); at the second stage, display all x-labels at a 90 degree; at the third stage, display all x-labels at a 40 degree; at the last stage, display all x-labels normally (at a 0 degree).
+			if (SubmissionTimesOfEachStudentRelativeAmount <= 8.15) {
+				myChartSubmissionTimesOfEachStudent.setOption({
+					xAxis: {
+						data: FKParentId,
+						axisLabel: {
+							show: true,
+							interval: 'auto',
+							rotate: 0
+						}
 					},
-					name: 'User name',
-					data: FKUserId
-				},
-				series: [{
-					name: 'Number of submissions',
-					data: count
-				}]
-			});
-		}
+					series: [{
+						name: 'Number of submissions',
+						data: count
+					}]
+				});
+			} else if (SubmissionTimesOfEachStudentRelativeAmount <= 16.3) {
+				myChartSubmissionTimesOfEachStudent.setOption({
+					xAxis: {
+						data: FKParentId,
+						axisLabel: {
+							show: true,
+							interval: 0,
+							rotate: 40
+						}
+					},
+					series: [{
+						name: 'Number of submissions',
+						data: count
+					}]
+				});
+			} else if (SubmissionTimesOfEachStudentRelativeAmount <= 48.9) {
+				myChartSubmissionTimesOfEachStudent.setOption({
+					xAxis: {
+						data: FKParentId,
+						axisLabel: {
+							show: true,
+							interval: 0,
+							rotate: 90
+						}
+					},
+					series: [{
+						name: 'Number of submissions',
+						data: count
+					}]
+				});
+			} else if (SubmissionTimesOfEachStudentRelativeAmount > 48.9) {
+				myChartSubmissionTimesOfEachStudent.setOption({
+					xAxis: {
+						data: FKParentId,
+						axisLabel: {
+							show: false
+						}
+					},
+					series: [{
+						name: 'Amount of activities',
+						data: count
+					}]
+				});
+			}
+		}//success
 	});//ajax
 }//function
 
@@ -1266,14 +1324,60 @@ $(document).ready(function(){
 	$('#SubmissionTimesOfEachStudentSelect').change(function(){ 
 		submissionTimesOfEachStudentUpdate();
 	}) 
-}) 
+})
+
+// the purpose of the following code is to solve the x-label issue to ensure the accuracy and correctness of information, it will dynamically determine which stage we are at when the left position and right position of the slider are changed: at the first stage, display no x-label (e-charts display some of the labels by default because there is not enough space to accommodate all the x-labels, this will provide misleading information); at the second stage, display all x-labels at a 90 degree; at the third stage, display all x-labels at a 40 degree; at the last stage, display all x-labels normally (at a 0 degree).
+myChartSubmissionTimesOfEachStudent.on('datazoom', function (params) {
+	var diff = params.end - params.start;//difference between left and right position of the slider
+	SubmissionTimesOfEachStudentDiff = diff;
+	var SubmissionTimesOfEachStudentRelativeAmount = SubmissionTimesOfEachStudentDiff * SubmissionTimesOfEachStudentAmount / 100;
+	if (SubmissionTimesOfEachStudentRelativeAmount <= 8.15) {
+		myChartSubmissionTimesOfEachStudent.setOption({
+			xAxis: {
+				axisLabel: {
+					show: true,
+					interval: 'auto',
+					rotate: 0
+				}
+			}
+		});
+	} else if (SubmissionTimesOfEachStudentRelativeAmount <= 16.3) {
+		myChartSubmissionTimesOfEachStudent.setOption({
+			xAxis: {
+				axisLabel: {
+					show: true,
+					interval: 0,
+					rotate: 40
+				}
+			}
+		});
+	} else if (SubmissionTimesOfEachStudentRelativeAmount <= 48.9) {
+		myChartSubmissionTimesOfEachStudent.setOption({
+			xAxis: {
+				axisLabel: {
+					show: true,
+					interval: 0,
+					rotate: 90
+				}
+			}
+		});
+	} else if (SubmissionTimesOfEachStudentRelativeAmount > 48.9) {
+		myChartSubmissionTimesOfEachStudent.setOption({
+			xAxis: {
+				axisLabel: {
+					show: false
+				}
+			}
+		});
+	}
+});
 </script>
 
       <div id="MarkDistribution" style="width: 800px;height:400px;"></div>
       <div style="width: 200px;height:100px;position: relative;top: -400px;left: 870px;">
         <label for="MarkDistributionSelect">Configuration option </label>
 		<select id="MarkDistributionSelect">
-		  <option  value ="1" selected = "selected">By GPA</option>
+		  <option  value ="1" selected = "selected">By Marking Scheme 10</option>
 		  <option value ="2">By 10% step</option>
 		</select>
 	  </div>
