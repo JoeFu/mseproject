@@ -2091,5 +2091,28 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 		$actual = $service->loadEventNameBasedOnCourseAndPeriod($SelectCourse, $from, $to);
 		$this->assertEquals($expected,$actual);
 	}
+
+	public function testLoadEventContextBasedOnCourseAndPeriod() 
+	{
+		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2") to verify and validate the logic of this function, we don't test other courses in other semesters/ years for this function because we don't have real data for them.
+
+		//correct expected value for course "MSE", year "2012", start day "20120723", end day "20121117"
+		$expected = '[{"Name":"Forum: News forum, Semester 2, 2012"},{"Name":"File: Assignment 1 marks, Semester 2, 2012"},{"Name":"Forum: Student Questions and Discussion, Semester 2, 2012"},{"Name":"Page: Assignment 1 feedback, Semester 2, 2012"},{"Name":"File: Assignment 1 - Observations on the Report, Semester 2, 2012"},{"Name":"File: Assignment 4 - Marks, Semester 2, 2012"},{"Name":"File: Sample Exam, Semester 2, 2012"},{"Name":"File: Assignment 3 Marks, Semester 2, 2012"},{"Name":"Folder: Assignment 3 - comments, Semester 2, 2012"},{"Name":"Folder: Assignment 4 - comments, Semester 2, 2012"},{"Name":"File: Assignment 2 marks, Semester 2, 2012"},{"Name":"File: Review Lecture slides, Semester 2, 2012"},{"Name":"URL: Revision session 3, Semester 2, 2012"},{"Name":"URL: Revision session 2 - informal recording, Semester 2, 2012"},{"Name":"URL: RMI Helpful information, Semester 2, 2012"},{"Name":"URL: RMI Oracle tutorial, Semester 2, 2012"},{"Name":"URL: Guest lecture recording, Semester 2, 2012"},{"Name":"File: Slides on technical writing, Semester 2, 2012"},{"Name":"File: Extension Request Form, Semester 2, 2012"},{"Name":"Quiz: Naming Quiz, Semester 2, 2012"},{"Name":"System:, Semester 2, 2012"},{"Name":"File: Revision 2 Plan, Semester 2, 2012"},{"Name":"File: Revision 3 plan, Semester 2, 2012"},{"Name":"URL: Re-engineering Skype, Semester 2, 2012"},{"Name":"File: Revision 1 Updated, Semester 2, 2012"},{"Name":"File: Revision 1 Plan, Semester 2, 2012"},{"Name":"URL: The Google File System - Research Paper - SOSP 2003, Semester 2, 2012"},{"Name":"URL: The Google Story book, Semester 2, 2012"},{"Name":"File: Collab 3 marks breakdown, Semester 2, 2012"},{"Name":"File: SELT Results - Standard course evaluation, Semester 2, 2012"},{"Name":"Forum: Student Questions and Discussion, Semester 1, 2012"},{"Name":"Forum: News forum, Semester 1, 2012"},{"Name":"File: Sample Exam, Semester 1, 2012"},{"Name":"URL: RMI Helpful information, Semester 1, 2012"},{"Name":"URL: RMI Oracle tutorial, Semester 1, 2012"},{"Name":"URL: The Google Story book, Semester 1, 2012"},{"Name":"URL: The Google File System - Research Paper - SOSP 2003, Semester 1, 2012"},{"Name":"File: Extension Request Form, Semester 1, 2012"},{"Name":"System:, Semester 1, 2012"},{"Name":"Choice: Most helpful forum contributor, Semester 2, 2012"}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$service = new Service;
+		$actual = $service->loadEventContextBasedOnCourseAndPeriod($SelectCourse, $from, $to);
+		$this->assertEquals($expected,$actual);
+	
+		//correct expected value for course "MSE", year "2012", start day "20120822", end day "20120922"
+		$expected = '[{"Name":"Forum: Student Questions and Discussion, Semester 2, 2012"},{"Name":"Forum: News forum, Semester 2, 2012"},{"Name":"File: Assignment 1 marks, Semester 2, 2012"},{"Name":"Page: Assignment 1 feedback, Semester 2, 2012"},{"Name":"File: Sample Exam, Semester 2, 2012"},{"Name":"File: Assignment 1 - Observations on the Report, Semester 2, 2012"},{"Name":"URL: Revision session 3, Semester 2, 2012"},{"Name":"URL: Revision session 2 - informal recording, Semester 2, 2012"},{"Name":"URL: RMI Helpful information, Semester 2, 2012"},{"Name":"URL: RMI Oracle tutorial, Semester 2, 2012"},{"Name":"File: Extension Request Form, Semester 2, 2012"},{"Name":"File: Slides on technical writing, Semester 2, 2012"},{"Name":"System:, Semester 2, 2012"},{"Name":"File: Revision 2 Plan, Semester 2, 2012"},{"Name":"File: Revision 3 plan, Semester 2, 2012"},{"Name":"URL: Re-engineering Skype, Semester 2, 2012"},{"Name":"File: Revision 1 Updated, Semester 2, 2012"},{"Name":"File: Revision 1 Plan, Semester 2, 2012"},{"Name":"URL: The Google File System - Research Paper - SOSP 2003, Semester 2, 2012"},{"Name":"URL: The Google Story book, Semester 2, 2012"}]';
+		$SelectCourse="MSE";
+		$from= "20120822";
+		$to="20120922";
+		$service = new Service;
+		$actual = $service->loadEventContextBasedOnCourseAndPeriod($SelectCourse, $from, $to);
+		$this->assertEquals($expected,$actual);
+	}
 }
 ?>
