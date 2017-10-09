@@ -1527,5 +1527,22 @@ class Service
 		echo $str; 
 		exit;
 	}
+
+	//Load Event Name based on course and period
+	public function loadEventNameBasedOnCourseAndPeriod($SelectCourse = "", $from="", $to="")
+	{
+		include('../one_connection.php');
+		$sql = "SELECT distinct `Name` 
+		from event
+		where CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$arr[] = array(
+				'Name'=> $row['Name'],
+			);
+		}
+		mysql_close($link);
+		return json_encode($arr);
+	}
 }
 ?>

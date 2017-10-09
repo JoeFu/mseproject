@@ -402,5 +402,16 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'loadEventNameBasedOnCourseAndPeriod':
+		{
+			//the course, start day, end day user chooses
+			$SelectCourse=$_GET['SelectCourse'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+
+			$response = $service->loadEventNameBasedOnCourseAndPeriod($SelectCourse, $from, $to);
+			echo $response;
+		}
+		break;
 }
 ?>
