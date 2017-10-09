@@ -1629,5 +1629,77 @@ class Service
 		}
 		return json_encode($arrMark);
 	}
+
+	//Load data for Critical Question One (When user chooses event context)
+	public function criticalQuestionOneEventContext($SelectCourse = "", $SelectYear="", $SelectSemester="", $SelectAssignment="", $from="", $to="", $event="")
+	{
+		include('../one_connection.php');
+		include_once('./correlation.php');
+		
+		//get the max mark of all submissions of an assignment for each user
+		$sql = "select floor(max(Grade)*100/MaxGrade) TopGrade,FKUserId, FKParentId
+		from event join user
+		on FKUserId=user.Id
+		where `CourseName`='{$SelectCourse}' and `SchoolYear`='{$SelectYear}' and `Semester`='{$SelectSemester}' and `AssignmentName`='{$SelectAssignment}' and `DataSourceType`=2 and FKEventTypeId=5
+		group by FKUserId
+		order by TopGrade desc";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			// compress "USER0019" to "U0019"
+			$row['FKParentId']=str_replace('SER','',$row['FKParentId']);
+			$arrMark[] = array(
+				'FKParentId' => $row['FKParentId'], //user name
+				'TopGrade' => (int)$row['TopGrade'],
+				'Amount' => 0, //amount of events
+				'R' => 0 //correlation coefficient
+			);
+		}
+
+		// break down event context into two parts (one before the colon, the other after the colon)
+		$arrEventContext = array();
+		$arrEventContext = explode(":",$event);
+
+		$sql = "select FKUserId, COUNT(  `Id` ) count
+		from event
+		where `CourseName`='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and `DataSourceType`=1 and Prefix='{$arrEventContext[0]}'and Context='{$arrEventContext[1]}'
+		group by FKUserId
+		order by count desc";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			// compress "USER0019" to "U0019"
+			$row['FKUserId']=str_replace('SER','',$row['FKUserId']);
+			$arrAmount[] = array(
+				'FKUserId' => $row['FKUserId'],
+				'count' => $row['count']
+			);
+			// fill in the array $arrMark with the result of the second query (link the assignment mark and the amount of events for each user)
+			for ($i=0; $i<count($arrMark,0); $i++){
+				if($row['FKUserId']==$arrMark[$i]['FKParentId']) {
+					$arrMark[$i]['Amount']=(int)$row['count'];
+				}
+			}
+		}//while
+		mysql_close($link);
+
+		$array1 = array();// records the column "TopGrade" of the array $arrMark 
+		$array2 = array();// records the column "Amount" of the array $arrMark 
+		foreach ($arrMark as $value) {
+			$array1[] = $value['TopGrade'];
+			$array2[] = $value['Amount'];
+		}
+		
+		//sort $arrMark order by "Amount" desc "TopGrade" desc
+		array_multisort($array2, SORT_DESC, $array1, SORT_DESC, $arrMark);
+
+		//To calculate the Pearson Correlation Coefficient of the two arrays, simply call the  
+		//external function Correlation that takes two arrays:
+		$correlation = Correlation($array1, $array2);
+		
+		//add Pearson Correlation Coefficient to the array $arrMark
+		for ($i=0; $i<count($arrMark,0); $i++) {
+			$arrMark[$i]['R']=$correlation;
+		}
+		return json_encode($arrMark);
+	}
 }
 ?>
