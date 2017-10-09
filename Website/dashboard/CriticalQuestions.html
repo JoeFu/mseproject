@@ -427,6 +427,51 @@ $(document).ready(function() {
 	//set the format (YYYYMMDD) of start date and end date for Question One
 	$("#QuestionOneFrom").datepicker("option", "dateFormat", "yymmdd");//YYYYMMDD
 	$("#QuestionOneTo").datepicker("option", "dateFormat", "yymmdd");//YYYYMMDD
+
+	//filter event name and event context for question one
+	$('#QuestionOneFilter').click(function () {
+		var SelectCourse=$("#SelectCourse option:selected").attr("id");
+		var from = $("#QuestionOneFrom").val();
+		var to = $("#QuestionOneTo").val();
+
+		//filter event name
+		$.ajax({
+			type: "get",
+			async: true, 
+			url: "controller.php?type=loadEventNameBasedOnCourseAndPeriod",
+			dataType: "json", 
+			data: {"SelectCourse":SelectCourse,"from": from, "to": to},
+			success: function(result) {
+				$("#QuestionOneSelectEventName option").remove();
+				$("#QuestionOneSelectEventName").append(
+					" <option id='PleaseSelectEventName'>Select Event Name</option>");
+				$.each(result,function(i,p){
+					$("#QuestionOneSelectEventName").append(
+						" <option id='" + p['Name'] + "'>"
+						+ p['Name'] + "</option>");
+				});
+			}
+		});//ajax
+
+		//filter event context
+		$.ajax({
+			type: "get",
+			async: true, 
+			url: "controller.php?type=loadEventContextBasedOnCourseAndPeriod",
+			dataType: "json", 
+			data: {"SelectCourse":SelectCourse,"from": from, "to": to},
+			success: function(result) {
+				$("#QuestionOneSelectEventContext option").remove();
+				$("#QuestionOneSelectEventContext").append(
+					" <option id='PleaseSelectEventContext'>Select Event Context</option>");
+				$.each(result,function(i,p){
+					$("#QuestionOneSelectEventContext").append(
+						" <option id='" + p['Name'] + "'>"
+						+ p['Name'] + "</option>");
+				});
+			}
+		});//ajax
+	})//$('#QuestionOneFilter').click
 })//DocumentReady()
 
 //display assignment name, the start day and due day of all assignments (given the course, year, semester)
