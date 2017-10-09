@@ -13,7 +13,7 @@
     <!-- MetisMenu CSS -->
     <link href="demo/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="demo/dist/css/dashboard.css" rel="stylesheet">
+    <link href="demo/css/dashboard.css" rel="stylesheet">
     <!-- Morris Charts CSS -->
     <link href="demo/vendor/morrisjs/morris.css" rel="stylesheet">
     <!-- Custom Fonts -->
@@ -24,8 +24,6 @@
     <link rel="stylesheet" href="/js/jquery-ui.theme.min.css">
     <script type="text/javascript" src="/js/jquery-3.2.1.js"></script>
     <script src="/js/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="/js/jquery-ui-AutoComplete.css">
-    <script src="/js/jquery-ui-AutoComplete.js"></script>
 </head>
 
 <body>
@@ -47,6 +45,7 @@
                     <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
+            <!--Side Bar-->
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
@@ -54,84 +53,57 @@
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
+                                        <button class="btn btn-default" type="button">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
                             </div>
                             <!-- /input-group -->
                         </li>
-                        <li>
-                            <a href="demo/pages/index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        <li class="active">
+                            <a href="demo/index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="flot.html">Flot Charts</a>
+                                    <a href="dashboard/MoodleCharts.html">Moodle Charts</a>
                                 </li>
                                 <li>
-                                    <a href="morris.html">Morris.js Charts</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
-                        </li>
-                        <li>
-                            <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="panels-wells.html">Panels and Wells</a>
+                                    <a href="dashboard/WebsubmissionCharts.html">WebSubmission Charts</a>
                                 </li>
                                 <li>
-                                    <a href="buttons.html">Buttons</a>
+                                    <a href="demo/pages/Moodlecharts.html"> new Moodle Charts</a>
                                 </li>
                                 <li>
-                                    <a href="notifications.html">Notifications</a>
-                                </li>
-                                <li>
-                                    <a href="typography.html">Typography</a>
-                                </li>
-                                <li>
-                                    <a href="icons.html"> Icons</a>
-                                </li>
-                                <li>
-                                    <a href="grid.html">Grid</a>
+                                    <a href="demo/pages/WebSubmissionCharts.html"> new WebSubmission Charts</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
+                            <a href="demo/pages/tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
+                        </li>
+                        <li>
+                            <a href="demo/pages/simplequery.html"><i class="fa fa-edit fa-fw"></i> Simple Query</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-wrench fa-fw"></i>Seetings<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Second Level Item</a>
+                                    <a href="#">Panels</a>
                                 </li>
                                 <li>
-                                    <a href="#">Second Level Item</a>
+                                    <a href="#">Buttons</a>
                                 </li>
                                 <li>
-                                    <a href="#">Third Level <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                    </ul>
-                                    <!-- /.nav-third-level -->
+                                    <a href="#"> Icons</a>
+                                </li>
+                                <li>
+                                    <a href="#">Grid</a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/JoeFu/mseproject/issues">Bug report</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -152,13 +124,13 @@
                             <a href="#"><i class="fa fa-lightbulb-o fa-fw"></i>About<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="about.html">About us</a>
+                                    <a href="../../about.html">About us</a>
                                 </li>
                                 <li>
-                                    <a href="privacy.html">Privacy</a>
+                                    <a href="../../privacy.html">Privacy</a>
                                 </li>
                                 <li>
-                                    <a href="terms.html">Terms</a>
+                                    <a href="../../terms.html">Terms</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -380,25 +352,17 @@
                     <p><b>Last updated: September 11th, 2017</b></p>
                 </p>
             </div>
-
-
-
             <!-- jQuery -->
             <script src="demo/vendor/jquery/jquery.min.js"></script>
-
             <!-- Bootstrap Core JavaScript -->
             <script src="demo/vendor/bootstrap/js/bootstrap.min.js"></script>
-
             <!-- Metis Menu Plugin JavaScript -->
             <script src="demo/vendor/metisMenu/metisMenu.min.js"></script>
-
             <!-- Morris Charts JavaScript -->
             <script src="demo/vendor/raphael/raphael.min.js"></script>
             <script src="demo/vendor/morrisjs/morris.min.js"></script>
-            <script src="demo/data/morris-data.js"></script>
-
             <!-- Custom Theme JavaScript -->
-            <script src="demo/dist/js/sb-admin-2.js"></script>
+            <script src="demo/js/studata-newdashboard.js"></script>
 
 </body>
 
