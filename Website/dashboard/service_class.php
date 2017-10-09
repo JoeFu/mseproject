@@ -1544,5 +1544,22 @@ class Service
 		mysql_close($link);
 		return json_encode($arr);
 	}
+
+	//Load Event Context based on course and period
+	public function loadEventContextBasedOnCourseAndPeriod($SelectCourse = "", $from="", $to="")
+	{
+		include('../one_connection.php');
+		$sql = "SELECT distinct `Prefix`,`Context` 
+		from event
+		where CourseName='{$SelectCourse}' and EventTime between '{$from}' and '{$to}' and DataSourceType=1";
+		$query = mysql_query($sql);
+		while($row=mysql_fetch_array($query)){
+			$arr[] = array(
+				'Name'=> $row['Prefix'].":".$row['Context'],
+			);
+		}
+		mysql_close($link);
+		return json_encode($arr);
+	}
 }
 ?>

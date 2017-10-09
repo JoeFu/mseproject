@@ -413,5 +413,16 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'loadEventContextBasedOnCourseAndPeriod':
+		{
+			//the course, start day, end day user chooses
+			$SelectCourse=$_GET['SelectCourse'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+
+			$response = $service->loadEventContextBasedOnCourseAndPeriod($SelectCourse, $from, $to);
+			echo $response;
+		}
+		break;
 }
 ?>
