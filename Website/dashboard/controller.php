@@ -424,5 +424,20 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'criticalQuestionOneEventName':
+		{
+			//the course, year, semester, assignment, start day, end day, event name user chooses
+			$SelectCourse=$_GET['SelectCourse'];
+			$SelectYear=$_GET['SelectYear'];
+			$SelectSemester=$_GET['SelectSemester'];
+			$SelectAssignment=$_GET['SelectAssignment'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$event = $_GET['event'];
+
+			$response = $service->criticalQuestionOneEventName($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment, $from, $to, $event);
+			echo $response;
+		}
+		break;
 }
 ?>
