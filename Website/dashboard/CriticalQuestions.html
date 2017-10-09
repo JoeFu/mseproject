@@ -472,6 +472,45 @@ $(document).ready(function() {
 			}
 		});//ajax
 	})//$('#QuestionOneFilter').click
+
+//calculate and print Pearson Correlation Coefficient and data in table
+	$('#QuestionOneGetAnswer').click(function () {
+		var SelectCourse=$("#SelectCourse option:selected").attr("id");
+		var SelectYear=$("#SelectYear option:selected").attr("id");
+		var SelectSemester=$("#SelectSemester option:selected").attr("id");
+		var SelectAssignment=$("#QuestionOneSelectAssignment option:selected").attr("id");
+		var from = $("#QuestionOneFrom").val();
+		var to = $("#QuestionOneTo").val();
+		var event;
+
+		var QuestionOneRadioValue=$("input[name='QuestionOneEventNameOrEventContext']:checked").val();
+		if (QuestionOneRadioValue==1) {//user chooses event name
+			url="controller.php?type=criticalQuestionOneEventName";
+			event=$("#QuestionOneSelectEventName option:selected").attr("id");
+		} else if ((QuestionOneRadioValue==2)) {//user chooses event context
+			url="controller.php?type=criticalQuestionOneEventContext";
+			event=$("#QuestionOneSelectEventContext option:selected").attr("id");
+		}
+
+		$.ajax({
+			type: "get",
+			async: true, 
+			url: url,
+			dataType: "json", 
+			data: {"SelectCourse":SelectCourse,"SelectYear":SelectYear,"SelectSemester":SelectSemester,"SelectAssignment":SelectAssignment,"from": from, "to": to,"event":event},
+			success: function(result) {
+				$("#QuestionOneTable tr").nextAll().remove();// remove all rows (except header) of the table
+				var R;// Pearson Correlation Coefficient
+				$.each(result,function(i,p){
+					R=p['R'];
+					//add row and print data (User, Amount of events, Mark) in table
+					var tbBody = "<tr><td>" + p['FKParentId'] + "</td>" + "<td>" + p['Amount'] + "</td>" + "<td>" + p['TopGrade'] + "</td></tr>";
+					$("#QuestionOneTable").append(tbBody);
+				});//$.each
+				$('#R').html("Pearson Correlation Coefficient="+R+"</br></br>");// print Pearson Correlation Coefficient
+			}
+		});//ajax
+	})
 })//DocumentReady()
 
 //display assignment name, the start day and due day of all assignments (given the course, year, semester)
