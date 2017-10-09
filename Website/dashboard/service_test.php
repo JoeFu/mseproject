@@ -2061,5 +2061,12 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 	{
 		//The output of the function specificEventContextOverviewCSV($EventContext, $SelectCourse, $SelectYear, $SelectSemester, $from, $to, $order, $ThresholdSelect, $Threshold) is a CSV file, I have manually tested and verified that the data in the CSV file is correct and is the same as what is displayed in the chart. 
 	}
+
+	public function testCorrelation() 
+	{
+		//The functions in correlation.php are external functions implemented by others.
+		//The correctness of the functions are already verified by other people.
+		//So we don't test these functions.
+	}
 }
 ?>
