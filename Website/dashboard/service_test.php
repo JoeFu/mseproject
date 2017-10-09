@@ -2068,5 +2068,28 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 		//The correctness of the functions are already verified by other people.
 		//So we don't test these functions.
 	}
+
+	public function testLoadEventNameBasedOnCourseAndPeriod() 
+	{
+		//Since the data is fake data, we only test (course "MSE", year "2012", semester "Semester 2") to verify and validate the logic of this function, we don't test other courses in other semesters/ years for this function because we don't have real data for them.
+
+		//correct expected value for course "MSE", year "2012", start day "20120723", end day "20121117"
+		$expected = '[{"Name":"forum_view forum"},{"Name":"resource_view"},{"Name":"forum_view discussion"},{"Name":"forum_add discussion"},{"Name":"forum_add post"},{"Name":"forum_update post"},{"Name":"forum_delete post"},{"Name":"quiz_view"},{"Name":"quiz_review"},{"Name":"quiz_close attempt"},{"Name":"quiz_continue attemp"},{"Name":"resource_add"},{"Name":"course_delete mod"},{"Name":"quiz_attempt"},{"Name":"resource_update"},{"Name":"forum_delete discussi"},{"Name":"forum_mark read"},{"Name":"discussion_mark read"},{"Name":"forum_view subscriber"},{"Name":"forum_subscribe"},{"Name":"forum_unsubscribe"},{"Name":"choice_view"},{"Name":"choice_report"},{"Name":"choice_choose"},{"Name":"choice_choose again"},{"Name":"quiz_report"},{"Name":"choice_add"},{"Name":"quiz_preview"},{"Name":"quiz_editquestions"},{"Name":"quiz_update"},{"Name":"quiz_add"}]';
+		$SelectCourse="MSE";
+		$from= "20120723";
+		$to="20121117";
+		$service = new Service;
+		$actual = $service->loadEventNameBasedOnCourseAndPeriod($SelectCourse, $from, $to);
+		$this->assertEquals($expected,$actual);
+	
+		//correct expected value for course "MSE", year "2012", start day "20120822", end day "20120922"
+		$expected = '[{"Name":"forum_view discussion"},{"Name":"forum_view forum"},{"Name":"resource_view"},{"Name":"forum_add discussion"},{"Name":"forum_add post"},{"Name":"forum_update post"},{"Name":"forum_delete post"},{"Name":"resource_add"},{"Name":"course_delete mod"},{"Name":"resource_update"}]';
+		$SelectCourse="MSE";
+		$from= "20120822";
+		$to="20120922";
+		$service = new Service;
+		$actual = $service->loadEventNameBasedOnCourseAndPeriod($SelectCourse, $from, $to);
+		$this->assertEquals($expected,$actual);
+	}
 }
 ?>
