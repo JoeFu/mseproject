@@ -402,5 +402,57 @@ switch ($type) {
 			echo $response;
 		}
 		break;
+	case 'loadEventNameBasedOnCourseAndPeriod':
+		{
+			//the course, start day, end day user chooses
+			$SelectCourse=$_GET['SelectCourse'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+
+			$response = $service->loadEventNameBasedOnCourseAndPeriod($SelectCourse, $from, $to);
+			echo $response;
+		}
+		break;
+	case 'loadEventContextBasedOnCourseAndPeriod':
+		{
+			//the course, start day, end day user chooses
+			$SelectCourse=$_GET['SelectCourse'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+
+			$response = $service->loadEventContextBasedOnCourseAndPeriod($SelectCourse, $from, $to);
+			echo $response;
+		}
+		break;
+	case 'criticalQuestionOneEventName':
+		{
+			//the course, year, semester, assignment, start day, end day, event name user chooses
+			$SelectCourse=$_GET['SelectCourse'];
+			$SelectYear=$_GET['SelectYear'];
+			$SelectSemester=$_GET['SelectSemester'];
+			$SelectAssignment=$_GET['SelectAssignment'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$event = $_GET['event'];
+
+			$response = $service->criticalQuestionOneEventName($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment, $from, $to, $event);
+			echo $response;
+		}
+		break;
+	case 'criticalQuestionOneEventContext':
+		{
+			//the course, year, semester, assignment, start day, end day, event context user chooses
+			$SelectCourse=$_GET['SelectCourse'];
+			$SelectYear=$_GET['SelectYear'];
+			$SelectSemester=$_GET['SelectSemester'];
+			$SelectAssignment=$_GET['SelectAssignment'];
+			$from = $_GET['from'];
+			$to = $_GET['to'];
+			$event = $_GET['event'];
+
+			$response = $service->criticalQuestionOneEventContext($SelectCourse, $SelectYear, $SelectSemester, $SelectAssignment, $from, $to, $event);
+			echo $response;
+		}
+		break;
 }
 ?>
