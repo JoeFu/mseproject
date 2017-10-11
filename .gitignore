@@ -12,6 +12,7 @@ Documents/Meetings/.DS_Store
 Documents/.DS_Store
 Website/dashboard/.DS_Store
 Tools/StudentDataRestfulApi/.DS_Store
+/Tools/StudentDataImporter/target/classes/META-INF/maven/StudentDataImporter/StudentDataImporter/pom.properties
 Student_data/.DS_Store
 Documents/Meetings/.DS_Store
 Documents/.DS_Store
