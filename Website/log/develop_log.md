@@ -25,3 +25,13 @@ Finally, restart the apache2 service. <br>
 <p>A: The old dashboad only show the charts, and do not have suitable User Interface to customer. And the new dashboard is to solving this problem.</br>
     The new dashboard is using the new APIs for backend, and it contains more features in the system. For example, the charts, the table, the survey, 
 </p>
+
+
+<h2>Log in 11/10/2017</h2>
+<p>Deploy</p>
+<li>Deploy the latest database studentdata_#168.sql on server.
+<li>In the new website, add a navigation item and link to the new page CriticalQuestions.html.
+<li>Deploy the latest folder "Website/dashboard" on server.
+<li>Deploy the latest folder "Website/js" on server.
+<li>Deploy new index page on server.
+</p>
