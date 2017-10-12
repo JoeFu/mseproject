@@ -42,7 +42,9 @@
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-left">
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="index.html">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
                 </li>
             </ul>
             <!--Side Bar-->
@@ -61,10 +63,14 @@
                             <!-- /input-group -->
                         </li>
                         <li class="active">
-                            <a href="demo/index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="demo/index.html">
+                                <i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                            <a href="#">
+                                <i class="fa fa-bar-chart-o fa-fw"></i> Charts
+                                <span class="fa arrow"></span>
+                            </a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="dashboard/MoodleCharts.html">Moodle Charts</a>
@@ -82,13 +88,28 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="demo/pages/tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
+                            <a href="demo/pages/tables.html">
+                                <i class="fa fa-table fa-fw"></i> Tables</a>
                         </li>
                         <li>
-                            <a href="demo/pages/simplequery.html"><i class="fa fa-edit fa-fw"></i> Simple Query</a>
+                            <a href="#">
+                                <i class="fa fa-bar-chart-o fa-fw"></i> Simple Query
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="demo/pages/simplequery.html"> Data Query</a>
+                                </li>
+                                <li>
+                                    <a href="../../dashboard/CriticalQuestions.html"> Critical Questions</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i>Seetings<span class="fa arrow"></span></a>
+                            <a href="#">
+                                <i class="fa fa-wrench fa-fw"></i>Seetings
+                                <span class="fa arrow"></span>
+                            </a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="#">Panels</a>
@@ -109,7 +130,10 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i>Survey<span class="fa arrow"></span></a>
+                            <a href="#">
+                                <i class="fa fa-files-o fa-fw"></i>Survey
+                                <span class="fa arrow"></span>
+                            </a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="demo/pages/survey1.html">Survey 1</a>
@@ -121,7 +145,10 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-lightbulb-o fa-fw"></i>About<span class="fa arrow"></span></a>
+                            <a href="#">
+                                <i class="fa fa-lightbulb-o fa-fw"></i>About
+                                <span class="fa arrow"></span>
+                            </a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="../../about.html">About us</a>
@@ -161,9 +188,15 @@
                     </div>
                     <div class="collapse navbar-collapse bs-js-navbar-scrollspy">
                         <ul class="nav navbar-nav">
-                            <li><a href="#project">Project Introduction</a></li>
-                            <li><a href="#team">Team Mates</a></li>
-                            <li><a href="#work">Related Work</a></li>
+                            <li>
+                                <a href="#project">Project Introduction</a>
+                            </li>
+                            <li>
+                                <a href="#team">Team Mates</a>
+                            </li>
+                            <li>
+                                <a href="#work">Related Work</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -171,30 +204,36 @@
             <div data-spy="scroll" data-target="#navbar-example" data-offset="0" style="height:600px;overflow:auto; position: relative;">
                 <h4 id="project">Project Introduction</h4>
                 <p>
-                    <h4 style="color:blue"><a href="https://cs.adelaide.edu.au/users/projects/#0298">Project Name: Organised Access to Historical Student Data</a></h4>
-                    Supervisors: Nick Falkner, Claudia Szabo, Katrina Falkner <br></br>
+                    <h4 style="color:blue">
+                        <a href="https://cs.adelaide.edu.au/users/projects/#0298">Project Name: Organised Access to Historical Student Data</a>
+                    </h4>
+                    Supervisors: Nick Falkner, Claudia Szabo, Katrina Falkner
+                    <br></br>
                     Availability: "COMP SCI 2008 Topics in Computer Science","COMP SCI 3020 Adv Topics in Computer Science","COMP SCI 4015 Honours
                     Computer Science Research Project","COMP SCI 7096 Master of Software Engineering Project","COMP SCI 7098
-                    Master of Computing &amp; Innovation Project" <br></br>
-                    Contact: <a class="e-mail">nickolas.falkner@adelaide.edu.au</a><br></br>
+                    Master of Computing &amp; Innovation Project"
+                    <br></br>
+                    Contact:
+                    <a class="e-mail">nickolas.falkner@adelaide.edu.au</a>
+                    <br></br>
 
-                    <b>Project Description</b> <br></br>
+                    <b>Project Description</b>
+                    <br></br>
                     <p>
                         <b>Introduction</b> The school of Computer Science regularly analyses data collected as part of teaching
                         to improve teaching practice and to identify better ways to assess and evaluate student work. Over
                         the years, we have accumulated a large set of data and the problem now is organising it for searching
                         and trend analysis.
                         <br></br>
-                        <b>The project</b> You will design and build a database for storing, retrieving and organising at
-                        least two of the school's pedagogical data sources, providing a GUI-front end to allow a member of
-                        staff to query the database, extract data, aggregate it, and export it. You will also be required
-                        to write extraction and insertion scripts that will work with the file-based storage for the current
-                        data.
+                        <b>The project</b> You will design and build a database for storing, retrieving and organising at least
+                        two of the school's pedagogical data sources, providing a GUI-front end to allow a member of staff
+                        to query the database, extract data, aggregate it, and export it. You will also be required to write
+                        extraction and insertion scripts that will work with the file-based storage for the current data.
                         <p class="alert alert-info alert-dismissable">Important: All data will be anonymised and will be identified in a way that allows us to associate
                             actions without identifying the students.</p>
-                        <b>Requirements</b> You do not need to understand statistics or database queries in detail. This
-                        aspect of the project will be guided by the contacts but you will be expected to read and implement
-                        certain algorithms as part of the project.
+                        <b>Requirements</b> You do not need to understand statistics or database queries in detail. This aspect
+                        of the project will be guided by the contacts but you will be expected to read and implement certain
+                        algorithms as part of the project.
                         <br></br>
                         <b>Multiple offerings</b> This project may be offered in multiple ways if students of different levels
                         are interested. Advanced Topics and Honours students should expect to add anonymisation or privacy
@@ -204,13 +243,24 @@
                 </p>
                 <h4 id="team">Team Mates</h4>
                 <p>
-                    <b>Zeyu Lin</b><br></br>
-                    Contact: <a class="e-mail">a1698713@student.adelaide.edu.au</a><br></br>
+                    <b>Zeyu Lin</b>
+                    <br></br>
+                    Contact:
+                    <a class="e-mail">a1698713@student.adelaide.edu.au</a>
+                    <br></br>
 
-                    <b>Minh Tam Phan</b><br></br>
-                    Contact: <a class="e-mail">a1697735@student.adelaide.edu.au</a><br></br>
-                    <b><a href="http://fuzeqi.tk">Zeqi Fu</a></b><br></br>
-                    Contact: <a class="e-mail">a1680895@student.adelaide.edu.au</a><br></br>
+                    <b>Minh Tam Phan</b>
+                    <br></br>
+                    Contact:
+                    <a class="e-mail">a1697735@student.adelaide.edu.au</a>
+                    <br></br>
+                    <b>
+                        <a href="http://fuzeqi.tk">Zeqi Fu</a>
+                    </b>
+                    <br></br>
+                    Contact:
+                    <a class="e-mail">a1680895@student.adelaide.edu.au</a>
+                    <br></br>
 
                 </p>
                 <h4 id="work">Related Work</h4>
@@ -227,15 +277,17 @@
                     on Moodle forum and Web Submission.
                 </p>
             </div>
-        <!--divider-->
-        <hr class="featurette-divider">
-        <!-- End features -->
-        <!-- FOOTER -->
-        <footer>
-            <p class="text-center">&copy; 2017 Student_data Project Team. &brvbar; <a href="../../privacy.html">Privacy</a> &middot; <a href="../../terms.html">Terms</a>
+            <!--divider-->
+            <hr class="featurette-divider">
+            <!-- End features -->
+            <!-- FOOTER -->
+            <footer>
+                <p class="text-center">&copy; 2017 Student_data Project Team. &brvbar;
+                    <a href="../../privacy.html">Privacy</a> &middot;
+                    <a href="../../terms.html">Terms</a>
 
-            </p>
-        </footer>
+                </p>
+            </footer>
             <!-- jQuery -->
             <script src="demo/vendor/jquery/jquery.min.js"></script>
 
