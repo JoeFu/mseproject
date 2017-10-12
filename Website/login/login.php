@@ -18,25 +18,27 @@ if(isset($_POST['username']))
 {
     $username = $_POST['username'];
     $password = $_POST['password'];
-    
 }
-
-    $sql = "select password from login where username = '$username' limit 1";
-    $query = mysql_query($sql);
-    $row = mysql_fetch_array($query);
-    
-    if($password == $row[0])
+    if($username!="" && $password!="")
     {
-        $_SESSION['username'] = $username;
-        $_SESSION['login_status'] = true;
-        echo $username,' Welcome!';
-        echo '<script type="text/javascript"> window.location.href = "../dashboard/index.html";</script>';
-        exit;
-    } 
+        $sql = "select password from login where username = '$username' limit 1";
+        $query = mysql_query($sql);
+        $row = mysql_fetch_array($query);
+        if($password == $row[0])
+        {
+            $_SESSION['username'] = $username;
+            $_SESSION['login_status'] = true;
+            echo $username,' Welcome!';
+            echo '<script type="text/javascript"> window.location.href = "../demo/index.html";</script>';
+            exit;
+        } 
+        else 
+        {
+            exit('Login Fail <a href="javascript:history.back(-1);"> Back </a>Try Again');
+        }
+    }
     else 
     {
         exit('Login Fail <a href="javascript:history.back(-1);"> Back </a>Try Again');
     }
-  
-
 ?>
