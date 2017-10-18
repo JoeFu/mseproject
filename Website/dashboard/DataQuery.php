@@ -13,7 +13,6 @@ class DataQuery
     	$curl_response = curl_exec($curl);    	
     	curl_close($curl);
     	return $curl_response;
-    	//print_r($curl_response);
     }
  
 }

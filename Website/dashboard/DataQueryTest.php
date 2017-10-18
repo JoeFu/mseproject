@@ -144,7 +144,6 @@ class DataQueryTests extends TestCase
     	$url = 'http://studata.tk/slimapp/public/index.php/api/events/search?parameters=' . $parameters;
     	$result = $this->dataQuery->callAPI($url, null);
     	
-    	//print_r($result);
     	// assert if two values are equal
     	$this->assertEquals($expectedResult, $result);
     }
