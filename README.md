@@ -43,6 +43,8 @@ If you want to using it for your project, please follow the steps below.
 <li> Modify the code as you need.
 <li> We mainly using Echarts as our charts framwork. Please following the <a href="https://ecomfe.github.io/echarts-doc/public/en/api.html">Echarts API</a>. And the UI part, we are using <a href="https://getbootstrap.com/docs/3.3/getting-started/">Bootstrap </a>as the main UI framwork. Besides, we also import JQuery CSS and JS. The demo index page using <a href="https://disqus.com/">Disqus</a> as discussion forum.
 
+<strong style="color:red"><li> Before you using, please follow the <a href="http://www.studata.tk/terms.html#license"> MIT license</a>.</strong>
+
 
 
 More information:
