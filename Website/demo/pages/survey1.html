@@ -13,7 +13,7 @@
     <!-- MetisMenu CSS -->
     <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="../dist/css/dashboard.css" rel="stylesheet">
+    <link href="../css/dashboard.css" rel="stylesheet">
     <!-- Morris Charts CSS -->
     <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
     <!-- Custom Fonts -->
@@ -125,91 +125,116 @@
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
                             <li class="sidebar-search">
-                                <div class="input-group custom-search-form">
-                                    <input type="text" class="form-control" placeholder="Search...">
-                                    <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                                </div>
-                                <!-- /input-group -->
+                                <form class="input-group custom-search-form" action="../../help.php" method="POST">
+                                    <input type="search" name="keyword" class="form-control" placeholder="Search...">
+                                    <span class="input-group-btn" input type="search">
+                                        <button class="btn btn-default" input type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </form>
                             </li>
                             <li class="active">
-                                <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="../../dashboard/index.html">Moodle Charts</a>
-                                    </li>
-                                    <li>
-                                        <a href="../../dashboard/WebSubmissionCharts.html">WebSubmission Charts</a>
-                                    </li>
-                                    <li>
-                                        <a href="Moodlecharts.html"> new Moodle Charts</a>
-                                    </li>
-                                    <li>
-                                        <a href="WebSubmissionCharts.html"> new WebSubmission Charts</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-second-level -->
-                            </li>
-                            <li>
-                                <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-edit fa-fw"></i> Simple Query</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-wrench fa-fw"></i>Seetings<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="#">Panels</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Buttons</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"> Icons</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Grid</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Bug report</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-second-level -->
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-files-o fa-fw"></i>Survey<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="survey1.html">Survey 1</a>
-                                    </li>
-                                    <li>
-                                        <a href="survey2.html">Survey 2</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-second-level -->
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-lightbulb-o fa-fw"></i>About<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="../../about.html">About us</a>
-                                    </li>
-                                    <li>
-                                        <a href="../../privacy.html">Privacy</a>
-                                    </li>
-                                    <li>
-                                        <a href="../../terms.html">Terms</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-second-level -->
-                            </li>
+                                    <a href="index.html">
+                                        <i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-bar-chart-o fa-fw"></i> Charts
+                                        <span class="fa arrow"></span>
+                                    </a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="../../dashboard/MoodleCharts.html">Moodle Charts</a>
+                                        </li>
+                                        <li>
+                                            <a href="../../dashboard/WebsubmissionCharts.html">WebSubmission Charts</a>
+                                        </li>
+                                        <li>
+                                            <a href="Moodlecharts.html"> new Moodle Charts</a>
+                                        </li>
+                                        <li>
+                                            <a href="WebSubmissionCharts.html"> new WebSubmission Charts</a>
+                                        </li>
+                                    </ul>
+                                    <!-- /.nav-second-level -->
+                                </li>
+                                <li>
+                                    <a href="tables.html">
+                                        <i class="fa fa-table fa-fw"></i> Tables</a>
+                                </li>
+        
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-bar-chart-o fa-fw"></i> Simple Query
+                                        <span class="fa arrow"></span>
+                                    </a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="simplequery.html"> Data Query</a>
+                                        </li>
+                                        <li>
+                                            <a href="../../dashboard/CriticalQuestions.html"> Critical Questions</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-wrench fa-fw"></i>Seetings
+                                        <span class="fa arrow"></span>
+                                    </a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="#">Panels</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Buttons</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"> Icons</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Grid</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://github.com/JoeFu/mseproject/issues">Bug report</a>
+                                        </li>
+                                    </ul>
+                                    <!-- /.nav-second-level -->
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-files-o fa-fw"></i>Survey
+                                        <span class="fa arrow"></span>
+                                    </a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="survey1.html">Survey 1</a>
+                                        </li>
+                                        <li>
+                                            <a href="survey2.html">Survey 2</a>
+                                        </li>
+                                    </ul>
+                                    <!-- /.nav-second-level -->
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-lightbulb-o fa-fw"></i>About
+                                        <span class="fa arrow"></span>
+                                    </a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="../../about.html">About us</a>
+                                        </li>
+                                        <li>
+                                            <a href="../../privacy.html">Privacy</a>
+                                        </li>
+                                        <li>
+                                            <a href="../../terms.html">Terms</a>
+                                        </li>
+                                    </ul>
+                                    <!-- /.nav-second-level -->
+                                </li>
                         </ul>
                     </div>
                     <!-- /.sidebar-collapse -->
@@ -268,7 +293,7 @@
     <script src="../vendor/metisMenu/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="../dist/js/sb-admin-2.js"></script>
+    <script src="../js/studata-newdashboard.js"></script>
 
 </body>
 
