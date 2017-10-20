@@ -137,52 +137,62 @@ $(document).ready(function () {
             }
         });
     }
-
-    // based on prepared DOM, initialize echarts instance
-    var AllactivityChartsByYear = echarts.init(document.getElementById('AllactivityChartsByYear'));
-    // specify chart configuration item and data
-    var option = {
-        title: {
-            // text: 'All activities overview'
-        },
-        tooltip: {},
-        xAxis: {
-            name: 'Date',
-            data: []
-        },
-        yAxis: {
-            name: 'Amount of activities'
-        },
-        grid: {
-            x: 100,
-            y2: 110
-        },
-        dataZoom: [
-            {   // dataZoom component controls x-axis by default
-                type: 'slider',
-                start: 0, // left position 0%
-                end: 100  // right position 100%
-            }
-        ],
-        series: [{
-            name: 'Amount of activities',
-            type: 'bar',
-            data: []
-        }],
-        toolbox: {
-            show: true,
-            feature: {
-                dataView: { readOnly: false },
-                magicType: { type: ['line', 'bar'] },
-                restore: {},
-                saveAsImage: {}
-            }
-        }
-    };
-
-    // use configuration item and data specified to show chart
-    AllactivityChartsByYear.setOption(option);
 })
 
 
-var ctx = document.getElementById("AllactivityChartsByYearChartJS").getContext('2d');
+var config = {
+    type: 'line',
+    data: {
+        labels: ["2012", "2013", "2014","2015", "2016", "2017"],
+        datasets: [{
+            label: "Moodle Charts",
+            fill: false,
+            backgroundColor: window.chartColors.blue,
+            borderColor: window.chartColors.blue,
+            data: [
+                27884,
+                317,
+                3,
+                25000,
+                20000,
+                28000,
+            ],
+        }, ]
+    },
+    options: {
+        responsive: true,
+        title:{
+            display:true,
+            // text:''
+        },
+        tooltips: {
+            mode: 'index',
+            intersect: false,
+        },
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+        scales: {
+            xAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Year'
+                }
+            }],
+            yAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Activities'
+                }
+            }]
+        }
+    }
+};
+
+window.onload = function() {
+    var ctx = document.getElementById("AllactivityChartsByYearChartJS").getContext("2d");
+    window.myLine = new Chart(ctx, config);
+};
