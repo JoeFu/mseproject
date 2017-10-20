@@ -12,6 +12,8 @@
     <script src="../js/echarts.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../../css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="../../css/buttons.dataTables.min.css" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -20,13 +22,19 @@
     <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <!--JQuery-->
+    <!--JQuery CSS -->
     <link rel="stylesheet" href="../../js/jquery-ui.min.css">
     <link rel="stylesheet" href="../../js/jquery-ui.structure.min.css">
-    <link rel="stylesheet" href="../../js/jquery-ui.theme.min.css">
-    <script type="text/javascript" src="../../js/jquery-3.2.1.js"></script>
-    <script src="../../js/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="../../css/jquery-ui-AutoComplete.css">
+    <link rel="stylesheet" href="../../css/jquery-ui.theme.min.css">
+    <link rel="stylesheet" href="../../css/jquery-ui.structure.min.css">
+    <link rel="stylesheet" href="../../css/jquery-ui.min.css">
+    <!--JQuery-->
+    <script type="text/javascript" src="../../js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="../../js/jquery.dataTables.min.js"></script>
+
+
+    <script src="../../js/jquery-ui.min.js"></script>
     <script src="../../js/jquery-ui-AutoComplete.js"></script>
     <!-- FeedBack -->
     <script>
@@ -204,22 +212,11 @@
                         </li>
                         <li>
                             <a href="#">
-                                <i class="fa fa-wrench fa-fw"></i>Seetings
+                                <i class="fa fa-wrench fa-fw"></i>Setings
                                 <span class="fa arrow"></span>
                             </a>
                             <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">Panels</a>
-                                </li>
-                                <li>
-                                    <a href="#">Buttons</a>
-                                </li>
-                                <li>
-                                    <a href="#"> Icons</a>
-                                </li>
-                                <li>
-                                    <a href="#">Grid</a>
-                                </li>
+
                                 <li>
                                     <a href="https://github.com/JoeFu/mseproject/issues">Bug report</a>
                                 </li>
@@ -258,6 +255,10 @@
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="help.html">
+                                <i class="fa fa-question fa-fw"></i> Help</a>
                         </li>
                     </ul>
                 </div>
@@ -331,7 +332,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            StudentActivitiesOverview
+                            Student Activities Overview
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -342,7 +343,7 @@
                                     <option value="2">Descending order</option>
                                     <option value="3">Ascending order</option>
                                 </select>
-                                &nbsp; &nbsp;
+                                <br>
                                 <label>Set period (YYYYMMDD)</label>
                                 <label>From</label>
                                 <input type="text" id="StudentActivitiesOverviewFrom">
@@ -350,11 +351,10 @@
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="text" id="StudentActivitiesOverviewTo">
                                 <button type="button" id="StudentActivitiesOverviewSetPeriod">Set period</button>
-                                &nbsp;
-                                <button type="button" id="StudentActivitiesOverviewCSV">Export CSV</button>
                                 </br>
                                 <label for="Threshold">Threshold (Amount of activities)</label>
                                 </br>
+
                                 <select id="StudentActivitiesOverviewThresholdSelect">
                                     <option value=">" selected="selected">></option>
                                     <option value=">=">>=</option>
@@ -366,16 +366,288 @@
                                 </select>
                                 <input type="text" id="StudentActivitiesOverviewThreshold" value="0">
                                 <button type="button" id="StudentActivitiesOverviewSetThreshold">Set threshold</button>
-                                
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="button" id="StudentActivitiesOverviewCSV">Export CSV</button>
+
                             </div>
                             <div>
-                                <div id="StudentActivitiesOverview" style="width:1200px;height:400px;"> </div>
+                                <div id="StudentActivitiesOverview" style="width:800px;height:400px;"> </div>
                             </div>
                             <!-- /.panel-body -->
                         </div>
                         <!-- /.panel -->
                     </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            All Activities Overview
+                        </div>
+                        <div class="panel-body">
+                            <div id="AllActivitiesOverview" style="width: 800px;height:400px;"></div>
+                            <div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
+                                <label for="AllActivitiesOverviewPresentationOrder">Change Presentation Order</label>
+                                <select id="AllActivitiesOverviewPresentationOrder">
+                                    <option value="1" selected="selected">Alphabetical order</option>
+                                    <option value="2">Descending order</option>
+                                    <option value="3">Ascending order</option>
+                                </select>
+                                </br>
+                                </br>
+                                <label>Set period (YYYYMMDD)</label>
+                                </br>
+                                <label>From</label>
+                                <input type="text" id="AllActivitiesOverviewFrom">
+                                </br>
+                                <label>To</label>&nbsp&nbsp&nbsp&nbsp
+                                <input type="text" id="AllActivitiesOverviewTo">
+                                <button type="button" id="AllActivitiesOverviewSetPeriod">Set period</button>
+                                </br>
+                                </br>
+                                <label for="Threshold">Threshold (Amount of activities)</label>
+                                </br>
+                                <select id="AllActivitiesOverviewThresholdSelect">
+                                    <option value=">" selected="selected">></option>
+                                    <option value=">=">>=</option>
+                                    <option value="<">
+                                        <</option>
+                                            <option value="<=">
+                                                <=</option>
+                                                    <option value="=">=</option>
+                                </select>
+                                <input type="text" id="AllActivitiesOverviewThreshold" value="0">
+                                <button type="button" id="AllActivitiesOverviewSetThreshold">Set threshold</button>
+                                </br>
+                                </br>
+                                <button type="button" id="AllActivitiesOverviewCSV">Export CSV</button>
+                            </div>
+                        </div>
+                    </div>
+                    </br>
 
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Event Names Overview
+                        </div>
+                        <div class="panel-body">
+                            <div id="EventNamesOverview" style="width: 800px;height:400px;"></div>
+                            <div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
+                                <label for="EventNamesOverviewPresentationOrder">Change Presentation Order</label>
+                                <select id="EventNamesOverviewPresentationOrder">
+                                    <option value="1" selected="selected">Alphabetical order</option>
+                                    <option value="2">Descending order</option>
+                                    <option value="3">Ascending order</option>
+                                </select>
+                                </br>
+                                </br>
+                                <label>Set period (YYYYMMDD)</label>
+                                </br>
+                                <label>From</label>
+                                <input type="text" id="EventNamesOverviewFrom">
+                                </br>
+                                <label>To</label>&nbsp&nbsp&nbsp&nbsp
+                                <input type="text" id="EventNamesOverviewTo">
+                                <button type="button" id="EventNamesOverviewSetPeriod">Set period</button>
+                                </br>
+                                </br>
+                                <label for="Threshold">Threshold (Amount of activities)</label>
+                                </br>
+                                <select id="EventNamesOverviewThresholdSelect">
+                                    <option value=">" selected="selected">></option>
+                                    <option value=">=">>=</option>
+                                    <option value="<">
+                                        <</option>
+                                            <option value="<=">
+                                                <=</option>
+                                                    <option value="=">=</option>
+                                </select>
+                                <input type="text" id="EventNamesOverviewThreshold" value="0">
+                                <button type="button" id="EventNamesOverviewSetThreshold">Set threshold</button>
+                                </br>
+                                </br>
+                                <button type="button" id="EventNamesOverviewCSV">Export CSV</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Specific Event Name Overview
+                        </div>
+                        <div class="panel-body">
+                            <div id="SpecificEventNameOverview" style="width: 800px;height:400px;"></div>
+                            <div style="width: 250px;height:200px;position: relative;top: -400px;left: 820px;">
+                                <label>Set period (for auto-complete and the chart) (YYYYMMDD)</label>
+                                </br>
+                                <label>From</label>
+                                <input type="text" id="SpecificEventNameOverviewFrom">
+                                </br>
+                                <label>To</label>&nbsp&nbsp&nbsp&nbsp
+                                <input type="text" id="SpecificEventNameOverviewTo">
+                                <button type="button" id="SpecificEventNameOverviewSetPeriod">Set period</button>
+                                </br>
+                                </br>
+                                <label for="SpecificEventNameOverviewAutoCompleteThreshold">Auto-complete Threshold (Total amount of activities of the specific "event name" during the
+                                    period )</label>
+                                </br>
+                                <select id="SpecificEventNameOverviewAutoCompleteThresholdSelect">
+                                    <option value=">" selected="selected">></option>
+                                    <option value=">=">>=</option>
+                                    <option value="<">
+                                        <</option>
+                                            <option value="<=">
+                                                <=</option>
+                                                    <option value="=">=</option>
+                                </select>
+                                <input type="text" id="SpecificEventNameOverviewAutoCompleteThreshold" value="0">
+                                </br>
+                                </br>
+                                <label for="SpecificEventNameOverviewEventName">Enter event name (auto-complete)</label>
+                                <input type="text" id="SpecificEventNameOverviewEventName">
+                                </br>
+                                </br>
+                                <button type="button" id="SpecificEventNameOverviewSetEventName">Set EventName</button>
+                                </br>
+                                </br>
+                                <label for="SpecificEventNameOverviewPresentationOrder">Change Presentation Order</label>
+                                <select id="SpecificEventNameOverviewPresentationOrder">
+                                    <option value="1" selected="selected">Alphabetical order</option>
+                                    <option value="2">Descending order</option>
+                                    <option value="3">Ascending order</option>
+                                </select>
+                                </br>
+                                </br>
+                                <label for="Threshold">Chart Threshold (Amount of activities)</label>
+                                </br>
+                                <select id="SpecificEventNameOverviewThresholdSelect">
+                                    <option value=">" selected="selected">></option>
+                                    <option value=">=">>=</option>
+                                    <option value="<">
+                                        <</option>
+                                            <option value="<=">
+                                                <=</option>
+                                                    <option value="=">=</option>
+                                </select>
+                                <input type="text" id="SpecificEventNameOverviewThreshold" value="0">
+                                <button type="button" id="SpecificEventNameOverviewSetThreshold">Set threshold</button>
+                                </br>
+                                </br>
+                                <button type="button" id="SpecificEventNameOverviewCSV">Export CSV</button>
+                            </div>
+                        </div>
+                    </div>
+                    </br>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Event Contexts Overview
+                        </div>
+                        <div class="panel-body">
+                            <div id="EventContextsOverview" style="width: 800px;height:800px;"></div>
+                            <div style="width: 250px;height:100px;position: relative;top: -800px;left: 820px;">
+                                <label for="EventContextsOverviewPresentationOrder">Change Presentation Order</label>
+                                <select id="EventContextsOverviewPresentationOrder">
+                                    <option value="1" selected="selected">Alphabetical order</option>
+                                    <option value="2">Descending order</option>
+                                    <option value="3">Ascending order</option>
+                                </select>
+                                </br>
+                                </br>
+                                <label>Set period (YYYYMMDD)</label>
+                                </br>
+                                <label>From</label>
+                                <input type="text" id="EventContextsOverviewFrom">
+                                </br>
+                                <label>To</label>&nbsp&nbsp&nbsp&nbsp
+                                <input type="text" id="EventContextsOverviewTo">
+                                <button type="button" id="EventContextsOverviewSetPeriod">Set period</button>
+                                </br>
+                                </br>
+                                <label for="Threshold">Threshold (Amount of activities)</label>
+                                </br>
+                                <select id="EventContextsOverviewThresholdSelect">
+                                    <option value=">" selected="selected">></option>
+                                    <option value=">=">>=</option>
+                                    <option value="<">
+                                        <</option>
+                                            <option value="<=">
+                                                <=</option>
+                                                    <option value="=">=</option>
+                                </select>
+                                <input type="text" id="EventContextsOverviewThreshold" value="0">
+                                <button type="button" id="EventContextsOverviewSetThreshold">Set threshold</button>
+                                </br>
+                                </br>
+                                <button type="button" id="EventContextsOverviewCSV">Export CSV</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Specific Event Context Overview
+                        </div>
+                        <div class="panel-body">
+                            <div id="SpecificEventContextOverview" style="width: 800px;height:400px;"></div>
+                            <div style="width: 250px;height:200px;position: relative;top: -400px;left: 820px;">
+                                <label>Set period (for auto-complete and the chart) (YYYYMMDD)</label>
+                                </br>
+                                <label>From</label>
+                                <input type="text" id="SpecificEventContextOverviewFrom">
+                                </br>
+                                <label>To</label>&nbsp&nbsp&nbsp&nbsp
+                                <input type="text" id="SpecificEventContextOverviewTo">
+                                <button type="button" id="SpecificEventContextOverviewSetPeriod">Set period</button>
+                                </br>
+                                </br>
+                                <label for="SpecificEventContextOverviewAutoCompleteThreshold">Auto-complete Threshold (Total amount of activities of the specific "event context" during
+                                    the period )</label>
+                                </br>
+                                <select id="SpecificEventContextOverviewAutoCompleteThresholdSelect">
+                                    <option value=">" selected="selected">></option>
+                                    <option value=">=">>=</option>
+                                    <option value="<">
+                                        <</option>
+                                            <option value="<=">
+                                                <=</option>
+                                                    <option value="=">=</option>
+                                </select>
+                                <input type="text" id="SpecificEventContextOverviewAutoCompleteThreshold" value="0">
+                                </br>
+                                </br>
+                                <label for="SpecificEventContextOverviewEventContext">Enter event context (auto-complete)</label>
+                                <input type="text" id="SpecificEventContextOverviewEventContext" style="width:520px;">
+                                </br>
+                                </br>
+                                <button type="button" id="SpecificEventContextOverviewSetEventContext">Set Event Context</button>
+                                </br>
+                                </br>
+                                <label for="SpecificEventContextOverviewPresentationOrder">Change Presentation Order</label>
+                                <select id="SpecificEventContextOverviewPresentationOrder">
+                                    <option value="1" selected="selected">Alphabetical order</option>
+                                    <option value="2">Descending order</option>
+                                    <option value="3">Ascending order</option>
+                                </select>
+                                </br>
+                                </br>
+                                <label for="Threshold">Chart Threshold (Amount of activities)</label>
+                                </br>
+                                <select id="SpecificEventContextOverviewThresholdSelect">
+                                    <option value=">" selected="selected">></option>
+                                    <option value=">=">>=</option>
+                                    <option value="<">
+                                        <</option>
+                                            <option value="<=">
+                                                <=</option>
+                                                    <option value="=">=</option>
+                                </select>
+                                <input type="text" id="SpecificEventContextOverviewThreshold" value="0">
+                                <button type="button" id="SpecificEventContextOverviewSetThreshold">Set threshold</button>
+                                </br>
+                                </br>
+                                <button type="button" id="SpecificEventContextOverviewCSV">Export CSV</button>
+                            </div>
+                        </div>
+                    </div>
                     <script src="../js/moodlecharts.js"></script>
                     <!-- /.col-lg-6 -->
                     <div class="col-lg-12">
