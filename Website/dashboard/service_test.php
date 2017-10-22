@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'./service_class.php';
 
 //Development environment: WAMPServer Version 2.2 (PHP 5.3.13, MYSQL 5.5.24)
 //Testing tool: PhpUnit4.8.36
-//Database and data used for testing: studentdata_#168.sql
+//Database and data used for testing: studentdata_#207.sql
 
 class ServiceTest extends PHPUnit_Framework_TestCase 
 {
