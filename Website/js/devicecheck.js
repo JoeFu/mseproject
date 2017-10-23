@@ -6,7 +6,7 @@ if(screenwidth<414 || screenheight<763)
     window.location.href="mobile/";
     window.alert("You Are using Mobile Device!");
 }
-else if(screenwidth == 1024 && screenheight ==768)
+else if(screenwidth == 768 && screenheight ==1024)
 {
     window.location.href="mobile/";
     window.alert("You Are using iPad Device!");
