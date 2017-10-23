@@ -61,7 +61,7 @@ while($row = mysql_fetch_array($result))
 </head>
 
 <body>
-
+    <script src="js/devicecheck.js"></script>
     <div id="wrapper">
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top bg-inverse" role="navigation" style="margin-bottom: 0">
