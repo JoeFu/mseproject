@@ -1,7 +1,8 @@
 <?php
+
 class DataQuery
 {
- 
+	// Call the restful api	
 	public function callAPI($service_url, $curl_post_data)
     {
     	$curl = curl_init($service_url);
@@ -13,6 +14,5 @@ class DataQuery
     	$curl_response = curl_exec($curl);    	
     	curl_close($curl);
     	return $curl_response;
-    }
- 
+    } 
 }
