@@ -76,11 +76,10 @@
 	  <div id="SemesterAndAssignmentInformation" style="display:none">
 	    <div id="SemesterInformation">
           </br>
-	      <label>Semester start day (YYYYMMDD):</label>
-	      <label id="SemesterStartDay"></label>
+	      <label>Semester start day/end day (YYYYMMDD):</label>
+	      <label id="SemesterStartDay"></label>/
+		  <label id="SemesterEndDay"></label>
 		  </br>
-		  <label>Semester end day (YYYYMMDD):</label>
-	      <label id="SemesterEndDay"></label>
 	    </div>
 	    <div id="AssignmentInformation">
 	    </div>
@@ -401,8 +400,7 @@ function displayAssignmentInformation() {
 		success: function (result) {
 			$("#AssignmentInformation").empty();
 			$.each(result, function (i, p) {
-				$("#AssignmentInformation").append("<p>"+p['AssignmentName']+" start day (YYYYMMDD): "+p['StartDate']+"</p>"); 
-				$("#AssignmentInformation").append("<p>"+p['AssignmentName']+" due day (YYYYMMDD): "+p['DueDate']+"</p>"); 
+				$("#AssignmentInformation").append("<p>"+p['AssignmentName']+" start day/due day (YYYYMMDD): "+p['StartDate']+"/ "+p['DueDate']+"</p>"); 
 			});
 		}//success
 	});//ajax
