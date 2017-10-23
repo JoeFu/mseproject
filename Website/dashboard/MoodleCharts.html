@@ -71,20 +71,28 @@
 	  <select id="SelectAssignment">
 		<option  id="PleaseSelectAssignment">SelectAssignment</option>
 	  </select>
-	  <div id="SemesterInformation">
-        </br>
-	    <label>Semester start day (YYYYMMDD):</label>
-	    <label id="SemesterStartDay"></label>
-		</br>
-		<label>Semester end day (YYYYMMDD):</label>
-	    <label id="SemesterEndDay"></label>
-	  </div>
-	  <div id="AssignmentInformation">
+	  </br></br>
+	  <button id="Hide">Show/Hide Semester and Assignments start/end day</button>
+	  <div id="SemesterAndAssignmentInformation" style="display:none">
+	    <div id="SemesterInformation">
+          </br>
+	      <label>Semester start day (YYYYMMDD):</label>
+	      <label id="SemesterStartDay"></label>
+		  </br>
+		  <label>Semester end day (YYYYMMDD):</label>
+	      <label id="SemesterEndDay"></label>
+	    </div>
+	    <div id="AssignmentInformation">
+	    </div>
 	  </div>
 	  </br></br>
 	  
 <script type="text/javascript">
 $(document).ready(function() {
+	$("#Hide").click(function(){
+		$("#SemesterAndAssignmentInformation").toggle();
+	});
+
 	//Load data for select course
 	$.ajax({
 		type: "get",
