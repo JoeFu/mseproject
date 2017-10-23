@@ -26,20 +26,12 @@
             aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="#">Dashboard</a>
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
 	  <li class="nav-item active">
-	    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link" href="../index.html">Back</a>
+	    <a class="nav-link" href="../demo/index.html">Back</a>
 	  </li>
     </ul>
-    <form class="form-inline mt-2 mt-md-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search">
-      <button class="btn btn-info" type="submit">Search</button>
-    </form>
   </div>
 </nav>
 
@@ -72,15 +64,18 @@
 	  <select id="SelectSemester">
 	    <option  id="PleaseSelectSemester">SelectSemester</option>
 	  </select>
-	  <div id="SemesterInformation">
-        </br>
-	    <label>Semester start day (YYYYMMDD):</label>
-	    <label id="SemesterStartDay"></label>
-		</br>
-		<label>Semester end day (YYYYMMDD):</label>
-	    <label id="SemesterEndDay"></label>
-	  </div>
-	  <div id="AssignmentInformation">
+	  </br></br>
+	  <button id="Hide">Show/Hide Semester and Assignments start/end day</button>
+	  <div id="SemesterAndAssignmentInformation" style="display:none">
+	    <div id="SemesterInformation">
+          </br>
+	      <label>Semester start day/end day (YYYYMMDD):</label>
+	      <label id="SemesterStartDay"></label>/
+		  <label id="SemesterEndDay"></label>
+		  </br>
+	    </div>
+	    <div id="AssignmentInformation">
+	    </div>
 	  </div>
 	  </br></br>
 	  <h3>Critical question 1: </br> 
@@ -112,7 +107,7 @@
 		  <input type="text" id="QuestionOneTo">
 	  </div>
 	  </br>
-      <button type="button" id="QuestionOneFilter">Filter Event name and Event context</button>&nbsp
+      <button type="button" id="QuestionOneFilter">Update</button>&nbsp
 	  <button type="button" id="QuestionOneGetAnswer">Get answer</button>
 	  </br></br>
 	  <div id="R">
@@ -130,6 +125,10 @@
 	  
 <script type="text/javascript">
 $(document).ready(function() {
+	$("#Hide").click(function(){
+		$("#SemesterAndAssignmentInformation").toggle();
+	});
+
 	//Load data for select course
 	$.ajax({
 		type: "get",
@@ -473,7 +472,7 @@ $(document).ready(function() {
 		});//ajax
 	})//$('#QuestionOneFilter').click
 
-//calculate and print Pearson Correlation Coefficient and data in table
+	//calculate and print Pearson Correlation Coefficient and data in table
 	$('#QuestionOneGetAnswer').click(function () {
 		var SelectCourse=$("#SelectCourse option:selected").attr("id");
 		var SelectYear=$("#SelectYear option:selected").attr("id");
@@ -528,8 +527,7 @@ function displayAssignmentInformation() {
 		success: function (result) {
 			$("#AssignmentInformation").empty();
 			$.each(result, function (i, p) {
-				$("#AssignmentInformation").append("<p>"+p['AssignmentName']+" start day (YYYYMMDD): "+p['StartDate']+"</p>"); 
-				$("#AssignmentInformation").append("<p>"+p['AssignmentName']+" due day (YYYYMMDD): "+p['DueDate']+"</p>"); 
+				$("#AssignmentInformation").append("<p>"+p['AssignmentName']+" start day/due day (YYYYMMDD): "+p['StartDate']+"/ "+p['DueDate']+"</p>"); 
 			});
 		}//success
 	});//ajax

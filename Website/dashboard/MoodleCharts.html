@@ -30,20 +30,12 @@
             aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="#">Dashboard</a>
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
 	  <li class="nav-item active">
-	    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link" href="../index.html">Back</a>
+	    <a class="nav-link" href="../demo/index.html">Back</a>
 	  </li>
     </ul>
-    <form class="form-inline mt-2 mt-md-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search">
-      <button class="btn btn-info" type="submit">Search</button>
-    </form>
   </div>
 </nav>
 
@@ -79,20 +71,27 @@
 	  <select id="SelectAssignment">
 		<option  id="PleaseSelectAssignment">SelectAssignment</option>
 	  </select>
-	  <div id="SemesterInformation">
-        </br>
-	    <label>Semester start day (YYYYMMDD):</label>
-	    <label id="SemesterStartDay"></label>
-		</br>
-		<label>Semester end day (YYYYMMDD):</label>
-	    <label id="SemesterEndDay"></label>
-	  </div>
-	  <div id="AssignmentInformation">
+	  </br></br>
+	  <button id="Hide">Show/Hide Semester and Assignments start/end day</button>
+	  <div id="SemesterAndAssignmentInformation" style="display:none">
+	    <div id="SemesterInformation">
+          </br>
+	      <label>Semester start day/end day (YYYYMMDD):</label>
+	      <label id="SemesterStartDay"></label>/
+		  <label id="SemesterEndDay"></label>
+		  </br>
+	    </div>
+	    <div id="AssignmentInformation">
+	    </div>
 	  </div>
 	  </br></br>
 	  
 <script type="text/javascript">
 $(document).ready(function() {
+	$("#Hide").click(function(){
+		$("#SemesterAndAssignmentInformation").toggle();
+	});
+
 	//Load data for select course
 	$.ajax({
 		type: "get",
@@ -401,8 +400,7 @@ function displayAssignmentInformation() {
 		success: function (result) {
 			$("#AssignmentInformation").empty();
 			$.each(result, function (i, p) {
-				$("#AssignmentInformation").append("<p>"+p['AssignmentName']+" start day (YYYYMMDD): "+p['StartDate']+"</p>"); 
-				$("#AssignmentInformation").append("<p>"+p['AssignmentName']+" due day (YYYYMMDD): "+p['DueDate']+"</p>"); 
+				$("#AssignmentInformation").append("<p>"+p['AssignmentName']+" start day/due day (YYYYMMDD): "+p['StartDate']+"/ "+p['DueDate']+"</p>"); 
 			});
 		}//success
 	});//ajax
@@ -741,7 +739,7 @@ myChartStudentActivitiesOverview.on('click', function (param) {
 	  <div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
 	    <label for="AllActivitiesOverviewPresentationOrder">Change Presentation Order</label>
 		<select id="AllActivitiesOverviewPresentationOrder">
-		  <option value ="1" selected = "selected">Alphabetical order</option>
+		  <option value ="1" selected = "selected">Chronological order</option>
 		  <option value ="2">Descending order</option>
 		  <option value ="3">Ascending order</option>
 		</select>
@@ -1322,7 +1320,7 @@ myChartEventNamesOverview.on('datazoom', function (params) {
 		</br></br>
 	    <label for="SpecificEventNameOverviewPresentationOrder">Change Presentation Order</label>
 		<select id="SpecificEventNameOverviewPresentationOrder">
-		  <option value ="1" selected = "selected">Alphabetical order</option>
+		  <option value ="1" selected = "selected">Chronological order</option>
 		  <option value ="2">Descending order</option>
 		  <option value ="3">Ascending order</option>
 		</select>
@@ -1931,13 +1929,13 @@ myChartEventContextsOverview.on('datazoom', function (params) {
 		<input type="text" id="SpecificEventContextOverviewAutoCompleteThreshold" value="0">
 		</br></br>
 	    <label for="SpecificEventContextOverviewEventContext">Enter event context (auto-complete)</label>
-		<input type="text" id="SpecificEventContextOverviewEventContext" style="width:520px;">
+		<input type="text" id="SpecificEventContextOverviewEventContext">
 		</br></br>
 		<button type="button" id="SpecificEventContextOverviewSetEventContext">Set Event Context</button>
 		</br></br>
 	    <label for="SpecificEventContextOverviewPresentationOrder">Change Presentation Order</label>
 		<select id="SpecificEventContextOverviewPresentationOrder">
-		  <option value ="1" selected = "selected">Alphabetical order</option>
+		  <option value ="1" selected = "selected">Chronological order</option>
 		  <option value ="2">Descending order</option>
 		  <option value ="3">Ascending order</option>
 		</select>

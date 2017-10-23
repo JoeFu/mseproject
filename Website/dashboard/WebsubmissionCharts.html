@@ -24,20 +24,12 @@
             aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="#">Dashboard</a>
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
 	  <li class="nav-item active">
-	    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link" href="../index.html">Back</a>
+	    <a class="nav-link" href="../demo/index.html">Back</a>
 	  </li>
     </ul>
-    <form class="form-inline mt-2 mt-md-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search">
-      <button class="btn btn-info" type="submit">Search</button>
-    </form>
   </div>
 </nav>
 
@@ -73,6 +65,7 @@
 	  <select id="SelectAssignment">
 		<option  id="PleaseSelectAssignment">SelectAssignment</option>
 	  </select>
+	  </br></br></br>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -315,7 +308,7 @@ function submissionTimeDistribution5Days(){
 }//function submissionTimeDistribution5Days
 </script>
 
-<!-- the chart Submission Time Distribution 5 days (y-axis: Number of students submit) after and before deadline-->
+<!-- the chart Submission Time Distribution 5 days (y-axis: Number of students) after and before deadline-->
       <div id="SubmissionTimeDistribution5DaysStudent" style="width: 800px;height:400px;"></div>
       <div style="width: 200px;height:100px;position: relative; top: -400px;left: 870px;"></div>
 
@@ -333,7 +326,7 @@ var option = {
 		data: []
 	},
 	yAxis: {
-		name: 'Number of students submit',
+		name: 'Number of students',
 	},
 	dataZoom: [
 		{   // dataZoom component controls x-axis by default
@@ -344,7 +337,7 @@ var option = {
 	],
 	series: [
 		{
-			name: 'Number of students submit',
+			name: 'Number of students',
 			type: 'bar',
 			data: []
 		}
@@ -392,7 +385,7 @@ function submissionTimeDistribution5DaysStudent(){
 				},
 				series: [
 					{
-						name: 'Number of students submit',
+						name: 'Number of students',
 						data: count,
 						markArea: {
 							data: [ 
@@ -546,7 +539,7 @@ function submissionTimeDistribution96Hours(){
 }//function submissionTimeDistribution96Hours
 </script>
 
-     <!-- the chart "Submission Time Distribution 96 hours after and before due hour (y-axis: Number of students submit)"-->
+     <!-- the chart "Submission Time Distribution 96 hours after and before due hour (y-axis: Number of students)"-->
       <div id="SubmissionTimeDistribution96HoursStudent" style="width: 800px;height:400px;"></div>
       <div style="width: 200px;height:100px;position: relative; top: -400px;left: 870px;"></div>
  
@@ -564,7 +557,7 @@ var option = {
 		data: []
 	},
 	yAxis: {
-		name: 'Number of students submit',
+		name: 'Number of students',
 	},
 	dataZoom: [
 		{   // dataZoom component controls x-axis by default
@@ -575,7 +568,7 @@ var option = {
 	],
 	series: [
 		{
-			name: 'Number of students submit',
+			name: 'Number of students',
 			type: 'bar',
 			data: []
 		}
@@ -624,7 +617,7 @@ function submissionTimeDistribution96HoursStudent(){
 				},
 				series: [
 					{
-						name: 'Number of students submit',
+						name: 'Number of students',
 						data: count,
 						markArea: {
 							data: [ 
@@ -789,7 +782,7 @@ function submissionTimeDistributionSubmission(){
 }//function submissionTimeDistributionSubmission
 </script>
 
-      <!-- the chart Submission Time Distribution (y-axis: Number of students submit) -->
+      <!-- the chart Submission Time Distribution (y-axis: Number of students) -->
       <div id="SubmissionTimeDistributionStudent" style="width: 800px;height:400px;"></div>
       <div style="width: 200px;height:100px;position: relative; top: -400px;left: 870px;"></div>
 
@@ -807,7 +800,7 @@ var option = {
 		data: []
 	},
 	yAxis: {
-		name: 'Number of students submit',
+		name: 'Number of students',
 	},
 	dataZoom: [
 		{   // dataZoom component controls x-axis by default
@@ -818,7 +811,7 @@ var option = {
 	],
 	series: [
 		{
-			name: 'Number of students submit',
+			name: 'Number of students',
 			type: 'bar',
 			data: []
 		}
@@ -869,7 +862,7 @@ function submissionTimeDistributionStudent(){
 				},
 				series: [
 					{
-						name: 'Number of students submit',
+						name: 'Number of students',
 						data: count,
 						markArea: {
 							data: [ 
