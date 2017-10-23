@@ -181,7 +181,7 @@ while($row = mysql_fetch_array($result))
                                         <a href="/dashboard/MoodleCharts.html">Moodle Charts</a>
                                     </li>
                                     <li>
-                                        <a href="/dashboard/WebsubmissionCharts.html">WebSubmission Charts</a>
+                                        <a href="/dashboard/WebSubmissionCharts.html">WebSubmission Charts</a>
                                     </li>
                                     <li>
                                         <a href="demo/pages/Moodlecharts.html"> new Moodle Charts</a>
