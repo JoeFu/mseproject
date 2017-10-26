@@ -1,7 +1,7 @@
 <?php
 /** AService is supporting APIs **/
 // Load Activity Numbers function
-class Service
+class APIService
 {
     function LoadActivityNumber()
     {
@@ -9,7 +9,7 @@ class Service
         $sql = "SELECT count(*) FROM studentdata.event;";
         $query = mysql_query($sql);
         $result = mysql_fetch_array($query);
-        echo $result[0];
+        return $result[0];
         
         mysql_close($link);
         //echo json_encode($result[0]);
@@ -21,7 +21,7 @@ class Service
         $sql = "select count(*) from event  where  FKUserId";
         $query = mysql_query($sql);
         $result = mysql_fetch_array($query);
-        echo $result[0];
+        return $result[0];
         mysql_close($link);
     }
     //Load Load Courses Numbers function
@@ -31,15 +31,8 @@ class Service
         $sql = "select count(DISTINCT CourseName) from event";
         $query = mysql_query($sql);
         $result = mysql_fetch_array($query);
-        echo $result[0];
-    
+        return $result[0];
         mysql_close($link);
-    }
-    function GPAdistribute()
-    {
-        include_once('one_connection.php');
-        
-    
     }
     function LoadCoursesDetail()
     {
@@ -53,7 +46,7 @@ class Service
             'CourseName'=> $row['CourseName'],
         );}
         mysql_close($link);
-        echo json_encode($arr);
+        return json_encode($arr);
     }
     function postName()
     {
@@ -62,13 +55,15 @@ class Service
         {
             $html = '<i class="fa fa-user fa-fw"></i> ';
             $username = $_SESSION['username'];
-            echo $html,$username;
+            $str = $html .$username;
+            return $str;
         }
         else
         {
             $html = '<i class="fa fa-user fa-fw"></i> ';
-            $username ='<a href="../../login/login.html">Please Login</a>';
-            echo $html,$username;
+            $username ='<a href="../../login">Please Login</a>';
+            $str = $html .$username;
+            return $str;
         }
     }
     function Name()
@@ -77,74 +72,68 @@ class Service
         if($_SESSION['username']!= NULL)
         {
             $username = $_SESSION['username'];
-            echo $username;
+            return $username;
         }
         else
         {
-            $username ='<a href="../../login/login.html">Please Login</a>';
-            echo $username;
+            $username ='<a href="../../login/">Please Login</a>';
+            return $username;
         }
     }
-    function LoadCourse()
-	{
-		include('one_connection.php');
-		$sql = "SELECT distinct `CourseName` from event where CourseName is not NULL";
-		$query = mysql_query($sql);
-		while($row=mysql_fetch_array($query)){
-			$arr[] = array(
-				'CourseName'=> $row['CourseName'],
-			);
-		}
-		mysql_close($link);
-		echo json_encode($arr);
-    }
-    function LoadYear($SelectCourseId="")
+    function SearchTable($SelectCourseId="",$SelectYearId="",$SelectSemesterId="",$SelectAssignmentNameId="")
     {
         include('one_connection.php');
-		$sql = "SELECT distinct `SchoolYear`
-		from event
-		where CourseName='{$SelectCourseId}'
-		order by SchoolYear asc";
-		$query = mysql_query($sql);
+        $sql = "SELECT FKUserId,CourseName,SchoolYear, Semester, AssignmentName, Name, Grade, Prefix 
+        FROM event 
+        where CourseName='{$SelectCourseId}' and SchoolYear= '{$SelectYearId}' and Semester='{$SelectSemesterId}'and AssignmentName='{$SelectAssignmentNameId}' and DataSourceType ='1'";
+        $query = mysql_query($sql);
 		while($row=mysql_fetch_array($query)){
 			$arr[] = array(
-				'SchoolYear'=> $row['SchoolYear'],
+                'FKUserId'=> $row['FKUserId'],
+                'CourseName'=> $row['CourseName'],
+                'SchoolYear'=> $row['SchoolYear'],
+                'Semester'=> $row['Semester'],
+                'AssignmentName'=> $row['AssignmentName'],
+                'Event Name'=> $row['Name'],
+                'Grade'=> $row['Grade'],
+                'Component'=> $row['Prefix'],               
 			);
 		}
 		mysql_close($link);
-		echo json_encode($arr);
+		return json_encode($arr);
     }
-    function LoadSemester($SelectCourseId="",$SelectYearId="")
+    function GPAdistribute($SelectCourseId="",$SelectYearId="",$SelectSemesterId="",$SelectAssignmentNameId="")
+    {
+        include_once('one_connection.php');
+        
+    
+    }
+    function SelectYear()
     {
         include('one_connection.php');
-		$sql = "SELECT distinct `Semester` 
-		from event
-		where CourseName='{$SelectCourseId}' and SchoolYear= '{$SelectYearId}'
-		order by Semester asc";
-		$query = mysql_query($sql);
-		while($row=mysql_fetch_array($query)){
-			$arr[] = array(
-				'Semester'=> $row['Semester'],
-			);
-		}
-		mysql_close($link);
-		echo json_encode($arr);
+        $sql = "SELECT distinct `SchoolYear` from event where SchoolYear is not NULL";
+        $query = mysql_query($sql);
+        while($row=mysql_fetch_array($query)){
+        $arr[] = array(
+            'SchoolYear'=> $row['SchoolYear'],
+        );}
+        mysql_close($link);
+        return json_encode($arr);
     }
-    function LoadAssignment($SelectCourseId="",$SelectYearId="",$SelectSemesterId="")
+    function IndexCharts()
     {
         include('one_connection.php');
-		$sql = "SELECT distinct `AssignmentName` 
-		from event
-		where CourseName='{$SelectCourseId}' and SchoolYear= '{$SelectYearId}' and Semester='{$SelectSemesterId}'
-		order by AssignmentName asc";
-		$query = mysql_query($sql);
-		while($row=mysql_fetch_array($query)){
-			$arr[] = array(
-				'AssignmentName'=> $row['AssignmentName'],
-			);
-		}
-		mysql_close($link);
-		echo json_encode($arr);
+        $sql = "SELECT  SchoolYear, count(Name) from event  group by SchoolYear ";
+        $query =mysql_query($sql);
+        while($row=mysql_fetch_array($query))
+        {
+            $arr[]= array(
+                'SchoolYear'=> $row['SchoolYear'],
+                'count'=>$row['count(Name)'],    
+            );
+        }
+        mysql_close($link);
+        return json_encode($arr);
 
     }
 }
