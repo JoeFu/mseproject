@@ -3,8 +3,63 @@ var name = $.get('../backend/APIs.php?option=Name',
     function getMessage(name) {
         var message = 'Dear ' + name + ', please choose datasets below:';
         document.getElementById("notice").innerHTML = message;
-    });
-//Ajax Loading Assignment
+    });//Ajax Loading Assignment
+function DataFormatChange(Original_date)
+{
+    var str = Original_date.toString();
+    var Year_format = str.substr(0,4);
+    var Month_format = str.substr(4,2);
+    var Day_format = str.substr(6,2);
+    if (Month_format==01)
+    {
+        Month_format ="Jan";
+    }
+    else if(Month_format==02)
+    {
+        Month_format ="Feb";
+    }
+    else if (Month_format==03)
+    {
+        Month_format ="Mar";
+    }
+    else if(Month_format==04)
+    {
+        Month_format="Apr"
+    }
+    else if(Month_format==05)
+    {
+        Month_format="May"
+    }
+    else if(Month_format==06)
+    {
+        Month_format="Jun"
+    }
+    else if(Month_format==07)
+    {
+        Month_format="July"
+    }
+    else if(Month_format==08)
+    {
+        Month_format="Aug"
+    }
+    else if(Month_format==09)
+    {
+        Month_format="Sep"
+    }
+    else if(Month_format==10)
+    {
+        Month_format="Oct"
+    }
+    else if(Month_format==11)
+    {
+        Month_format="Nov"
+    }
+    else if(Month_format==12)
+    {
+        Month_format="Dec"
+    }
+    return  Day_format +" / " + Month_format +" / " +Year_format;
+}
 $(document).ready(function () {
     $.ajax({
         type: "get",
@@ -250,6 +305,9 @@ $('#SelectSemester').change(function () {
             }
             break;
     }
+
+    PeriodFrom = DataFormatChange(PeriodFrom);
+    PeriodTo = DataFormatChange(PeriodTo);
     $("#StudentActivitiesOverviewFrom").val(PeriodFrom);
     $("#StudentActivitiesOverviewTo").val(PeriodTo);
     $("#AllActivitiesOverviewFrom").val(PeriodFrom);
@@ -285,8 +343,11 @@ function displayAssignmentInformation() {
         success: function (result) {
             $("#AssignmentInformation").empty();
             $.each(result, function (i, p) {
-                $("#AssignmentInformation").append("<p>" + p['AssignmentName'] + " start day (YYYYMMDD): " + p['StartDate'] + "</p>");
-                $("#AssignmentInformation").append("<p>" + p['AssignmentName'] + " due day (YYYYMMDD): " + p['DueDate'] + "</p>");
+                $("#AssignmentInformation").append(
+                    "<lable>" + p['AssignmentName'] + " starts at: &nbsp;&nbsp;&nbsp; " + 
+                    DataFormatChange(p['StartDate']) + "</lable>"
+                );
+                $("#AssignmentInformation").append("<lable>" +" &nbsp;&nbsp;&nbsp; Dues in:  &nbsp;&nbsp;&nbsp;" + DataFormatChange(p['DueDate']) + " &nbsp;&nbsp;&nbsp;</lable>");
             });
         }//success
     });//ajax
@@ -400,8 +461,7 @@ function studentActivitiesOverviewUpdate() {
 	var to = $("#StudentActivitiesOverviewTo").val();
 	var order = $('#StudentActivitiesOverviewPresentationOrder').val();
 	var ThresholdSelect = $('#StudentActivitiesOverviewThresholdSelect').val();
-	var Threshold = $('#StudentActivitiesOverviewThreshold').val();
-
+    var Threshold = $('#StudentActivitiesOverviewThreshold').val(); 
 	$.ajax({
 		type: "get",
 		async: true, //asynchronous
@@ -483,6 +543,34 @@ function studentActivitiesOverviewUpdate() {
 		}//success
 	});//ajax
 }
+//after user sets presentation order/period/threshold, update the chart "StudentActivitiesOverview"
+$(document).ready(function () {
+	$('#StudentActivitiesOverviewPresentationOrder').change(function () {
+		studentActivitiesOverviewUpdate();
+	})
+	$('#StudentActivitiesOverviewSetPeriod').click(function () {
+		studentActivitiesOverviewUpdate();
+	})
+	$('#StudentActivitiesOverviewSetThreshold').click(function () {
+        studentActivitiesOverviewUpdate();
+	})
+
+	//export the data in CSV format according to the configuration options that user chooses, also these configuration options are included in the file name
+	$('#StudentActivitiesOverviewCSV').click(function () {
+		var SelectCourse = $("#SelectCourse option:selected").attr("id");
+		var SelectYear = $("#SelectYear option:selected").attr("id");
+		var SelectSemester = $("#SelectSemester option:selected").attr("id");
+		var from = $("#StudentActivitiesOverviewFrom").val();
+		var to = $("#StudentActivitiesOverviewTo").val();
+		var order = $('#StudentActivitiesOverviewPresentationOrder').val();
+		var ThresholdSelect = $('#StudentActivitiesOverviewThresholdSelect').val();
+		var Threshold = $('#StudentActivitiesOverviewThreshold').val();
+		// dynamically concatenate url
+		var url = '../../dashboard/controller.php?type=studentActivitiesOverviewCSV&from=' + from + '&to=' + to + '&order=' + order + '&ThresholdSelect=' + ThresholdSelect + '&Threshold=' + Threshold + '&SelectCourse=' + SelectCourse + '&SelectYear=' + SelectYear + '&SelectSemester=' + SelectSemester;
+		window.location.href = url;
+	})
+})// $(document).ready
+
 myChartStudentActivitiesOverview.on('datazoom', function (params) {
 	var diff = params.end - params.start;//difference between left and right position of the slider
 	StudentActivitiesOverviewDiff = diff;
@@ -828,7 +916,7 @@ var myChartEventNamesOverview = echarts.init(document.getElementById('EventNames
 //configuration item and data for the chart
 var option = {
     title: {
-        text: 'Event names overview'
+        // text: 'Event names overview'
     },
     tooltip: {},
     xAxis: {
@@ -1066,7 +1154,7 @@ $(document).ready(function () {
     $("#SpecificEventNameOverviewTo").datepicker("option", "dateFormat", "yymmdd");//YYYYMMDD
 
     //auto-complete for the input box (id: SpecificEventNameOverviewEventName)the chart "Specific Event Name Overview" 
-    var src = "controller.php?type=specificEventNameOverviewAutoComplete";
+    var src = "../../dashboard/controller.php?type=specificEventNameOverviewAutoComplete";
     $("#SpecificEventNameOverviewEventName").autocomplete({
         source: function (request, response) {
             $.ajax({
@@ -1096,7 +1184,7 @@ var myChartSpecificEventNameOverview = echarts.init(document.getElementById('Spe
 //configuration item and data for the chart
 var option = {
     title: {
-        text: 'Specific event name overview'
+        // text: 'Specific event name overview'
     },
     tooltip: {},
     xAxis: {
@@ -1358,7 +1446,7 @@ var myChartEventContextsOverview = echarts.init(document.getElementById('EventCo
 //configuration item and data for the chart
 var option = {
     title: {
-        text: 'Event contexts overview'
+        // text: 'Event contexts overview'
     },
     tooltip: {},
     xAxis: {
@@ -1597,28 +1685,28 @@ $(document).ready(function () {
     $("#SpecificEventContextOverviewTo").datepicker("option", "dateFormat", "yymmdd");//YYYYMMDD
 
     //auto-complete for the input box (id: SpecificEventContextOverviewEventName)the chart "Specific Event Context Overview" 
-    var src = "controller.php?type=specificEventContextOverviewAutoComplete";
-    $("#SpecificEventContextOverviewEventContext").autocomplete({
-        source: function (request, response) {
-            $.ajax({
-                url: src,
-                dataType: "json",
-                data: {
-                    term: request.term,
-                    from: $("#SpecificEventContextOverviewFrom").val(),
-                    to: $("#SpecificEventContextOverviewTo").val(),
-                    ThresholdSelect: $('#SpecificEventContextOverviewAutoCompleteThresholdSelect').val(),
-                    Threshold: $('#SpecificEventContextOverviewAutoCompleteThreshold').val(),
-                    SelectCourse: $("#SelectCourse option:selected").attr("id")
-                },
-                success: function (data) {
-                    response(data);
-                }
-            });
-        },
-        min_length: 3,
-        delay: 300
-    });
+    var src = "../../dashboard/controller.php?type=specificEventContextOverviewAutoComplete";
+	$("#SpecificEventContextOverviewEventContext").autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: src,
+				dataType: "json",
+				data: {
+					term: request.term, 
+					from: $("#SpecificEventContextOverviewFrom").val(), 
+					to: $("#SpecificEventContextOverviewTo").val(), 
+					ThresholdSelect: $('#SpecificEventContextOverviewAutoCompleteThresholdSelect').val(), 
+					Threshold: $('#SpecificEventContextOverviewAutoCompleteThreshold').val(), 
+					SelectCourse: $("#SelectCourse option:selected").attr("id")
+				},
+				success: function (data) {
+					response(data);
+				}
+			});
+		},
+		min_length: 3,
+		delay: 300
+	});
 })//$(document).ready
 
 //Initialize e-charts instance
@@ -1627,7 +1715,7 @@ var myChartSpecificEventContextOverview = echarts.init(document.getElementById('
 //configuration item and data for the chart
 var option = {
     title: {
-        text: 'Specific event context overview'
+        // text: 'Specific event context overview'
     },
     tooltip: {},
     xAxis: {
