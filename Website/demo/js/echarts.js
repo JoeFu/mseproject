@@ -70668,10 +70668,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            tiled: 'M2.3,2.2h22.8V25H2.3V2.2z M35,2.2h22.8V25H35V2.2zM2.3,35h22.8v22.8H2.3V35z M35,35h22.8v22.8H35V35z'
 	        },
 	        title: {
-	            line: 'Switch to a line chart',
-	            bar: 'Switch to a bar chart',
-	            stack: '切换为堆叠',
-	            tiled: '切换为平铺'
+	            line: 'Line chart',
+	            bar: 'Bar chart',
+	            stack: 'Switch to Stack',
+	            tiled: 'Switch to Tile'
 	        },
 	        option: {},
 	        seriesIndex: {}
@@ -71108,7 +71108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        icon: 'M17.5,17.3H33 M17.5,17.3H33 M45.4,29.5h-28 M11.5,2v56H51V14.8L38.4,2H11.5z M38.4,2.2v12.7H51 M45.4,41.7h-28',
 	        title: 'Data view',
-	        lang: ['Data view', '关闭', '刷新'],
+	        lang: ['Data view', 'Close', 'Refresh'],
 	        backgroundColor: '#fff',
 	        textColor: '#000',
 	        textareaColor: '#fff',
@@ -71788,7 +71788,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    Restore.defaultOption = {
 	        show: true,
 	        icon: 'M3.8,33.4 M47,18.9h9.8V8.7 M56.3,20.1 C52.1,9,40.5,0.6,26.8,2.1C12.6,3.7,1.6,16.2,2.1,30.6 M13,41.1H3.1v10.2 M3.7,39.9c4.2,11.1,15.8,19.5,29.5,18 c14.2-1.6,25.2-14.1,24.7-28.5',
-	        title: 'reset'
+	        title: 'Reset'
 	    };
 
 	    var proto = Restore.prototype;
