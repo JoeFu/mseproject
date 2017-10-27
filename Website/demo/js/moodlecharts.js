@@ -552,7 +552,7 @@ $(document).ready(function () {
 		studentActivitiesOverviewUpdate();
 	})
 	$('#StudentActivitiesOverviewSetThreshold').click(function () {
-        studentActivitiesOverviewUpdate();
+		studentActivitiesOverviewUpdate();
 	})
 
 	//export the data in CSV format according to the configuration options that user chooses, also these configuration options are included in the file name
