@@ -342,20 +342,20 @@
                             <div class="col-lg-12">
                                 <div class="col-lg-3">
                                     <h5>
-                                        <label>Set Date Period </label>
+                                        <label>Set Date Period (YYYYMMDD): </label>
                                     </h5>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="input-group">
                                         <span class="input-group-addon"> From </span>
-                                        <input type="text" id="StudentActivitiesOverviewFrom" class="form-control" placeholder="yyyy/mm/dd">
+                                        <input type="text" id="StudentActivitiesOverviewFrom" class="form-control" placeholder="YYYYMMDD">
                                     </div>
                                     &nbsp;&nbsp;
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="input-group">
                                         <span class="input-group-addon"> To </span>
-                                        <input type="text" id="StudentActivitiesOverviewTo" class="form-control" placeholder="yyyy/mm/dd">
+                                        <input type="text" id="StudentActivitiesOverviewTo" class="form-control" placeholder="YYYYMMDD">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -368,7 +368,7 @@
                             <div class="col-lg-12">
                                 <div class="col-lg-3">
                                     <h5>
-                                        <label for="Threshold">Threshold (Amount of activities)</label>
+                                        <label for="Threshold">Threshold (Amount of activities):</label>
                                     </h5>
                                 </div>
                                 <div class="col-lg-3">
@@ -430,20 +430,20 @@
                             <div class="col-lg-12">
                                 <div class="col-lg-3">
                                     <h5>
-                                        <label>Set Date Period </label>
+                                        <label>Set Date Period (YYYYMMDD): </label>
                                     </h5>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="input-group">
                                         <span class="input-group-addon"> From </span>
-                                        <input type="text" id="AllActivitiesOverviewFrom" class="form-control" placeholder="yyyy/mm/dd">
+                                        <input type="text" id="AllActivitiesOverviewFrom" class="form-control" placeholder="YYYYMMDD">
                                     </div>
                                     &nbsp;&nbsp;
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="input-group">
                                         <span class="input-group-addon"> To </span>
-                                        <input type="text" id="AllActivitiesOverviewTo" class="form-control" placeholder="yyyy/mm/dd">
+                                        <input type="text" id="AllActivitiesOverviewTo" class="form-control" placeholder="YYYYMMDD">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -456,7 +456,7 @@
                             <div class="col-lg-12">
                                 <div class="col-lg-3">
                                     <h5>
-                                        <label for="Threshold">Threshold (Amount of activities)</label>
+                                        <label for="Threshold">Threshold (Amount of activities):</label>
                                     </h5>
                                 </div>
                                 <div class="col-lg-3">
@@ -515,20 +515,20 @@
                             <div class="col-lg-12">
                                 <div class="col-lg-3">
                                     <h5>
-                                        <label>Set Date Period </label>
+                                        <label>Set Date Period (YYYYMMDD): </label>
                                     </h5>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="input-group">
                                         <span class="input-group-addon"> From </span>
-                                        <input type="text" id="EventNamesOverviewFrom" class="form-control" placeholder="yyyy/mm/dd">
+                                        <input type="text" id="EventNamesOverviewFrom" class="form-control" placeholder="YYYYMMDD">
                                     </div>
                                     &nbsp;&nbsp;
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="input-group">
                                         <span class="input-group-addon"> To </span>
-                                        <input type="text" id="EventNamesOverviewTo" class="form-control" placeholder="yyyy/mm/dd">
+                                        <input type="text" id="EventNamesOverviewTo" class="form-control" placeholder="YYYYMMDD">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -541,7 +541,7 @@
                             <div class="col-lg-12">
                                 <div class="col-lg-3">
                                     <h5>
-                                        <label for="Threshold">Threshold (Amount of activities)</label>
+                                        <label for="Threshold">Threshold (Amount of activities):</label>
                                     </h5>
                                 </div>
                                 <div class="col-lg-3">
@@ -573,7 +573,130 @@
                     </div>
                     <!-- End Event Names Overview -->
 
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a style="color:black" href="#Specific_Event_Name_Overview" name="Specific_Event_Name_Overview">Specific Event Name Overview</a>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-lg-12">
+                                <div class="col-lg-4">
+                                    <p>
+                                        <label for="SpecificEventNameOverviewAutoCompleteThreshold">Auto-complete Threshold (Total amount of activities of the specific "event name"
+                                            during the period )</label>
+                                    </p>
+                                </div>
+                                <div class="col-lg-3">
+                                    <select class="selectpicker form-control" id="SpecificEventNameOverviewAutoCompleteThresholdSelect">
+                                        <option value=">" selected="selected"> > </option>
+                                        <option value=">="> >= </option>
+                                        <option value="<">
+                                            < </option>
+                                                <option value="<=">
+                                                    <=</option>
+                                                        <option value="="> = </option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> </span>
+                                        <input type="text" id="SpecificEventNameOverviewAutoCompleteThreshold" class="form-control" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="col-lg-4">
+                                    <h5>
+                                        <label>Set period (for both auto-complete and the chart) (YYYYMMDD) </label>
+                                    </h5>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> From </span>
+                                        <input type="text" id="SpecificEventNameOverviewFrom" class="form-control" placeholder="YYYYMMDD">
+                                    </div>
+                                    &nbsp;&nbsp;
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> To </span>
+                                        <input type="text" id="SpecificEventNameOverviewTo" class="form-control" placeholder="YYYYMMDD">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div>
+                                        <button class="btn btn-primary" type="button" id="SpecificEventNameOverviewSetPeriod">Set &nbsp;&nbsp;&nbsp; Period</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <b>Enter Event Name (Auto-Complete)</b>
+                                        </span>
+                                        <input type="text" id="SpecificEventNameOverviewEventName" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <button class="btn btn-primary" type="button" id="SpecificEventNameOverviewSetEventName"> Set Event Name </button>
+                                </div>
+                            </div>
+                            &nbsp;
+                            <div class="col-lg-12">
+                                <div class="col-lg-3">
+                                    <h5>
+                                        <label for="SpecificEventNameOverviewPresentationOrder"> Change Presentation Order:</label>
+                                        <h5>
+                                </div>
+                                <div class="col-lg-3">
+                                    <select id="SpecificEventNameOverviewPresentationOrder" class="selectpicker form-control">
+                                        <option value="1" selected="selected">Chronological order</option>
+                                        <option value="2">Descending order</option>
+                                        <option value="3">Ascending order</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <button class="btn btn-primary" type="button" id="SpecificEventNameOverviewCSV">Export CSV</button>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
 
+
+                            <div class="col-lg-12">
+                                <div class="col-lg-3">
+                                    <h5>
+                                        <label for="Threshold">Threshold (Amount of activities):</label>
+                                    </h5>
+                                </div>
+                                <div class="col-lg-3">
+                                    <select class="selectpicker form-control" id="SpecificEventNameOverviewThresholdSelect">
+                                        <option value=">" selected="selected"> > </option>
+                                        <option value=">="> >= </option>
+                                        <option value="<">
+                                            < </option>
+                                                <option value="<=">
+                                                    <=</option>
+                                                        <option value="="> = </option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> </span>
+                                        <input type="text" id="SpecificEventNameOverviewThreshold" class="form-control" value="0">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <button class="btn btn-primary" type="button" id="SpecificEventNameOverviewSetThreshold">Set Threshold</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div id="SpecificEventNameOverview" style="width:900px;height:400px;"> </div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                    <!-- End Specific Event Name Overview -->
 
 
                     <div class="panel panel-default">
@@ -603,20 +726,20 @@
                             <div class="col-lg-12">
                                 <div class="col-lg-3">
                                     <h5>
-                                        <label>Set Date Period </label>
+                                        <label>Set Date Period (YYYYMMDD): </label>
                                     </h5>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="input-group">
                                         <span class="input-group-addon"> From </span>
-                                        <input type="text" id="EventContextsOverviewFrom" class="form-control" placeholder="yyyy/mm/dd">
+                                        <input type="text" id="EventContextsOverviewFrom" class="form-control" placeholder="YYYYMMDD">
                                     </div>
                                     &nbsp;&nbsp;
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="input-group">
                                         <span class="input-group-addon"> To </span>
-                                        <input type="text" id="EventContextsOverviewTo" class="form-control" placeholder="yyyy/mm/dd">
+                                        <input type="text" id="EventContextsOverviewTo" class="form-control" placeholder="YYYYMMDD">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -629,7 +752,7 @@
                             <div class="col-lg-12">
                                 <div class="col-lg-3">
                                     <h5>
-                                        <label for="Threshold">Threshold (Amount of activities)</label>
+                                        <label for="Threshold">Threshold (Amount of activities):</label>
                                     </h5>
                                 </div>
                                 <div class="col-lg-3">
@@ -665,131 +788,6 @@
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a style="color:black" href="#Specific_Event_Name_Overview" name ="Specific_Event_Name_Overview">Specific Event Name Overview</a>
-                        </div>
-                        <div class="panel-body">
-                            <div class="col-lg-12">
-                                <div class="col-lg-4">
-                                    <p>
-                                        <label for="SpecificEventNameOverviewAutoCompleteThreshold">Auto-complete Threshold (Total amount of activities of the specific "event name"
-                                            during the period )</label>
-                                    </p>
-                                </div>
-                                <div class="col-lg-3">
-                                    <select class="selectpicker form-control" id="SpecificEventNameOverviewAutoCompleteThresholdSelect">
-                                        <option value=">" selected="selected"> > </option>
-                                        <option value=">="> >= </option>
-                                        <option value="<">
-                                            < </option>
-                                                <option value="<=">
-                                                    <=</option>
-                                                        <option value="="> = </option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"> </span>
-                                        <input type="text" id="SpecificEventNameOverviewAutoCompleteThreshold" class="form-control" value="0">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="col-lg-6">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <b>Enter Event Name (Auto-Complete)</b>
-                                        </span>
-                                        <input type="text" id="SpecificEventNameOverviewEventName" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <button class="btn btn-primary" type="button" id="SpecificEventNameOverviewSetEventName"> Set &nbsp; Up </button>
-                                </div>
-                            </div>
-                            &nbsp;
-                            <div class="col-lg-12">
-                                <div class="col-lg-3">
-                                    <h5>
-                                        <label for="SpecificEventNameOverviewPresentationOrder"> Change Presentation Order:</label>
-                                        <h5>
-                                </div>
-                                <div class="col-lg-3">
-                                    <select id="SpecificEventNameOverviewPresentationOrder" class="selectpicker form-control">
-                                        <option value="1" selected="selected">Chronological order</option>
-                                        <option value="2">Descending order</option>
-                                        <option value="3">Ascending order</option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <button class="btn btn-primary" type="button" id="SpecificEventNameOverviewCSV">Export CSV</button>
-                                </div>
-                            </div>
-                            <br>
-                            <br>
-                            <div class="col-lg-12">
-                                <div class="col-lg-3">
-                                    <h5>
-                                        <label>Set Date Period </label>
-                                    </h5>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"> From </span>
-                                        <input type="text" id="SpecificEventNameOverviewFrom" class="form-control" placeholder="yyyy/mm/dd">
-                                    </div>
-                                    &nbsp;&nbsp;
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"> To </span>
-                                        <input type="text" id="SpecificEventNameOverviewTo" class="form-control" placeholder="yyyy/mm/dd">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div>
-                                        <button class="btn btn-primary" type="button" id="SpecificEventNameOverviewSetPeriod">Set &nbsp;&nbsp;&nbsp; Period</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12">
-                                <div class="col-lg-3">
-                                    <h5>
-                                        <label for="Threshold">Threshold (Amount of activities)</label>
-                                    </h5>
-                                </div>
-                                <div class="col-lg-3">
-                                    <select class="selectpicker form-control" id="SpecificEventNameOverviewThresholdSelect">
-                                        <option value=">" selected="selected"> > </option>
-                                        <option value=">="> >= </option>
-                                        <option value="<">
-                                            < </option>
-                                                <option value="<=">
-                                                    <=</option>
-                                                        <option value="="> = </option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"> </span>
-                                        <input type="text" id="SpecificEventNameOverviewThreshold" class="form-control" value="0">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <button class="btn btn-primary" type="button" id="SpecificEventNameOverviewSetThreshold">Set Threshold</button>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div id="SpecificEventNameOverview" style="width:900px;height:400px;"> </div>
-                            </div>
-                            <br>
-                        </div>
-                    </div>
-                    <!-- End Specific Event Name Overview -->
-
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
                             <a style="color:black" href="#Specific_Event_Context_Overview" name="Specific_Event_Context_Overview">Specific Event Context Overview</a>
                         </div>
                         <div class="panel-body">
@@ -819,6 +817,31 @@
                                 </div>
                             </div>
                             <div class="col-lg-12">
+                                <div class="col-lg-4">
+                                    <h5>
+                                        <label>Set period (for both auto-complete and the chart) (YYYYMMDD) </label>
+                                    </h5>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> From </span>
+                                        <input type="text" id="SpecificEventContextOverviewFrom" class="form-control" placeholder="YYYYMMDD">
+                                    </div>
+                                    &nbsp;&nbsp;
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> To </span>
+                                        <input type="text" id="SpecificEventContextOverviewTo" class="form-control" placeholder="YYYYMMDD">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div>
+                                        <button class="btn btn-primary" type="button" id="SpecificEventContextOverviewSetPeriod">Set &nbsp;&nbsp;&nbsp; Period</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
                                 <div class="col-lg-6">
                                     <div class="input-group">
                                         <span class="input-group-addon">
@@ -828,7 +851,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
-                                    <button class="btn btn-primary" type="button" id="SpecificEventContextOverviewSetEventContext"> Set &nbsp; Up </button>
+                                    <button class="btn btn-primary" type="button" id="SpecificEventContextOverviewSetEventContext"> Set Event Context </button>
                                 </div>
                             </div>
                             &nbsp;
@@ -851,36 +874,12 @@
                             </div>
                             <br>
                             <br>
-                            <div class="col-lg-12">
-                                <div class="col-lg-3">
-                                    <h5>
-                                        <label>Set Date Period </label>
-                                    </h5>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"> From </span>
-                                        <input type="text" id="SpecificEventContextOverviewFrom" class="form-control" placeholder="yyyy/mm/dd">
-                                    </div>
-                                    &nbsp;&nbsp;
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"> To </span>
-                                        <input type="text" id="SpecificEventContextOverviewTo" class="form-control" placeholder="yyyy/mm/dd">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div>
-                                        <button class="btn btn-primary" type="button" id="SpecificEventContextOverviewSetPeriod">Set &nbsp;&nbsp;&nbsp; Period</button>
-                                    </div>
-                                </div>
-                            </div>
+
 
                             <div class="col-lg-12">
                                 <div class="col-lg-3">
                                     <h5>
-                                        <label for="Threshold">Threshold (Amount of activities)</label>
+                                        <label for="Threshold">Threshold (Amount of activities):</label>
                                     </h5>
                                 </div>
                                 <div class="col-lg-3">
