@@ -461,8 +461,7 @@ function studentActivitiesOverviewUpdate() {
 	var to = $("#StudentActivitiesOverviewTo").val();
 	var order = $('#StudentActivitiesOverviewPresentationOrder').val();
 	var ThresholdSelect = $('#StudentActivitiesOverviewThresholdSelect').val();
-	var Threshold = $('#StudentActivitiesOverviewThreshold').val();
-
+    var Threshold = $('#StudentActivitiesOverviewThreshold').val(); 
 	$.ajax({
 		type: "get",
 		async: true, //asynchronous
@@ -917,7 +916,7 @@ var myChartEventNamesOverview = echarts.init(document.getElementById('EventNames
 //configuration item and data for the chart
 var option = {
     title: {
-        text: 'Event names overview'
+        // text: 'Event names overview'
     },
     tooltip: {},
     xAxis: {
@@ -1185,7 +1184,7 @@ var myChartSpecificEventNameOverview = echarts.init(document.getElementById('Spe
 //configuration item and data for the chart
 var option = {
     title: {
-        text: 'Specific event name overview'
+        // text: 'Specific event name overview'
     },
     tooltip: {},
     xAxis: {
@@ -1447,7 +1446,7 @@ var myChartEventContextsOverview = echarts.init(document.getElementById('EventCo
 //configuration item and data for the chart
 var option = {
     title: {
-        text: 'Event contexts overview'
+        // text: 'Event contexts overview'
     },
     tooltip: {},
     xAxis: {
@@ -1716,7 +1715,7 @@ var myChartSpecificEventContextOverview = echarts.init(document.getElementById('
 //configuration item and data for the chart
 var option = {
     title: {
-        text: 'Specific event context overview'
+        // text: 'Specific event context overview'
     },
     tooltip: {},
     xAxis: {
