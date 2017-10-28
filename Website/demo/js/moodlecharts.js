@@ -306,8 +306,8 @@ $('#SelectSemester').change(function () {
             break;
     }
 
-    PeriodFrom = DataFormatChange(PeriodFrom);
-    PeriodTo = DataFormatChange(PeriodTo);
+    SemesterStartDay = DataFormatChange(PeriodFrom);
+    SemesterEndDay = DataFormatChange(PeriodTo);
     $("#StudentActivitiesOverviewFrom").val(PeriodFrom);
     $("#StudentActivitiesOverviewTo").val(PeriodTo);
     $("#AllActivitiesOverviewFrom").val(PeriodFrom);
@@ -320,8 +320,8 @@ $('#SelectSemester').change(function () {
     $("#EventContextsOverviewTo").val(PeriodTo);
     $("#SpecificEventContextOverviewFrom").val(PeriodFrom);
     $("#SpecificEventContextOverviewTo").val(PeriodTo);
-    $("#SemesterStartDay").html(PeriodFrom);
-    $("#SemesterEndDay").html(PeriodTo);
+    $("#SemesterStartDay").html(SemesterStartDay);
+    $("#SemesterEndDay").html(SemesterEndDay);
     displayAssignmentInformation();
 })
 $('#SelectAssignment').change(function () {
@@ -552,7 +552,7 @@ $(document).ready(function () {
 		studentActivitiesOverviewUpdate();
 	})
 	$('#StudentActivitiesOverviewSetThreshold').click(function () {
-		studentActivitiesOverviewUpdate();
+        studentActivitiesOverviewUpdate();
 	})
 
 	//export the data in CSV format according to the configuration options that user chooses, also these configuration options are included in the file name

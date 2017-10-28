@@ -9,8 +9,18 @@ class APIService
         $sql = "SELECT count(*) FROM studentdata.event;";
         $query = mysql_query($sql);
         $result = mysql_fetch_array($query);
-        return $result[0];
-        
+        $res = $result[0];
+        if ($res <1000)
+        {
+            return $res;
+        }
+        elseif($res>1000 && $res < 1000000)
+        {
+            return (round($res/1000)) ." K";
+        }
+        else{
+            return (round($res/1000000)) ." M";
+        }       
         mysql_close($link);
         //echo json_encode($result[0]);
     }
