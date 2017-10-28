@@ -496,7 +496,6 @@
 		$(gradeSelectId).html($(gradeSelectId + ' option').sort(function(x, y) {
 		    return $(x).text() < $(y).text() ? -1 : 1;
 		}));
-		//$(gradeSelectId).get(0).selectedIndex = 0;
 	}
 	
 	function addLowerGrades(currentGrade){
@@ -544,10 +543,10 @@
 	}
 	
 	function initDatePickers(){
-		$("#FromStartDatePicker").datepicker({ dateFormat: "yy/mm/dd" });
-		$("#ToStartDatePicker").datepicker({ dateFormat: "yy/mm/dd" });
-		$("#FromDueDatePicker").datepicker({ dateFormat: "yy/mm/dd" });
-		$("#ToDueDatePicker").datepicker({ dateFormat: "yy/mm/dd" });
+		$("#FromStartDatePicker").datepicker({ dateFormat: "dd/mm/yy" });
+		$("#ToStartDatePicker").datepicker({ dateFormat: "dd/mm/yy" });
+		$("#FromDueDatePicker").datepicker({ dateFormat: "dd/mm/yy" });
+		$("#ToDueDatePicker").datepicker({ dateFormat: "dd/mm/yy" });
 	}
 	
 	function loadResult(data){
