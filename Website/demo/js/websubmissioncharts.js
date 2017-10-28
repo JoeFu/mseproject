@@ -162,7 +162,7 @@ var option = {
 		data: []
 	},
 	yAxis: {
-		name: 'Number of students submit',
+		name: 'Number of students',
 	},
 	dataZoom: [
 		{   // dataZoom component controls x-axis by default
@@ -173,7 +173,7 @@ var option = {
 	],
 	series: [
 		{
-			name: 'Number of students submit',
+			name: 'Number of students',
 			type: 'bar',
 			data: []
 		}
@@ -240,7 +240,7 @@ var option = {
 		data: []
 	},
 	yAxis: {
-		name: 'Number of students submit',
+		name: 'Number of students',
 	},
 	dataZoom: [
 		{   // dataZoom component controls x-axis by default
@@ -251,7 +251,7 @@ var option = {
 	],
 	series: [
 		{
-			name: 'Number of students submit',
+			name: 'Number of students',
 			type: 'bar',
 			data: []
 		}
@@ -319,7 +319,7 @@ var option = {
 		data: []
 	},
 	yAxis: {
-		name: 'Number of students submit',
+		name: 'Number of students',
 	},
 	dataZoom: [
 		{   // dataZoom component controls x-axis by default
@@ -330,7 +330,7 @@ var option = {
 	],
 	series: [
 		{
-			name: 'Number of students submit',
+			name: 'Number of students',
 			type: 'bar',
 			data: []
 		}
@@ -611,7 +611,7 @@ function submissionTimeDistribution5DaysStudent(){
 				},
 				series: [
 					{
-						name: 'Number of students submit',
+						name: 'Number of students',
 						data: count,
 						markArea: {
 							data: [ 
@@ -747,7 +747,7 @@ function submissionTimeDistribution96HoursStudent(){
 				},
 				series: [
 					{
-						name: 'Number of students submit',
+						name: 'Number of students',
 						data: count,
 						markArea: {
 							data: [ 
@@ -896,7 +896,7 @@ function submissionTimeDistributionStudent(){
 				},
 				series: [
 					{
-						name: 'Number of students submit',
+						name: 'Number of students',
 						data: count,
 						markArea: {
 							data: [ 
