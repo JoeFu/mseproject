@@ -19,16 +19,14 @@
 </head>
 <body>
 <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
-  <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse"
-            data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
-            aria-label="Toggle navigation">
+  <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
-	  <li class="nav-item active">
-	    <a class="nav-link" href="../demo/index.html">Back</a>
-	  </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="../demo/index.html">Back</a>
+      </li>
     </ul>
   </div>
 </nav>
@@ -40,32 +38,32 @@
         <li class="nav-item">
           <a class="nav-link " href="./MoodleCharts.html">Moodle charts<span class="sr-only">(current)</span></a>
         </li>
-		<li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link active" href="./WebSubmissionCharts.html">WebSubmission charts</a>
         </li>
-		<li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" href="./CriticalQuestions.html">Critical Questions</a>
         </li>
-		<li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" href="./DataQuery.html">Data Query</a>
         </li>		
       </ul>
     </nav>
     <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
       <h1>Dashboard</h1>
-	  <select id="SelectCourse">
-	    <option  id="PleaseSelectCourse">Select course</option>
+      <select id="SelectCourse">
+        <option  id="PleaseSelectCourse">Select course</option>
       </select>
-	  <select id="SelectYear">
-	    <option  id="PleaseSelectYear">SelectYear</option>
-	  </select>
-	  <select id="SelectSemester">
-	    <option  id="PleaseSelectSemester">SelectSemester</option>
-	  </select>
-	  <select id="SelectAssignment">
-		<option  id="PleaseSelectAssignment">SelectAssignment</option>
-	  </select>
-	  </br></br></br>
+      <select id="SelectYear">
+        <option  id="PleaseSelectYear">SelectYear</option>
+      </select>
+      <select id="SelectSemester">
+        <option  id="PleaseSelectSemester">SelectSemester</option>
+      </select>
+      <select id="SelectAssignment">
+        <option  id="PleaseSelectAssignment">SelectAssignment</option>
+      </select>
+      </br></br></br>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -191,7 +189,7 @@ $(document).ready(function() {
 })//DocumentReady()
 </script>
 
-<!-- the chart SubmissionTimeDistribution 5 days (y-axis: Number of submissions) after and before deadline-->
+      <!-- the chart SubmissionTimeDistribution 5 days (y-axis: Number of submissions) after and before deadline-->
       <div id="SubmissionTimeDistribution5Days" style="width: 800px;height:400px;"></div>
       <div style="width: 200px;height:100px;position: relative; top: -400px;left: 870px;"></div>
 
@@ -301,14 +299,14 @@ function submissionTimeDistribution5Days(){
 							]
 						}//markLine
 					}
-				]
+				]//series
 			});
 		}
 	})//ajax
 }//function submissionTimeDistribution5Days
 </script>
 
-<!-- the chart Submission Time Distribution 5 days (y-axis: Number of students) after and before deadline-->
+      <!-- the chart Submission Time Distribution 5 days (y-axis: Number of students) after and before deadline-->
       <div id="SubmissionTimeDistribution5DaysStudent" style="width: 800px;height:400px;"></div>
       <div style="width: 200px;height:100px;position: relative; top: -400px;left: 870px;"></div>
 
@@ -416,7 +414,7 @@ function submissionTimeDistribution5DaysStudent(){
 							]
 						}//markLine
 					}
-				]
+				]//series
 			});
 		}
 	})//ajax
@@ -532,7 +530,7 @@ function submissionTimeDistribution96Hours(){
 							]
 						}//markLine
 					}
-				]
+				]//series
 			});
 		}
 	})//ajax
@@ -648,7 +646,7 @@ function submissionTimeDistribution96HoursStudent(){
 							]
 						}//markLine
 					}
-				]
+				]//series
 			});
 		}
 	})//ajax
@@ -775,7 +773,7 @@ function submissionTimeDistributionSubmission(){
 							]
 						}//markLine
 					}
-				]
+				]//series
 			});
 		}
 	})//ajax
@@ -902,7 +900,7 @@ function submissionTimeDistributionStudent(){
 							]
 						}//markLine
 					}
-				]
+				]//series
 			});
 		}
 	})//ajax
@@ -1029,7 +1027,7 @@ function firstSubmissionTimeDistribution(){
 							]
 						}//markLine
 					}
-				]
+				]//series
 			});
 		}
 	})//ajax
@@ -1156,7 +1154,7 @@ function lastSubmissionTimeDistribution(){
 							]
 						}//markLine
 					}
-				]
+				]//series
 			});
 		}
 	})//ajax
@@ -1166,12 +1164,12 @@ function lastSubmissionTimeDistribution(){
       <!-- the chart "Submission Times Of Each Student"-->
       <div id="SubmissionTimesOfEachStudent" style="width: 800px;height:400px;"></div>
       <div style="width: 200px;height:100px;position: relative;top: -400px;left: 870px;">
-	    <label for="SubmissionTimesOfEachStudentSelect">Change Presentation Order</label>
-		<select id="SubmissionTimesOfEachStudentSelect">
-		  <option  value ="1" selected = "selected">Alphabetical order</option>
-		  <option value ="2">Descending order</option>
-		  <option value="3">Ascending order</option>
-		</select></br></br>
+        <label for="SubmissionTimesOfEachStudentSelect">Change Presentation Order</label>
+        <select id="SubmissionTimesOfEachStudentSelect">
+          <option  value ="1" selected = "selected">Alphabetical order</option>
+          <option value ="2">Descending order</option>
+          <option value="3">Ascending order</option>
+        </select></br></br>
       </div>
 
 <script type="text/javascript">
@@ -1372,11 +1370,11 @@ myChartSubmissionTimesOfEachStudent.on('datazoom', function (params) {
       <div id="MarkDistribution" style="width: 800px;height:400px;"></div>
       <div style="width: 200px;height:100px;position: relative;top: -400px;left: 870px;">
         <label for="MarkDistributionSelect">Configuration option </label>
-		<select id="MarkDistributionSelect">
-		  <option  value ="1" selected = "selected">By Marking Scheme 10</option>
-		  <option value ="2">By 10% step</option>
-		</select>
-	  </div>
+        <select id="MarkDistributionSelect">
+          <option  value ="1" selected = "selected">By Marking Scheme 10</option>
+          <option value ="2">By 10% step</option>
+        </select>
+      </div>
 
 <script type="text/javascript">
 // initialize echart instance
