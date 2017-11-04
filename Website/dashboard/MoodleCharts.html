@@ -25,16 +25,14 @@
 </head>
 <body>
 <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
-  <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse"
-            data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
-            aria-label="Toggle navigation">
+  <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
-	  <li class="nav-item active">
-	    <a class="nav-link" href="../demo/index.html">Back</a>
-	  </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="../demo/index.html">Back</a>
+      </li>
     </ul>
   </div>
 </nav>
@@ -46,45 +44,45 @@
         <li class="nav-item">
           <a class="nav-link active" href="./MoodleCharts.html">Moodle charts<span class="sr-only">(current)</span></a>
         </li>
-		<li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" href="./WebSubmissionCharts.html">WebSubmission charts</a>
         </li>
-		<li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" href="./CriticalQuestions.html">Critical Questions</a>
         </li>
-		<li class="nav-item">
-			<a class="nav-link" href="./DataQuery.html">Data query</a>
-		</li>		
+        <li class="nav-item">
+          <a class="nav-link" href="./DataQuery.html">Data query</a>
+        </li>		
       </ul>
     </nav>
     <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
       <h1>Dashboard</h1>
-	  <select id="SelectCourse">
-	    <option  id="PleaseSelectCourse">Select course</option>
+      <select id="SelectCourse">
+        <option  id="PleaseSelectCourse">Select course</option>
       </select>
-	  <select id="SelectYear">
-	    <option  id="PleaseSelectYear">SelectYear</option>
-	  </select>
-	  <select id="SelectSemester">
-	    <option  id="PleaseSelectSemester">SelectSemester</option>
-	  </select>
-	  <select id="SelectAssignment">
-		<option  id="PleaseSelectAssignment">SelectAssignment</option>
-	  </select>
-	  </br></br>
-	  <button id="Hide">Show/Hide Semester and Assignments start/end day</button>
-	  <div id="SemesterAndAssignmentInformation" style="display:none">
-	    <div id="SemesterInformation">
+      <select id="SelectYear">
+        <option  id="PleaseSelectYear">SelectYear</option>
+      </select>
+      <select id="SelectSemester">
+        <option  id="PleaseSelectSemester">SelectSemester</option>
+      </select>
+      <select id="SelectAssignment">
+        <option  id="PleaseSelectAssignment">SelectAssignment</option>
+      </select>
+      </br></br>
+      <button id="Hide">Show/Hide Semester and Assignments start/end day</button>
+      <div id="SemesterAndAssignmentInformation" style="display:none">
+        <div id="SemesterInformation">
           </br>
-	      <label>Semester start day/end day (YYYYMMDD):</label>
-	      <label id="SemesterStartDay"></label>/
-		  <label id="SemesterEndDay"></label>
-		  </br>
-	    </div>
-	    <div id="AssignmentInformation">
-	    </div>
-	  </div>
-	  </br></br>
+          <label>Semester start day/end day (YYYYMMDD):</label>
+          <label id="SemesterStartDay"></label>/
+          <label id="SemesterEndDay"></label>
+          </br>
+        </div>
+        <div id="AssignmentInformation">
+        </div>
+      </div>
+      </br></br>
 	  
 <script type="text/javascript">
 $(document).ready(function() {
@@ -367,7 +365,7 @@ $(document).ready(function() {
 		
 		// display semester start day, end day
 		$("#SemesterStartDay").html(PeriodFrom); 
-        $("#SemesterEndDay").html(PeriodTo);
+		$("#SemesterEndDay").html(PeriodTo);
 		displayAssignmentInformation();
 
 		// update all charts
@@ -446,35 +444,36 @@ function getAssignmentStartDueDayAndUpdateAllCharts() {
 }//function getAssignmentStartDueDayAndUpdateAllCharts()
 </script>
 
-	  <div id="StudentActivitiesOverview" style="width: 800px;height:400px;"></div>
-	  <div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
-	    <label for="StudentActivitiesOverviewPresentationOrder">Change Presentation Order</label>
-		<select id="StudentActivitiesOverviewPresentationOrder">
-		  <option value ="1" selected = "selected">Alphabetical order</option>
-		  <option value ="2">Descending order</option>
-		  <option value ="3">Ascending order</option>
-		</select>
-		</br></br>
-		<label>Set period (YYYYMMDD)</label>
-		</br>
-		<label>From</label>
-		<input type="text" id="StudentActivitiesOverviewFrom">
-		</br>
-		<label>To</label>&nbsp&nbsp&nbsp&nbsp
-		<input type="text" id="StudentActivitiesOverviewTo">
-		<button type="button" id="StudentActivitiesOverviewSetPeriod">Set period</button></br></br>
-		<label for="Threshold">Threshold (Amount of activities)</label>
-		</br>
-		<select id="StudentActivitiesOverviewThresholdSelect">
-		  <option  value =">" selected = "selected">></option>
-		  <option value =">=">>=</option>
-		  <option value="<"><</option>
-		  <option value="<="><=</option>
-		  <option value="=">=</option>
-		</select>
-		<input type="text" id="StudentActivitiesOverviewThreshold" value="0">
-		<button type="button" id="StudentActivitiesOverviewSetThreshold">Set threshold</button>
-		</br></br>
+      <div id="StudentActivitiesOverview" style="width: 800px;height:400px;"></div>
+      <div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
+        <label for="StudentActivitiesOverviewPresentationOrder">Change Presentation Order</label>
+        <select id="StudentActivitiesOverviewPresentationOrder">
+          <option value ="1" selected = "selected">Alphabetical order</option>
+          <option value ="2">Descending order</option>
+          <option value ="3">Ascending order</option>
+        </select>
+        </br></br>
+        <label>Set period (YYYYMMDD)</label>
+        </br>
+        <label>From</label>
+        <input type="text" id="StudentActivitiesOverviewFrom">
+        </br>
+        <label>To</label>&nbsp&nbsp&nbsp&nbsp
+        <input type="text" id="StudentActivitiesOverviewTo">
+        <button type="button" id="StudentActivitiesOverviewSetPeriod">Set period</button>
+        </br></br>
+        <label for="Threshold">Threshold (Amount of activities)</label>
+        </br>
+        <select id="StudentActivitiesOverviewThresholdSelect">
+          <option  value =">" selected = "selected">></option>
+          <option value =">=">>=</option>
+          <option value="<"><</option>
+          <option value="<="><=</option>
+          <option value="=">=</option>
+        </select>
+        <input type="text" id="StudentActivitiesOverviewThreshold" value="0">
+        <button type="button" id="StudentActivitiesOverviewSetThreshold">Set threshold</button>
+        </br></br>
         <button type="button" id="StudentActivitiesOverviewCSV">Export CSV</button>
       </div>
 				
@@ -736,36 +735,36 @@ myChartStudentActivitiesOverview.on('click', function (param) {
 
 <!-- the chart All Activities Overview and related functions -->
 <div id="AllActivitiesOverview" style="width: 800px;height:400px;"></div>
-	  <div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
-	    <label for="AllActivitiesOverviewPresentationOrder">Change Presentation Order</label>
-		<select id="AllActivitiesOverviewPresentationOrder">
-		  <option value ="1" selected = "selected">Chronological order</option>
-		  <option value ="2">Descending order</option>
-		  <option value ="3">Ascending order</option>
-		</select>
-		</br></br>
-		<label>Set period (YYYYMMDD)</label>
-		</br>
-		<label>From</label>
-		<input type="text" id="AllActivitiesOverviewFrom">
-		</br>
-		<label>To</label>&nbsp&nbsp&nbsp&nbsp
-		<input type="text" id="AllActivitiesOverviewTo">
-		<button type="button" id="AllActivitiesOverviewSetPeriod">Set period</button></br></br>
-		<label for="Threshold">Threshold (Amount of activities)</label>
-		</br>
-		<select id="AllActivitiesOverviewThresholdSelect">
-		  <option  value =">" selected = "selected">></option>
-		  <option value =">=">>=</option>
-		  <option value="<"><</option>
-		  <option value="<="><=</option>
-		  <option value="=">=</option>
-		</select>
-		<input type="text" id="AllActivitiesOverviewThreshold" value="0">
-		<button type="button" id="AllActivitiesOverviewSetThreshold">Set threshold</button>
-		</br></br>
-        <button type="button" id="AllActivitiesOverviewCSV">Export CSV</button>
-      </div>
+<div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
+  <label for="AllActivitiesOverviewPresentationOrder">Change Presentation Order</label>
+  <select id="AllActivitiesOverviewPresentationOrder">
+    <option value ="1" selected = "selected">Chronological order</option>
+    <option value ="2">Descending order</option>
+    <option value ="3">Ascending order</option>
+  </select>
+  </br></br>
+  <label>Set period (YYYYMMDD)</label>
+  </br>
+  <label>From</label>
+  <input type="text" id="AllActivitiesOverviewFrom">
+  </br>
+  <label>To</label>&nbsp&nbsp&nbsp&nbsp
+  <input type="text" id="AllActivitiesOverviewTo">
+  <button type="button" id="AllActivitiesOverviewSetPeriod">Set period</button></br></br>
+  <label for="Threshold">Threshold (Amount of activities)</label>
+  </br>
+  <select id="AllActivitiesOverviewThresholdSelect">
+    <option  value =">" selected = "selected">></option>
+    <option value =">=">>=</option>
+    <option value="<"><</option>
+    <option value="<="><=</option>
+    <option value="=">=</option>
+  </select>
+  <input type="text" id="AllActivitiesOverviewThreshold" value="0">
+  <button type="button" id="AllActivitiesOverviewSetThreshold">Set threshold</button>
+  </br></br>
+  <button type="button" id="AllActivitiesOverviewCSV">Export CSV</button>
+</div>
 				
 <script type="text/javascript">
 //DatePicker for the chart "All Activities Overview"
@@ -1014,36 +1013,37 @@ myChartAllActivitiesOverview.on('datazoom', function (params) {
 
 <!-- the chart Event Names Overview and related functions -->
 <div id="EventNamesOverview" style="width: 800px;height:400px;"></div>
-	  <div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
-	    <label for="EventNamesOverviewPresentationOrder">Change Presentation Order</label>
-		<select id="EventNamesOverviewPresentationOrder">
-		  <option value ="1" selected = "selected">Alphabetical order</option>
-		  <option value ="2">Descending order</option>
-		  <option value ="3">Ascending order</option>
-		</select>
-		</br></br>
-		<label>Set period (YYYYMMDD)</label>
-		</br>
-		<label>From</label>
-		<input type="text" id="EventNamesOverviewFrom">
-		</br>
-		<label>To</label>&nbsp&nbsp&nbsp&nbsp
-		<input type="text" id="EventNamesOverviewTo">
-		<button type="button" id="EventNamesOverviewSetPeriod">Set period</button></br></br>
-		<label for="Threshold">Threshold (Amount of activities)</label>
-		</br>
-		<select id="EventNamesOverviewThresholdSelect">
-		  <option  value =">" selected = "selected">></option>
-		  <option value =">=">>=</option>
-		  <option value="<"><</option>
-		  <option value="<="><=</option>
-		  <option value="=">=</option>
-		</select>
-		<input type="text" id="EventNamesOverviewThreshold" value="0">
-		<button type="button" id="EventNamesOverviewSetThreshold">Set threshold</button>
-		</br></br>
-        <button type="button" id="EventNamesOverviewCSV">Export CSV</button>
-      </div>
+<div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
+  <label for="EventNamesOverviewPresentationOrder">Change Presentation Order</label>
+  <select id="EventNamesOverviewPresentationOrder">
+    <option value ="1" selected = "selected">Alphabetical order</option>
+    <option value ="2">Descending order</option>
+    <option value ="3">Ascending order</option>
+  </select>
+  </br></br>
+  <label>Set period (YYYYMMDD)</label>
+  </br>
+  <label>From</label>
+  <input type="text" id="EventNamesOverviewFrom">
+  </br>
+  <label>To</label>&nbsp&nbsp&nbsp&nbsp
+  <input type="text" id="EventNamesOverviewTo">
+  <button type="button" id="EventNamesOverviewSetPeriod">Set period</button>
+  </br></br>
+  <label for="Threshold">Threshold (Amount of activities)</label>
+  </br>
+  <select id="EventNamesOverviewThresholdSelect">
+    <option  value =">" selected = "selected">></option>
+    <option value =">=">>=</option>
+    <option value="<"><</option>
+    <option value="<="><=</option>
+    <option value="=">=</option>
+  </select>
+  <input type="text" id="EventNamesOverviewThreshold" value="0">
+  <button type="button" id="EventNamesOverviewSetThreshold">Set threshold</button>
+  </br></br>
+  <button type="button" id="EventNamesOverviewCSV">Export CSV</button>
+</div>
 				
 <script type="text/javascript">
 //DatePicker for the chart "Event Names Overview"
@@ -1292,53 +1292,53 @@ myChartEventNamesOverview.on('datazoom', function (params) {
 
 <!-- the chart Specific Event Name Overview and related functions -->
 <div id="SpecificEventNameOverview" style="width: 800px;height:400px;"></div>
-	  <div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
-	  	<label>Set period (for auto-complete and the chart) (YYYYMMDD)</label>
-		</br>
-		<label>From</label>
-		<input type="text" id="SpecificEventNameOverviewFrom">
-		</br>
-		<label>To</label>&nbsp&nbsp&nbsp&nbsp
-		<input type="text" id="SpecificEventNameOverviewTo">
-		<button type="button" id="SpecificEventNameOverviewSetPeriod">Set period</button>
-		</br></br>
-		<label for="SpecificEventNameOverviewAutoCompleteThreshold">Auto-complete Threshold (Total amount of activities of the specific "event name" during the period )</label>
-		</br>
-		<select id="SpecificEventNameOverviewAutoCompleteThresholdSelect">
-		  <option  value =">" selected = "selected">></option>
-		  <option value =">=">>=</option>
-		  <option value="<"><</option>
-		  <option value="<="><=</option>
-		  <option value="=">=</option>
-		</select>
-		<input type="text" id="SpecificEventNameOverviewAutoCompleteThreshold" value="0">
-		</br></br>
-	    <label for="SpecificEventNameOverviewEventName">Enter event name (auto-complete)</label>
-		<input type="text" id="SpecificEventNameOverviewEventName">
-		</br></br>
-		<button type="button" id="SpecificEventNameOverviewSetEventName">Set EventName</button>
-		</br></br>
-	    <label for="SpecificEventNameOverviewPresentationOrder">Change Presentation Order</label>
-		<select id="SpecificEventNameOverviewPresentationOrder">
-		  <option value ="1" selected = "selected">Chronological order</option>
-		  <option value ="2">Descending order</option>
-		  <option value ="3">Ascending order</option>
-		</select>
-		</br></br>
-		<label for="Threshold">Chart Threshold (Amount of activities)</label>
-		</br>
-		<select id="SpecificEventNameOverviewThresholdSelect">
-		  <option  value =">" selected = "selected">></option>
-		  <option value =">=">>=</option>
-		  <option value="<"><</option>
-		  <option value="<="><=</option>
-		  <option value="=">=</option>
-		</select>
-		<input type="text" id="SpecificEventNameOverviewThreshold" value="0">
-		<button type="button" id="SpecificEventNameOverviewSetThreshold">Set threshold</button>
-		</br></br>
-        <button type="button" id="SpecificEventNameOverviewCSV">Export CSV</button>
-      </div>
+<div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
+  <label>Set period (for auto-complete and the chart) (YYYYMMDD)</label>
+  </br>
+  <label>From</label>
+  <input type="text" id="SpecificEventNameOverviewFrom">
+  </br>
+  <label>To</label>&nbsp&nbsp&nbsp&nbsp
+  <input type="text" id="SpecificEventNameOverviewTo">
+  <button type="button" id="SpecificEventNameOverviewSetPeriod">Set period</button>
+  </br></br>
+  <label for="SpecificEventNameOverviewAutoCompleteThreshold">Auto-complete Threshold (Total amount of activities of the specific "event name" during the period )</label>
+  </br>
+  <select id="SpecificEventNameOverviewAutoCompleteThresholdSelect">
+    <option  value =">" selected = "selected">></option>
+    <option value =">=">>=</option>
+    <option value="<"><</option>
+    <option value="<="><=</option>
+    <option value="=">=</option>
+  </select>
+  <input type="text" id="SpecificEventNameOverviewAutoCompleteThreshold" value="0">
+  </br></br>
+  <label for="SpecificEventNameOverviewEventName">Enter event name (auto-complete)</label>
+  <input type="text" id="SpecificEventNameOverviewEventName">
+  </br></br>
+  <button type="button" id="SpecificEventNameOverviewSetEventName">Set EventName</button>
+  </br></br>
+  <label for="SpecificEventNameOverviewPresentationOrder">Change Presentation Order</label>
+  <select id="SpecificEventNameOverviewPresentationOrder">
+    <option value ="1" selected = "selected">Chronological order</option>
+    <option value ="2">Descending order</option>
+    <option value ="3">Ascending order</option>
+  </select>
+  </br></br>
+  <label for="Threshold">Chart Threshold (Amount of activities)</label>
+  </br>
+  <select id="SpecificEventNameOverviewThresholdSelect">
+    <option  value =">" selected = "selected">></option>
+    <option value =">=">>=</option>
+    <option value="<"><</option>
+    <option value="<="><=</option>
+    <option value="=">=</option>
+  </select>
+  <input type="text" id="SpecificEventNameOverviewThreshold" value="0">
+  <button type="button" id="SpecificEventNameOverviewSetThreshold">Set threshold</button>
+  </br></br>
+  <button type="button" id="SpecificEventNameOverviewCSV">Export CSV</button>
+</div>
 			
 <script type="text/javascript">
 //DatePicker for the chart "Specific Event Name Overview"
@@ -1629,36 +1629,37 @@ myChartSpecificEventNameOverview.on('datazoom', function (params) {
 <!-- the chart Event Contexts Overview and related functions -->
 </br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
 <div id="EventContextsOverview" style="width: 800px;height:800px;"></div>
-	  <div style="width: 250px;height:100px;position: relative;top: -800px;left: 820px;">
-	    <label for="EventContextsOverviewPresentationOrder">Change Presentation Order</label>
-		<select id="EventContextsOverviewPresentationOrder">
-		  <option value ="1" selected = "selected">Alphabetical order</option>
-		  <option value ="2">Descending order</option>
-		  <option value ="3">Ascending order</option>
-		</select>
-		</br></br>
-		<label>Set period (YYYYMMDD)</label>
-		</br>
-		<label>From</label>
-		<input type="text" id="EventContextsOverviewFrom">
-		</br>
-		<label>To</label>&nbsp&nbsp&nbsp&nbsp
-		<input type="text" id="EventContextsOverviewTo">
-		<button type="button" id="EventContextsOverviewSetPeriod">Set period</button></br></br>
-		<label for="Threshold">Threshold (Amount of activities)</label>
-		</br>
-		<select id="EventContextsOverviewThresholdSelect">
-		  <option  value =">" selected = "selected">></option>
-		  <option value =">=">>=</option>
-		  <option value="<"><</option>
-		  <option value="<="><=</option>
-		  <option value="=">=</option>
-		</select>
-		<input type="text" id="EventContextsOverviewThreshold" value="0">
-		<button type="button" id="EventContextsOverviewSetThreshold">Set threshold</button>
-		</br></br>
-        <button type="button" id="EventContextsOverviewCSV">Export CSV</button>
-      </div>
+<div style="width: 250px;height:100px;position: relative;top: -800px;left: 820px;">
+  <label for="EventContextsOverviewPresentationOrder">Change Presentation Order</label>
+  <select id="EventContextsOverviewPresentationOrder">
+    <option value ="1" selected = "selected">Alphabetical order</option>
+    <option value ="2">Descending order</option>
+    <option value ="3">Ascending order</option>
+  </select>
+  </br></br>
+  <label>Set period (YYYYMMDD)</label>
+  </br>
+  <label>From</label>
+  <input type="text" id="EventContextsOverviewFrom">
+  </br>
+  <label>To</label>&nbsp&nbsp&nbsp&nbsp
+  <input type="text" id="EventContextsOverviewTo">
+  <button type="button" id="EventContextsOverviewSetPeriod">Set period</button>
+  </br></br>
+  <label for="Threshold">Threshold (Amount of activities)</label>
+  </br>
+  <select id="EventContextsOverviewThresholdSelect">
+    <option  value =">" selected = "selected">></option>
+    <option value =">=">>=</option>
+    <option value="<"><</option>
+    <option value="<="><=</option>
+    <option value="=">=</option>
+  </select>
+  <input type="text" id="EventContextsOverviewThreshold" value="0">
+  <button type="button" id="EventContextsOverviewSetThreshold">Set threshold</button>
+  </br></br>
+  <button type="button" id="EventContextsOverviewCSV">Export CSV</button>
+</div>
 				
 <script type="text/javascript">
 //DatePicker for the chart "Event Contexts Overview"
@@ -1907,53 +1908,53 @@ myChartEventContextsOverview.on('datazoom', function (params) {
 
 <!-- the chart Specific Event Context Overview and related functions -->
 <div id="SpecificEventContextOverview" style="width: 800px;height:400px;"></div>
-	  <div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
-	  	<label>Set period (for auto-complete and the chart) (YYYYMMDD)</label>
-		</br>
-		<label>From</label>
-		<input type="text" id="SpecificEventContextOverviewFrom">
-		</br>
-		<label>To</label>&nbsp&nbsp&nbsp&nbsp
-		<input type="text" id="SpecificEventContextOverviewTo">
-		<button type="button" id="SpecificEventContextOverviewSetPeriod">Set period</button>
-		</br></br>
-		<label for="SpecificEventContextOverviewAutoCompleteThreshold">Auto-complete Threshold (Total amount of activities of the specific "event context" during the period )</label>
-		</br>
-		<select id="SpecificEventContextOverviewAutoCompleteThresholdSelect">
-		  <option  value =">" selected = "selected">></option>
-		  <option value =">=">>=</option>
-		  <option value="<"><</option>
-		  <option value="<="><=</option>
-		  <option value="=">=</option>
-		</select>
-		<input type="text" id="SpecificEventContextOverviewAutoCompleteThreshold" value="0">
-		</br></br>
-	    <label for="SpecificEventContextOverviewEventContext">Enter event context (auto-complete)</label>
-		<input type="text" id="SpecificEventContextOverviewEventContext">
-		</br></br>
-		<button type="button" id="SpecificEventContextOverviewSetEventContext">Set Event Context</button>
-		</br></br>
-	    <label for="SpecificEventContextOverviewPresentationOrder">Change Presentation Order</label>
-		<select id="SpecificEventContextOverviewPresentationOrder">
-		  <option value ="1" selected = "selected">Chronological order</option>
-		  <option value ="2">Descending order</option>
-		  <option value ="3">Ascending order</option>
-		</select>
-		</br></br>
-		<label for="Threshold">Chart Threshold (Amount of activities)</label>
-		</br>
-		<select id="SpecificEventContextOverviewThresholdSelect">
-		  <option  value =">" selected = "selected">></option>
-		  <option value =">=">>=</option>
-		  <option value="<"><</option>
-		  <option value="<="><=</option>
-		  <option value="=">=</option>
-		</select>
-		<input type="text" id="SpecificEventContextOverviewThreshold" value="0">
-		<button type="button" id="SpecificEventContextOverviewSetThreshold">Set threshold</button>
-		</br></br>
-        <button type="button" id="SpecificEventContextOverviewCSV">Export CSV</button>
-      </div>
+<div style="width: 250px;height:100px;position: relative;top: -400px;left: 820px;">
+  <label>Set period (for auto-complete and the chart) (YYYYMMDD)</label>
+  </br>
+  <label>From</label>
+  <input type="text" id="SpecificEventContextOverviewFrom">
+  </br>
+  <label>To</label>&nbsp&nbsp&nbsp&nbsp
+  <input type="text" id="SpecificEventContextOverviewTo">
+  <button type="button" id="SpecificEventContextOverviewSetPeriod">Set period</button>
+  </br></br>
+  <label for="SpecificEventContextOverviewAutoCompleteThreshold">Auto-complete Threshold (Total amount of activities of the specific "event context" during the period )</label>
+  </br>
+  <select id="SpecificEventContextOverviewAutoCompleteThresholdSelect">
+    <option  value =">" selected = "selected">></option>
+    <option value =">=">>=</option>
+    <option value="<"><</option>
+    <option value="<="><=</option>
+    <option value="=">=</option>
+  </select>
+  <input type="text" id="SpecificEventContextOverviewAutoCompleteThreshold" value="0">
+  </br></br>
+  <label for="SpecificEventContextOverviewEventContext">Enter event context (auto-complete)</label>
+  <input type="text" id="SpecificEventContextOverviewEventContext">
+  </br></br>
+  <button type="button" id="SpecificEventContextOverviewSetEventContext">Set Event Context</button>
+  </br></br>
+  <label for="SpecificEventContextOverviewPresentationOrder">Change Presentation Order</label>
+  <select id="SpecificEventContextOverviewPresentationOrder">
+    <option value ="1" selected = "selected">Chronological order</option>
+    <option value ="2">Descending order</option>
+    <option value ="3">Ascending order</option>
+  </select>
+  </br></br>
+  <label for="Threshold">Chart Threshold (Amount of activities)</label>
+  </br>
+  <select id="SpecificEventContextOverviewThresholdSelect">
+    <option  value =">" selected = "selected">></option>
+    <option value =">=">>=</option>
+    <option value="<"><</option>
+    <option value="<="><=</option>
+    <option value="=">=</option>
+  </select>
+  <input type="text" id="SpecificEventContextOverviewThreshold" value="0">
+  <button type="button" id="SpecificEventContextOverviewSetThreshold">Set threshold</button>
+  </br></br>
+  <button type="button" id="SpecificEventContextOverviewCSV">Export CSV</button>
+</div>
 			
 <script type="text/javascript">
 //DatePicker for the chart "Specific Event Context Overview"
