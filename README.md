@@ -6,9 +6,9 @@ Our database is given by clients which include <b>forum CSV files</b> and <b>web
 
 Following points are what we have done to solve the problem we deiscribed above.
 
-<li> We provide Moodle Charts (<a href="http://studata.tk/dashboard/MoodleCharts.html"> Original version (Working version) </a>,<a href="http://www.studata.tk/demo/pages/Moodlecharts.html"> Another version </a>) to show students' forum activities by charts.
+<li> We provide Moodle Charts (<a href="http://studata.tk/dashboard/MoodleCharts.html"> Original version </a>,<a href="http://www.studata.tk/demo/pages/Moodlecharts.html"> Second version </a>) to show students' forum activities by charts.
 
-<li> We provide Websubmission Charts (<a href="http://studata.tk/dashboard/WebSubmissionCharts.html"> Original version </a>,<a href="http://studata.tk/demo/pages/WebSubmissionCharts.html"> Another version </a>) to show students' submission by charts.
+<li> We provide Websubmission Charts (<a href="http://studata.tk/dashboard/WebSubmissionCharts.html"> Original version </a>,<a href="http://studata.tk/demo/pages/WebSubmissionCharts.html"> Second version </a>) to show students' submission by charts.
 
 <li> We provide <a href="http://www.studata.tk/dashboard/CriticalQuestions.html">Critical Questions</a> to show the realtionships between students forum activities and websubmissions.
 
