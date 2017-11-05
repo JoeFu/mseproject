@@ -21,16 +21,14 @@
 </head>
 <body>
 <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
-  <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse"
-            data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
-            aria-label="Toggle navigation">
+  <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
-	  <li class="nav-item active">
-	    <a class="nav-link" href="../demo/index.html">Back</a>
-	  </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="../demo/index.html">Back</a>
+      </li>
     </ul>
   </div>
 </nav>
@@ -42,86 +40,87 @@
         <li class="nav-item">
           <a class="nav-link" href="./MoodleCharts.html">Moodle charts</a>
         </li>
-		<li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" href="./WebSubmissionCharts.html">WebSubmission charts</a>
         </li>
-		<li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link active" href="./CriticalQuestions.html">Critical Questions<span class="sr-only">(current)</span></a>
         </li>
-		<li class="nav-item">
-			<a class="nav-link" href="./DataQuery.html">Data query</a>
-		</li>		
+        <li class="nav-item">
+          <a class="nav-link" href="./DataQuery.html">Data query</a>
+        </li>		
       </ul>
     </nav>
     <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
       <h1>Dashboard</h1>
-	  <select id="SelectCourse">
-	    <option  id="PleaseSelectCourse">Select course</option>
+      <select id="SelectCourse">
+        <option  id="PleaseSelectCourse">Select course</option>
       </select>
-	  <select id="SelectYear">
-	    <option  id="PleaseSelectYear">SelectYear</option>
-	  </select>
-	  <select id="SelectSemester">
-	    <option  id="PleaseSelectSemester">SelectSemester</option>
-	  </select>
-	  </br></br>
-	  <button id="Hide">Show/Hide Semester and Assignments start/end day</button>
-	  <div id="SemesterAndAssignmentInformation" style="display:none">
-	    <div id="SemesterInformation">
+      <select id="SelectYear">
+        <option  id="PleaseSelectYear">SelectYear</option>
+      </select>
+      <select id="SelectSemester">
+        <option  id="PleaseSelectSemester">SelectSemester</option>
+      </select>
+      </br></br>
+      <button id="Hide">Show/Hide Semester and Assignments start/end day</button>
+      <div id="SemesterAndAssignmentInformation" style="display:none">
+        <div id="SemesterInformation">
           </br>
-	      <label>Semester start day/end day (YYYYMMDD):</label>
-	      <label id="SemesterStartDay"></label>/
-		  <label id="SemesterEndDay"></label>
-		  </br>
-	    </div>
-	    <div id="AssignmentInformation">
-	    </div>
-	  </div>
-	  </br></br>
-	  <h3>Critical question 1: </br> 
-	  Is there a correlation between X and Y for students?
-	  </h3>
-	  </br>
-	  <div>
-	    X:&nbsp&nbsp 
+          <label>Semester start day/end day (YYYYMMDD):</label>
+          <label id="SemesterStartDay"></label>/
+          <label id="SemesterEndDay"></label>
+          </br>
+        </div>
+        <div id="AssignmentInformation">
+        </div>
+      </div>
+      </br></br>
+      <h3>Critical question 1: 
+        </br> 
+        Is there a correlation between X and Y for students?
+      </h3>
+      </br>
+      <div>
+        X:&nbsp&nbsp 
         <select id="QuestionOneSelectAssignment">
-		  <option  id="PleaseSelectAssignment">SelectAssignment</option>
-	    </select>
-	    &nbsp&nbsp Mark 
-	    </br></br>
-        Y:&nbsp&nbsp Total amount of &nbsp
-		<input name="QuestionOneEventNameOrEventContext" type="radio" value="1"/>
-		<select id="QuestionOneSelectEventName">
-		  <option  id="PleaseSelectEventName">Select Event Name</option>
-	    </select>&nbsp
-		or&nbsp
-		<input name="QuestionOneEventNameOrEventContext" type="radio" value="2"/>
-		<select id="QuestionOneSelectEventContext">
-		  <option  id="PleaseSelectEventContext">Select Event Context</option>
-	    </select>
+          <option  id="PleaseSelectAssignment">SelectAssignment</option>
+        </select>
+        &nbsp&nbsp Mark 
         </br></br>
-		&nbsp&nbsp&nbsp&nbsp&nbsp in period
-	    <label>from (YYYYMMDD)</label>&nbsp
-		  <input type="text" id="QuestionOneFrom">&nbsp
-	    <label>to (YYYYMMDD)</label>&nbsp
-		  <input type="text" id="QuestionOneTo">
-	  </div>
-	  </br>
+        Y:&nbsp&nbsp Total amount of &nbsp
+        <input name="QuestionOneEventNameOrEventContext" type="radio" value="1"/>
+        <select id="QuestionOneSelectEventName">
+          <option  id="PleaseSelectEventName">Select Event Name</option>
+        </select>
+        &nbsp or&nbsp
+        <input name="QuestionOneEventNameOrEventContext" type="radio" value="2"/>
+        <select id="QuestionOneSelectEventContext">
+          <option  id="PleaseSelectEventContext">Select Event Context</option>
+        </select>
+        </br></br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp in period
+        <label>from (YYYYMMDD)</label>&nbsp
+        <input type="text" id="QuestionOneFrom">&nbsp
+        <label>to (YYYYMMDD)</label>&nbsp
+        <input type="text" id="QuestionOneTo">
+      </div>
+      </br>
       <button type="button" id="QuestionOneFilter">Update</button>&nbsp
-	  <button type="button" id="QuestionOneGetAnswer">Get answer</button>
-	  </br></br>
-	  <div id="R">
-	  </div>
-	  <div>
-	    <table border="1" id="QuestionOneTable">
+      <button type="button" id="QuestionOneGetAnswer">Get answer</button>
+      </br></br>
+      <div id="R">
+      </div>
+      <div>
+        <table border="1" id="QuestionOneTable">
           <tr>
             <th>User</th>
             <th>Amount of events</th>
-			<th>Mark</th>
+            <th>Mark</th>
           </tr>
         </table>
-	  </div>
-	  </br>
+      </div>
+      </br>
 	  
 <script type="text/javascript">
 $(document).ready(function() {
