@@ -1,0 +1,294 @@
+import java.io.IOException;
+
+public class Casm
+{
+    private static String srcFilename;
+    private static String exeFilename;
+    private static boolean listEnabled;
+
+    private static SymbolTable symTab;
+    private static ErrorManager err;
+    private static CsrcReader src;
+    private static CalcWriter exe;
+    private static ListWriter lst;
+
+    public static void main(String[] args)
+      throws IOException
+    {
+	parseCommandLine(args);
+
+	symTab= new SymbolTable();
+	err= new ErrorManager();
+
+	src= new CsrcReader(srcFilename);
+	pass1();
+
+	src= new CsrcReader(srcFilename);
+	exe= new CalcWriter(exeFilename);
+	lst= new ListWriter(System.out, listEnabled);
+	pass2();
+	
+	//Finalise exe file
+	if( err.count()>0 ){
+	    exe.disaster("Invalid source file");
+	}
+	exe.close();
+
+	//Append symbol table
+	lst.symbolTable(symTab.toString());
+
+	//Dispay error messages
+	System.err.println(err.toString());
+
+    }
+
+
+    private static void parseCommandLine(String[] args)
+    {
+        srcFilename= null;
+        exeFilename= null;
+        listEnabled= false;
+
+        //Process the command line arguments
+        int i=0;
+        while( i<args.length ){
+            //Get next argument
+            String arg= args[i];
+            i++;
+
+	    if( arg.equals("-l") ){
+		//We want a map printed
+		listEnabled= !listEnabled;
+		
+	    }else if( arg.equals("-x") ){
+                //We have an executable-file specification
+		
+                if( i==args.length ){
+                    System.err.println("Missing file parameter after -x");
+                    System.exit(1);
+                }
+		
+                exeFilename= args[i];
+                i++;
+		
+            }else if( arg.startsWith("-") ){
+                System.err.println("Unknown parameter: " + arg);
+                System.exit(1);
+		
+            }else{
+                //It must be the name of the source file
+		
+                if( srcFilename!=null){
+                    System.err.println("Duplicate source file name: "+ arg);
+                    System.exit(1);
+                }
+		
+                srcFilename= arg;
+            }
+        }
+	
+        if( srcFilename==null ){
+            //object file id mandatory
+            System.err.println("No object file specified.");
+            System.exit(1);
+        }
+
+        //Apply defaults...
+        if( !srcFilename.endsWith(".csrc") ){
+            //Append default extension
+            srcFilename= srcFilename+".csrc";
+        }
+
+        if( exeFilename==null ){
+            //Make exeFilename the same as the source filename
+            exeFilename= srcFilename.substring(0,srcFilename.indexOf(".csrc"));
+        }
+
+        if( !exeFilename.endsWith(".calc") ){
+            //Append default extension
+            exeFilename= exeFilename+".calc";
+        }
+    }
+
+
+    private static void pass1()
+      throws IOException
+    {
+	int lc= 0;
+	while( src.readNextStatement() ){
+	    int lineNr= src.getLineNumber();
+	    String label= src.getLabel();
+	    String operation= src.getOperation();
+	    String operands= src.getOperands();
+
+	    if( !src.isBlank() ){
+		defineLabel(lineNr,label,lc);
+
+		if( operation.equals("") ){
+		    //Nothing to do
+
+		}else if( operation.equals(".org") ){
+		    lc= evalOperand(lineNr,operands,0,999);
+
+		}else if( operation.equals(".bss") ){
+		    lc= lc+evalOperand(lineNr,operands,0,999);
+
+		}else{
+		    //Just allocate one word
+		    lc++;
+		}
+	    }
+	}
+    }
+
+
+    private static void defineLabel(int lineNr, String label, int value)
+    {
+	if( label.equals("") ){
+	    return;
+	}
+
+	if( !isValidName(label) ){
+	    err.add(lineNr,"Invalid label: "+label);
+	    return;
+	}
+	if( symTab.contains(label) ){
+	    err.add(lineNr,"Duplicate label: "+label);
+	    return;
+	}
+
+	symTab.insert(label,value);
+    }
+
+
+    private static void pass2()
+      throws IOException
+    {
+	int lc= 0;
+	while( src.readNextStatement() ){
+	    int lineNr= src.getLineNumber();
+	    String operation= src.getOperation();
+	    String operands= src.getOperands();
+
+	    if( src.isBlank() ){
+		lst.print(src.getLine());
+
+	    }else if( operation.equals("") ){
+		lst.print(lc,src.getLine());
+
+	    }else if( operation.equals(".space") ){
+		lst.print(lc,src.getLine());
+		lc++;
+
+	    }else if( operation.equals(".org") ){
+		lc= evalOperand(lineNr,operands,0,999);
+		lst.print(lc,src.getLine());
+		
+	    }else if( operation.equals(".bss") ){
+		lst.print(lc,src.getLine());
+		lc= lc+evalOperand(lineNr,operands,0,999);
+
+	    }else{
+		//Something to process;
+		int contents=0;//??CHECK THIS
+		if( operation.equals("hlt") ){
+		    if( !operands.equals("") ){
+			err.add(lineNr,"Unexpected operand: "+operands);
+		    }			
+		    contents= 0;
+
+		}else if( operation.equals("lod") ){
+		    contents=1000+evalOperand(lineNr,operands,0,999);
+
+		}else if( operation.equals("sto") ){
+		    contents=2000+evalOperand(lineNr,operands,0,999);
+
+		}else if( operation.equals("add") ){
+		    contents=3000+evalOperand(lineNr,operands,0,999);
+
+		}else if( operation.equals("sub") ){
+		    contents=4000+evalOperand(lineNr,operands,0,999);
+
+		}else if( operation.equals("jmp") ){
+		    contents=5000+evalOperand(lineNr,operands,0,999);
+
+		}else if( operation.equals("jeq") ){
+		    contents=6000+evalOperand(lineNr,operands,0,999);
+
+		}else if( operation.equals("jge") ){
+		    contents=7000+evalOperand(lineNr,operands,0,999);
+
+		}else if( operation.equals("jsr") ){
+		    contents=8000+evalOperand(lineNr,operands,0,999);
+
+		}else if( operation.equals("dsz") ){
+		    contents=9000+evalOperand(lineNr,operands,0,999);
+
+		}else if( operation.equals(".word") ){
+		    contents= evalOperand(lineNr,operands,-5000,4999);
+		    if( contents<0 ){
+			contents= contents+10000;
+		    }
+
+		}else if( operation.equals(".wordu") ){
+		    contents= evalOperand(lineNr,operands,0,9999);
+
+		}else{
+		    err.add(lineNr,"Undefined operation: "+operation);
+		}
+		exe.write(lc,contents);
+		lst.print(lc,contents,src.getLine());
+
+		lc++;
+	    }
+	}
+    }
+
+
+    private static int evalOperand(int lineNr, String operand, int lo, int hi)
+    {
+	if( operand.equals("") ){
+	    err.add(lineNr,"Missing operand");
+	    return 0;
+	}
+
+	int v;
+	if( isValidNumber(operand) ){
+	    try{
+		v= Integer.parseInt(operand);
+	    }catch(NumberFormatException nfe){
+		throw new RuntimeException("Impossible");
+	    }
+
+	    if( v<lo || v>hi ){
+		err.add(lineNr,"Number out of range: "+operand);
+		v= 0;
+	    }
+
+	}else if( isValidName(operand) ){
+	    v= symTab.lookup(operand);
+	    if( v<0 ){
+		err.add(lineNr,"Undefined symbol: "+operand);
+		v= 0;
+	    }
+
+	}else{
+	    err.add(lineNr,"Garbage:  "+operand);
+	    v= 0;
+	}
+	
+	return v;
+    }
+
+
+    private static boolean isValidName(String s)
+    {
+	return s.matches("[a-zA-Z][a-zA-z0-9]*");
+    }
+
+
+    private static boolean isValidNumber(String s)
+    {
+	return s.matches("[+-]?[0-9]+");
+    }
+}

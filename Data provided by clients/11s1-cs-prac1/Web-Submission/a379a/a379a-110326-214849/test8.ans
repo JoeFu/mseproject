@@ -1,0 +1,24 @@
+000  1100            lod     100     ;LOAD
+001  2200            sto     200     ;STORE
+002  3300            add     300     ;ADD
+003  4400            sub     400     ;SUBTRACT
+004  5500            jmp     500     ;JUMP
+005  6600            jeq     600     ;JUMP-IF-EQUAL
+006  7700            jge     700     ;JUMP-IF-GREATER-OR-EQUAL
+007  8800            jsr     800     ;JUMP-TO-SUBROUTINE
+008  9900            dsz     900     ;DECREMENT-AND-SKIP-IF-ZERO
+009  0000            hlt             ;HALT
+010            .space;SPACE
+011  4999      .word 4999    ;WORD MAX
+012  5000      .word -5000   ;WORD MIN
+013  9999      .wordu        9999 ;WORDU MAX
+014  0000      .wordu 0  ;WORDU MIN
+100            .org 100 ;ORG
+100  0100      .word 100 ;ANOTHER WORD
+101            .bss 9;A BLOCK OF SPACE
+110  0110      .word 110;AND A WORD
+
+S Y M B O L   T A B L E
+=======================
+
+

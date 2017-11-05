@@ -1,0 +1,23 @@
+public class test{
+    
+    public static void main(String[] args){
+	
+	String str1 = "hello \t how are you \t";
+	String str2 = "hi, sup";
+	
+	System.out.println(str1);
+	System.out.println(str2);
+	
+	String[] strA1 = str1.split('\t');
+	String[] strA2 = str2.split('\t');
+
+	System.out.println("\nstr1 after split: ");
+	for(int i=0; i<strA1.length; i++){
+	    System.out.println(strA1[i]);
+	}
+	System.out.println("\nstr2 after split; ");
+	for(int i=0; i<strA2.length; i++){
+	    System.out.println(strA2[i]);
+	}
+    }
+}

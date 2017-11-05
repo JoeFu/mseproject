@@ -1,0 +1,28 @@
+					lod	6		;x= z
+					sto	4
+					jsr	7		;call adder
+					hlt			;...and halt
+				
+					.space			;x
+					.word	-6		;y
+				
+					.wordu	6000		;z
+				
+					.space			;subroutine adder
+					lod	4		;get x
+					add	5		;add y
+					jmp	7		;return
+				        lod        6                ;x= z
+				        sto        4
+				        jsr        7                ;call adder
+				        hlt                        ;...and halt
+				
+				        .space                        ;x
+				        .word        -6                ;y
+				
+				        .wordu        6000                ;z
+				
+				        .space                        ;subroutine adder
+				        lod        4                ;get x
+				        add        5                ;add y
+				        jmp        7                ;return

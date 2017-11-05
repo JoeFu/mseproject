@@ -1,0 +1,2 @@
+String codeHalf;String commentHalf;String lineOfCode = "main	lod	five     ;Mult";
+int commentStartPosition = lineOfCode.indexOf(';');if ( commentStartPosition != -1 ) {    commentHalf = lineOfCode.substring(1+commentStartPosition);    codeHalf = lineOfCode.substring(0,commentStartPosition);} else {	commentHalf = new String("");	codeHalf = new String(lineOfCode);}return codeHalf;

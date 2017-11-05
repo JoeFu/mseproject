@@ -1,0 +1,269 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+import java.lang.*;
+
+public class CsrcReader
+{
+	private BufferedReader in;
+
+	public boolean blank;
+	public int lNum = 0;
+	public String line;
+	public String o_line;
+	
+	public String label;
+	public String operation;
+	public String operand;
+	public String comment;
+	public String errormsg;
+	public boolean error = false; 
+
+    //Constructor
+    public CsrcReader(String csrcName)
+      throws FileNotFoundException
+    {
+		in = new BufferedReader(new FileReader(csrcName));
+    }
+
+    //Reads the next line in, and breaks it into parts
+    //Returns true if a statment was read, false if end-of-file
+    public boolean readNextStatement()
+      throws IOException
+    {
+		// We need to flush our data between reads.
+		this.error = false; 
+		this.errormsg = "";
+		this.label = null ;
+		this.operation = null; 
+		this.operand = null;
+		this.comment = null;
+		this.blank = false;
+	
+		this.o_line = in.readLine();
+		if (this.o_line == null)
+		{
+			return false;
+		}
+		this.line = this.o_line.toLowerCase().trim();
+		lNum++;
+		
+		boolean startWithBlank = ( this.line.startsWith(" ") || this.line.startsWith("\n")  );
+		if (startWithBlank)
+		{
+			this.blank = true;
+		}
+		if (this.line.startsWith(";"))
+		{
+			this.blank = true;
+			//We have a whole line comment, so skip on ahead.
+			this.comment = this.line;
+			return true;
+		}
+		
+		
+		this.line = this.line.replaceAll("\\s+", " ");
+		
+		String[] result = this.line.split("\\s");
+
+		int oper = 0;
+		
+		for (int x = 0; x < result.length; x++)
+		{
+			//System.out.print(result[x] + " : ");
+			oper = x;
+			if (result[x].startsWith(";"))
+			{		
+				oper --;		
+				break;
+			}
+			
+		}
+		
+		oper ++;
+		
+		//System.out.println(oper + " " + result.length);
+
+		
+		if (oper == 3 || oper == 2 )
+		{
+			//Check if this starts with a ; or not. if it does, we skip.
+			if (!result[0].startsWith(";"))
+			{
+				if (this.o_line.startsWith(result[0]))
+				{
+					this.label = result[0];
+					if (oper == 2)
+					{
+						oper ++;
+					}
+					if (!this.label.matches("^[a-z][^\\s]*"))
+					{
+						this.error = true;
+						this.errormsg += "Line " + lNum + ", Illegal label: " + this.label + "\n";
+					}	
+				}		
+			} 
+			
+
+		}		
+		
+		//System.out.println(oper);
+				
+		//Now, we check our first operator. If we had a label, we take that into account.
+		if (oper == 2 || oper == 3 )
+		{
+
+			//Check if it truly is an operator
+			this.operation = result[oper - 2];
+			if (!this.operation.matches("^(hlt|lod|sto|add|sub|jmp|jeq|jge|jsr|dsz|\\.word|\\.space|\\.wordu|\\.org|\\.bss)"))
+			{
+				//Then we have a bad instruction
+				this.error = true;
+				this.errormsg += "Line " + lNum + ", Undefined operation: " + this.operation + "\n";
+			}
+			//Now, we can attempt to grab our operand
+			try {
+				if(!result[oper - 1].startsWith(";"))
+				{
+					this.operand = result[oper - 1];
+					try
+				    {
+				      int operand_i = Integer.parseInt(this.operand);
+						//Now to handle special cases with words ..... 
+						if (this.operation.equals(".word"))
+						{
+							if (operand_i < -5000 || operand_i > 4999)
+							{
+								this.error = true;
+								this.errormsg += "Line " + lNum + ", Number out of range: " + operand_i + "\n";
+							}
+							//Now we need to fix our value anyway.
+							if (operand_i < 0)
+							{
+								operand_i = Math.abs(operand_i) + 4999;
+
+							}
+						} 
+						else	if (this.operation.equals(".wordu"))
+						{
+							if (operand_i < 0 || operand_i > 9999)
+							{
+								this.error = true;
+								this.errormsg += "Line " + lNum + ", Number out of range: " + operand_i + "\n";
+							}
+						} 	
+						else if (operand_i < 0 || operand_i > 999)
+							{
+								this.error = true;
+								this.errormsg += "Line " + lNum + ", Number out of range: " + operand_i + "\n";
+							}
+				    }
+				    catch (NumberFormatException nfe)
+				    {
+				    }
+				}
+				else
+				{
+					if (!this.operation.equals("hlt") && !this.operation.equals(".space"))
+					{
+						this.error = true;
+						this.errormsg += "Line " + lNum + ", Missing operand: " + "\n";
+					}
+				}
+			} catch (java.lang.ArrayIndexOutOfBoundsException e)
+			{
+
+
+			}
+		}
+		
+		if (this.operation == null || oper == 1 || result.length == 1)
+		{
+			if (result[0].matches("^(hlt|lod|sto|add|sub|jmp|jeq|jge|jsr|dsz|\\.word|\\.space|\\.wordu|\\.org|\\.bss)")) 
+			{
+				this.operation = result[0];
+				this.operand = 0 + "";
+				if (!this.operation.equals("hlt") && !this.operation.equals(".space"))
+				{
+					this.error = true;
+					this.errormsg += "Line " + lNum + ", Missing operand: " + "\n";
+				} else {
+					//We have a hlt or space instruction, so use it.
+				}
+			}
+			else
+			{
+				this.blank = true;
+				
+			}
+			
+		}
+		
+		
+		if (this.line.split(";", 2).length >= 2)
+		{
+			this.comment = ";" + this.line.split(";", 2)[1];
+		}
+		
+		return true;
+    }
+
+
+    //Returns true if this line is blank, or contains only a comment
+    public boolean isBlank()
+    {
+	return this.blank;
+    }
+
+
+    //Returns the current line number
+    public int getLineNumber()
+    {
+	return this.lNum;
+    }
+
+
+    //Returns true if this line is blank, or contains only a comment
+    public String getLine()
+    {
+	return this.line;
+    }
+
+    //Returns the label on this line
+    //If there is no label, returns "";
+    public String getLabel()
+    {
+	return this.label;
+    }
+
+    //Returns the operation on this line
+    //If there is no operation, returns ""
+    public String getOperation()
+    {
+	return this.operation;
+    }
+
+    //Returns the operands on this line
+    //If there are no operands, returns ""
+    public String getOperands()
+    {
+	return this.operand;
+    }
+
+    //Returns the comments on this line (including the ; character)
+    //If there are no comments, returns ""
+    public String getComments()
+    {
+	//Split the line at ;, and return what is after is (the second result)
+	return this.comment;
+    }
+
+	public String toString()
+	{
+		return this.lNum + ":" + this.label + "\t" + this.operation + "\t" + this.operand + "\t" + this.comment;
+	}
+	
+}

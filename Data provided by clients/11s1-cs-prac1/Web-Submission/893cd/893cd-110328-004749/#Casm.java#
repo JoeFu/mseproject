@@ -1,0 +1,478 @@
+import java.util.*;;
+import java.io.*;
+
+public class Casm
+{
+
+    private static String srcFilename;
+    private static String exeFilename;
+    private static boolean listEnabled;
+	static boolean checkdir;
+	static int LC = 0;
+	static int instruction;
+	static int datacopy;
+	static int addcopy;
+	static int location;
+	static boolean checker;
+	static CalcWriter cw;
+	static ListWriter lw;
+	static CsrcReader cr;
+	static SymbolTable st;	
+	static int opnumber;
+
+    public static void main(String[] args)
+      throws Exception
+    {
+
+		//lw = new ListWriter();
+	parseCommandLine(args);
+	   listEnabled= false;
+		st = new SymbolTable();
+		cr = new CsrcReader(srcFilename);
+		cw = new CalcWriter(exeFilename);
+		lw = new ListWriter(System.out, listEnabled);
+
+	pass1();
+	pass2();
+    }
+
+
+    private static void parseCommandLine(String[] args)
+	throws Exception
+  {
+     srcFilename= null;
+	 exeFilename= null;
+
+        //Process the command line arguments
+        int i=0;
+        while( i<args.length ){
+            //Get next argument
+            String arg= args[i];
+            i++;
+
+	    if( arg.equals("-l") ){
+		//We want a map printed
+		listEnabled= !listEnabled;
+		
+	    }else if( arg.equals("-x")){
+                //We have an executable-file specification
+		
+                if( i==args.length ){
+                    System.err.println("Missing file parameter after -x");
+                    System.exit(1);
+                }
+		
+                exeFilename= args[i];
+                i++;
+		
+            }else if( arg.startsWith("-") ){
+                System.err.println("Unknown parameter: " + arg);
+                System.exit(1);
+		
+            }else{
+                //It must be the name of the source file
+		
+                if( srcFilename!=null){
+                    System.err.println("Duplicate source file name: "+ arg);
+                    System.exit(1);
+                }
+		
+                srcFilename= arg;
+            }
+        }
+	
+        if( srcFilename==null ){
+            //object file id mandatory
+            System.err.println("No object file specified.");
+            System.exit(1);
+        }
+
+        //Apply defaults...
+        if( !srcFilename.endsWith(".csrc") ){
+            //Append default extension
+            srcFilename= srcFilename+".csrc";
+        }
+
+        if( exeFilename==null ){
+            //Make exeFilename the same as the source filename
+            exeFilename= srcFilename.substring(0,srcFilename.indexOf(".csrc"));
+        }
+
+        if( !exeFilename.endsWith(".calc") ){
+            //Append default extension
+            exeFilename= exeFilename+".calc";
+	
+        }
+		   
+     
+    }
+
+    private static void pass1()
+      throws Exception
+    {
+		//make a check if directive
+		checkdir = false;
+		cr.getLine();
+		//Gets location of the counter
+		LC = cr.getLineNumber();
+		location = 0;
+		while(cr.readNextStatement())
+		{
+print "!"+cr.getLine();
+		//check if directive
+			if (checkdir == false)
+			{
+				LC = cr.getLineNumber();
+			}
+		//check if is a .org
+			if (cr.getOperation() .equals(".org"))
+			{
+				//true, then check = true
+				checkdir = true;
+				//if the symbol isn't found,
+				if(st.lookup(cr.getOperands()) == Integer.MIN_VALUE)
+				{
+					location = Integer.parseInt(cr.getOperands());
+				}
+				//If does exist then make location = value of symbol
+				else
+				{
+					location = st.lookup(cr.getOperands());
+				}
+			}
+		
+		//check if .bss
+		//if it is then add the amount to the LC
+		if ((cr.getOperation()).equals(".bss"))
+		{
+			//not a symbol in the table, transform into integer
+			if((st.lookup(cr.getOperands()))==Integer.MIN_VALUE)
+					{
+						int opvalue = Integer.parseInt(cr.getOperands());
+						if(opvalue >= 0 && opvalue <= 9999)
+						{
+							location = location + opvalue;
+						}
+					}
+			else
+				{
+				//is a symbol, get the address
+				location = location + st.lookup(cr.getOperands());;
+				}
+		}
+		if(checkdir == true)
+		{
+			LC = location;
+			//increment the secondary counter
+			location++;
+		}
+		//blank line or comment?
+
+			//checks if there is a label present
+			if(!cr.getLabel().equals(""))
+			{
+				//insert into symbol table
+				st.insert(cr.getLabel(), LC);
+			}
+		}
+	}
+	    private static void pass2()
+      throws Exception
+    {
+	//Reads in lines with CsrcReader
+	cr.getLine();
+		Integer value;
+		int operate = 0;
+		//Initialise the address copy to be where the line is being read in
+		addcopy = cr.getLineNumber();
+		//check if directives are on
+		checkdir = false;
+		location = 0;
+		//if lines to read, will continue to read
+		while(cr.readNextStatement())
+		{	
+			//initially set data to be 0
+			datacopy = 0;
+			//if no directive ; org/bss then addcopy gets linenumber
+			if(checkdir == false)
+			{
+				addcopy = cr.getLineNumber();
+			}
+			//if blank, then set as max value
+			if(cr.getOperation().equals(""))
+			{
+				if(!cr.getLabel().equals(""))
+				{
+					datacopy = Integer.MAX_VALUE;
+				}
+			}
+			
+			if(checkdir == true)
+			{
+				addcopy = location;
+				location++;
+			}
+				//Gets Operation
+				String operation = cr.getOperation();
+				operation = operation.toLowerCase();
+				//Removes spaces if any
+				operation = operation.replace(" ","");
+				//Removes tabs if any
+				operation = operation.replace("	","");
+			//if directive
+		if(operation.charAt(0) == '.')
+		{
+			directive(operation);
+		}
+	
+		if(operation.equals("hlt"))
+		{
+		datacopy = Integer.MIN_VALUE;
+		}
+		else
+		{
+			//change to number code
+			//the first of 4 values
+			 datacopy = setOperations(operation);
+			 
+		}	
+		//writing to file
+			if(cr.isBlank() == false)
+			{
+				cw.write(addcopy,datacopy);
+				//halt
+				if(datacopy == 0)
+				{
+					lw.print(addcopy,datacopy,cr.getLine());
+				}
+			}
+			//Everything else but halt
+			if(datacopy != 0)
+			{
+				lw.print(addcopy,datacopy,cr.getLine());
+			}
+			else
+			{
+				//list writer print
+				lw.print(cr.getLine());
+			}		
+		}
+			//Print out symbol table
+			lw.symbolTable(st.toOutput());
+			//Close
+				cw.close();
+	}
+	
+	public static void directive(String direct)
+	throws Exception{	//Deals with . operations
+		location = 0;
+		//.word
+		if(direct.equals(".word"))
+		{
+			//for the name of symbol
+			String operand = cr.getOperands();
+			//check if integer.min value or not; if it is, then it is an integer string
+			
+			
+				if(Integer.parseInt(operand) == 0)
+				{
+					datacopy = Integer.MIN_VALUE;
+				}
+				else if(Integer.parseInt(operand) >= -5000)
+					{
+						if(Integer.parseInt(operand) < 0)
+						{
+							datacopy = 10000 + datacopy + Integer.parseInt(operand);
+						}
+					}
+				else
+				{
+					datacopy = datacopy + Integer.parseInt(operand);
+				}
+			
+			//If the symbol is not found in the table
+			 if(Integer.parseInt(operand) == Integer.MIN_VALUE)
+			{
+				if(Integer.parseInt(operand) == 0)
+				{
+					datacopy = Integer.MIN_VALUE;
+				}
+				//if negative value
+				else if(Integer.parseInt(operand) >= -5000)
+					{
+						if(Integer.parseInt(operand) < 0)
+						{
+							datacopy = 1000 + datacopy + Integer.parseInt(operand);
+						}
+					}
+				else
+				{
+					datacopy = datacopy + Integer.parseInt(operand);
+				}
+				
+			}
+			//else the symbol being searched is a value
+			//add the value to datacopy
+			else
+			{
+				datacopy = datacopy + st.lookup(operand);
+			}
+		}
+		//.wordu
+		if(direct.equals(".wordu"))
+		{
+			//for the name of symbol
+			String operand = cr.getOperands();
+				if(Integer.parseInt(operand) == 0)
+				{
+					datacopy = Integer.MIN_VALUE;
+				}
+			//between the bounds of 1 and 9999
+				else if(Integer.parseInt(operand) > 0)
+				{
+					if(Integer.parseInt(operand) <= 9999)
+					{
+						datacopy = datacopy + Integer.parseInt(operand);
+					}
+				}
+			
+			//else if the symbol is not found
+			if((st.lookup(operand))==Integer.MIN_VALUE)
+				{
+					if(Integer.parseInt(operand) > 0)
+					{
+						if(Integer.parseInt(operand) <= 9999)
+						{
+							datacopy = datacopy + Integer.parseInt(operand);
+						}
+					}
+					if(Integer.parseInt(operand) == 0)
+						{
+							datacopy = Integer.MIN_VALUE;
+						}
+					}
+			else
+			{
+				datacopy = datacopy + st.lookup(operand);
+			}
+		}
+		
+		//.org
+		if(direct.equals(".org"))
+		{
+			checker = true;
+			String operand = cr.getOperands();
+			//Set as min value because print is same as space
+			datacopy = Integer.MIN_VALUE;
+			//Subtracts original location value
+			location = Set(location) - location;
+				
+			//Sets the address as location value
+			addcopy = location;
+		}
+		
+		//.space
+		if(direct.equals(".space"))
+		{
+			//Print code for space directive
+			datacopy = Integer.MAX_VALUE;
+		}
+		
+		//.bss
+		if(direct.equals(".bss"))
+		{
+			datacopy = Integer.MAX_VALUE;
+			String operand = cr.getOperands();
+			//check if orgs is on
+			if(checkdir == true)
+			{
+				//moves the pointer to include the value of bss
+				addcopy = addcopy + location;
+				location++;
+			}
+			if(Integer.parseInt(operand) >= 0)
+			{
+				if(Integer.parseInt(operand) <= 9999)
+				{
+					location = location + Integer.parseInt(operand)-1;
+				}
+			}
+			//same as other
+			else if(st.lookup(operand) == Integer.MIN_VALUE)
+			{
+				if(Integer.parseInt(operand) >= 0)
+				{
+					if(Integer.parseInt(operand) <= 9999)
+					{
+						location = location + Integer.parseInt(operand)-1;
+					}
+				}
+			}
+			else
+			{
+				//if just integer
+				location = location + st.lookup(operand)-1;
+			}
+		}
+	}
+	
+	//checks symbol table and converts into int
+	public static int Set(int numbro)
+	throws Exception{
+		String operands = cr.getOperands();
+		//Adds the operation code to the operand code
+		if(st.lookup(operands) == Integer.MIN_VALUE)
+		{
+			datacopy = datacopy + Integer.parseInt(operands);
+		}
+		//if it's already an int just add
+		else
+		{
+			datacopy = datacopy + st.lookup(operands);
+		}
+	return datacopy;
+	}
+	//changes the operation code to a value
+	public static int setOperations(String input)
+	throws Exception{
+		if (input.equals("lod"))
+		{
+			datacopy = 1000;
+		}
+		if (input.equals("sto"))
+		{
+			datacopy = 2000;
+		}
+		if (input.equals("add"))
+		{
+			datacopy = 3000;
+		}
+		if (input.equals("sub"))
+		{
+			datacopy = 4000;
+		}
+		if (input.equals("jmp"))
+		{
+			datacopy = 5000;
+		}
+		if (input.equals("jeq"))
+		{
+			datacopy = 6000;
+		}
+		if (input.equals("jge"))
+		{
+			datacopy = 7000;
+		}
+		if (input.equals("jsr"))
+		{
+			datacopy = 8000;
+		}
+		if (input.equals("dsz"))
+		{
+			datacopy = 9000;
+		}
+		//goes to other method and adds the operation and the operand together
+		datacopy = Set(datacopy);
+		return datacopy;
+	}
+}

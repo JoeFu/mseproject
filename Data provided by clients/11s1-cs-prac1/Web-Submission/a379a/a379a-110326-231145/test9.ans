@@ -1,0 +1,27 @@
+000  8100    main    jsr     go      ;Call subroutin
+001          rest    .space          ;Rest of program goes here
+             
+             ;;;;;;;;;;;;;;;;;;;;;;;;;
+             ;       Subroutine
+             ;;;;;;;;;;;;;;;;;;;;;;;;;
+100                  .org    100     
+100          go      .space          ;Entry
+101  9104    go1     dsz     cnt     ;Waste some time
+102  5101            jmp     go1
+103  5100            jmp     go      ;and return
+104  0010    cnt     .word                                   10      
+             
+             ;       Rest of main program
+                     ;    A stepped-in comment
+001                  .org    rest
+001  0000            hlt     ;That's all, folks!
+
+S Y M B O L   T A B L E
+=======================
+104  cnt
+100  go
+101  go1
+000  main
+001  rest
+
+

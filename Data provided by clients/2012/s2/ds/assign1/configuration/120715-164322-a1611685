@@ -1,0 +1,17 @@
+Anchor-Text:Assignment 1
+Assignment-Key:2012/s2/ds/assign1
+LatePenalties:Default
+LatePenalties-Data:100	75	50	25	0
+Pracmarker-Questions:0
+Pracmarker-Weeks:120716
+Repository-Path:2012/s2/ds/assign1
+Run-Script:Test
+Testing-Flag:Show
+Use-Pracmarker:No
+Use-Websubmission:Use-Websubmission
+Feedback-Flag:Show
+SVNLog-Flag:NoExport
+Export-Flag:Export
+Quiet-Flag:NotQuiet
+Silent-Flag:NotSilent
+Use-Classlist:Ignore-Classlist

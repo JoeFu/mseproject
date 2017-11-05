@@ -1,0 +1,180 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.StringTokenizer;
+
+public class CsrcReader
+{
+    private String label = "";
+    private String operation = "";
+    private String operand = "";
+    private String comment = "";
+    private String statement = "";
+    private int lineNo = 0;
+    private FileReader fr;
+    private BufferedReader buff;
+    private String[] strArr;
+    private int arrS = 0; //hehe, arse...  
+
+    //Constructor
+    public CsrcReader(String csrcName)
+      throws FileNotFoundException
+    {
+	fr = new FileReader(csrcName);
+	buff = new BufferedReader(fr);
+    }
+
+    //Reads the next line in, and breaks it into parts
+    //Returns true if a statment was read, false if end-of-file
+    public boolean readNextStatement()
+      throws IOException
+    {
+	statement = buff.readLine();
+	label = "";
+	operation = "";
+	operand = "";
+	comment = "";
+
+	if(statement == null){
+	    //System.out.println("I'm returning false, can anyone hear me?");
+	    return false;
+	}
+
+	String tempLine = statement.substring(0);
+	//take away the comment
+	if(statement.indexOf(';') != -1){
+	    //index of semicolon
+	    int sCI = statement.indexOf(';');
+	    comment = statement.substring(sCI);
+	    tempLine = statement.substring(0, sCI);
+	}
+
+	//splits up the string with no comments
+	strArr = tempLine.split("\t");
+	arrS = statement.split("\t").length;
+	//arrS = strArr.length;
+	//System.out.println(arrS);
+
+	if(arrS>0) label = strArr[0];
+	//System.out.println("label finished");
+	if(arrS>1) operation = strArr[1];
+	//System.out.println("operation finished");
+      	if(arrS>2) operand = strArr[2];
+	//System.out.println("operand finished");
+	
+	lineNo++;
+
+	return true;
+	
+	/*
+	//If there are no tabs in the line
+	if(statement.indexOf('\t') == -1){
+	    label = "";
+	    operation = "";
+	    operand = "";
+	    return true;
+	}
+
+	//if a line starts with a semicolon and then tabs
+	else if(statement.charAt(0) == ';'){
+	    label = "";
+	    operation = "";
+	    operand = "";
+	    return true;
+	    }
+	
+	//if we have something
+	else{
+	    
+	    //current tab index
+	    int tabInd = statement.indexOf('\t');
+	    label = statement.subString(0, firstTab);
+	    
+	    if(statement.subString(firstTab, 
+	*/
+	
+    }
+
+
+    //Returns true if this line is blank, or contains only a comment
+    public boolean isBlank()
+    {
+	if(label == "" && operation == "" && operand == "") return true;
+	else{
+	return false;
+	}
+    }
+
+
+    //Returns the current line number
+    public int getLineNumber()
+    {
+	return lineNo;
+    }
+
+
+    //Returns the complete line of input, with TAB characters expanded into
+    //the corresponding correct number of spaces
+    //Note: tab stops occur every 8 spaces
+    public String getLine()
+    {
+	String line = "";
+	if(arrS == 0) return statement;
+	if(arrS > 0){ 
+	    line = line.concat(label);
+	}
+	if(arrS > 1){
+	    for (int i=0; i< 8 - label.length(); i++){
+		line = line.concat(" ");
+	    }
+	    line = line.concat(operation);
+	}
+	if(arrS > 2){
+	    for (int i=0; i< 8 - operation.length(); i++){
+		line = line.concat(" ");
+	    }
+	    line = line.concat(operand);
+	}
+	if(!comment.equals("")){
+	    int lineL = line.length();
+	    for (int i=0; i< 32 - lineL; i++){
+		line = line.concat(" ");
+	    }
+	    line = line.concat(comment);
+	}
+
+	return line;
+    }
+
+    //Returns the label on this line
+    //If there is no label, returns "";
+    public String getLabel()
+    {
+	return label;
+    }
+
+    //Returns the operation on this line
+    //If there is no operation, returns ""
+    public String getOperation()
+    {
+	return operation;
+    }
+
+    //Returns the operands on this line
+    //If there are no operands, returns ""
+    public String getOperand()
+    {
+	return operand;
+    }
+
+    //Returns the comments on this line (including the ; character)
+    //If there are no comments, returns ""
+    public String getComment()
+    {
+	return comment;
+    }
+    public String getStatement(){
+	return statement;
+    }
+}
